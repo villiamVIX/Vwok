@@ -23,7 +23,7 @@
 		data() {
 			return {
 				navList: [{
-						name: '/profile/submit',
+						name: '/frame/woklist',
 						navItem: '快速报工',
 						class: 'el-icon-receiving'
 					},

@@ -23,6 +23,7 @@ const routes = [{
 			{
 				name: 'woklist',
 				path: 'woklist',
+				meta:{title:'快速报工'},
 				component: WokList
 			},
 		]
