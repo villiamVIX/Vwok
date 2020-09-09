@@ -28,8 +28,8 @@
 						class: 'el-icon-receiving'
 					},
 					{
-						name: '/profile/submit',
-						navItem: '新闻管理',
+						name: '/frame/wokitem',
+						navItem: '任务信息',
 						class: 'el-icon-s-custom'
 					}
 				]

@@ -5,6 +5,7 @@ import Router from 'vue-router'
 // const Login = () => import('views/login/Login.vue')
 const Frame = () => import('views/frame/Frame.vue')
 const WokList = () => import('views/wok-list/Wok-List.vue')
+const WokItem = () => import('views/wok-item/Wok-Item.vue')
 
 
 
@@ -26,6 +27,13 @@ const routes = [{
 				meta:{title:'快速报工'},
 				component: WokList
 			},
+			{
+				name: 'wokitem',
+				path: 'wokitem',
+				meta:{title:'任务信息'},
+				component: WokItem
+			},
+			
 		]
 	},
 
