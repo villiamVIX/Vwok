@@ -21,10 +21,12 @@
 					</el-input>
 				</template>
 			</el-table-column>
-			<el-table-column property="estimate" label="预计进度">
+			<el-table-column property="estimate" label="预计进度"  width="450">
+				<template scope="scope">
+					<test :target='scope.row.estimate' :actual="scope.row.actual"></test>
+				</template>
 			</el-table-column>
-			<el-table-column property="actual" label="实际进度">
-			</el-table-column>
+			
 			<el-table-column property="spend" label="耗时">
 			</el-table-column>
 			<el-table-column property="remarks" label="备注">
@@ -34,6 +36,7 @@
 </template>
 
 <script>
+	import test from './test'
 	export default {
 		data() {
 			return {
@@ -52,7 +55,7 @@
 						name: '王小虎',
 						wok_desc: '上线测试端',
 						jira: 'CYFCZJ-6666',
-						estimate: 100,
+						estimate: 50,
 						actual: 80,
 						spend: 2,
 						remarks: "太多做不完了"
@@ -82,7 +85,9 @@
 				textarea: ''
 			}
 		},
-
+		components:{
+			test
+		},
 		methods: {
 			setCurrent(row) {
 				this.$refs.singleTable.setCurrentRow(row);

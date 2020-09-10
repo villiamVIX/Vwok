@@ -20,7 +20,7 @@
 					<el-checkbox label="BBB" name="type"></el-checkbox>
 					<el-checkbox label="CCC" name="type"></el-checkbox>
 					<el-checkbox label="张威" name="type"></el-checkbox>
-					<el-checkbox v-for='i in 8' label="尤雨溪" name="type"></el-checkbox>
+					<el-checkbox v-for='i in 8' :key="i" label="尤雨溪" name="type"></el-checkbox>
 				</el-checkbox-group>
 			</el-form-item>
 			<el-form-item>

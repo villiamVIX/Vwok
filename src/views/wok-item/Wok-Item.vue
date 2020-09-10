@@ -7,7 +7,10 @@
 			<div slot="header" class="clearfix">
 				<span>任务信息</span>
 				<WokItemDetail></WokItemDetail>
-				<test :min=0 :max=100 v-model="per"></test>
+				<test :target='per' :actual="per_actual"  @scale='set_Scale' @scale_actual='set_Scale_Actual'></test>
+				<h1>{{per}}</h1>
+				<h1>{{per_actual}}</h1>
+				
 			</div>
 		</el-card>
 	</div>
@@ -20,13 +23,24 @@
 	export default {
 		data() {
 			return {
-				per: 55
+				per: 55,
+				per_actual:44
 			}
 		},
 		components: {
 			WokItemInfo,
 			WokItemDetail,
 			test
+		},
+		methods:{
+			set_Scale(val){
+				this.per = val 
+				// console.log(this.per)
+			},
+			set_Scale_Actual(val){
+				
+				this.per_actual = val 
+			}
 		}
 	}
 </script>
