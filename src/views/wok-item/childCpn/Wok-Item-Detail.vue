@@ -3,40 +3,48 @@
 
 		<el-table ref="singleTable" :data="tableData" highlight-current-row @current-change="handleCurrentChange" style="width: 100%"
 		 border>
-			<el-table-column type="index" width="50">
+			<el-table-column type="index" width="30">
 			</el-table-column>
-			<el-table-column property="date" label="创建时间" width="120">
+			<el-table-column property="date" label="创建时间" width="100">
 			</el-table-column>
-			<el-table-column property="name" label="创建人" width="120">
+			<el-table-column property="name" label="创建人" width="65">
 			</el-table-column>
-			<el-table-column property="wok_desc" label="WOK描述">
-				<template scope="scope">
+			<el-table-column property="wok_desc" label="WOK描述" width="250">
+				<template slot-scope="scope">
 					<el-input type="textarea" autosize placeholder="请输入内容" v-model="scope.row.wok_desc">
 					</el-input>
 				</template>
 			</el-table-column>
-			<el-table-column property="jira" label="JIRA单号">
-				<template scope="scope">
+			<el-table-column property="jira" label="JIRA单号" width="150">
+				<template slot-scope="scope">
 					<el-input type="input" autosize placeholder="请输入内容" v-model="scope.row.jira">
 					</el-input>
 				</template>
 			</el-table-column>
-			<el-table-column property="estimate" label="预计进度"  width="450">
-				<template scope="scope">
-					<test :target='scope.row.estimate' :actual="scope.row.actual"></test>
+			<el-table-column property="estimate" label="预计进度"  width="250">
+				<template slot-scope="scope">
+					<SliderVIX :target='scope.row.estimate' :actual="scope.row.actual"></SliderVIX>
 				</template>
 			</el-table-column>
 			
-			<el-table-column property="spend" label="耗时">
+			<el-table-column property="spend" label="耗时"  width="60">
+				<template slot-scope="scope">
+					<el-input type="input" autosize placeholder="耗时？" v-model="scope.row.spend">
+					</el-input>
+				</template>
 			</el-table-column>
 			<el-table-column property="remarks" label="备注">
+				<template slot-scope="scope">
+					<el-input type="input" autosize placeholder="备注..." v-model="scope.row.remarks">
+					</el-input>
+				</template>
 			</el-table-column>
 		</el-table>
 	</div>
 </template>
 
 <script>
-	import test from './test'
+	import SliderVIX from 'common/SliderVIX/SliderVIX.vue'
 	export default {
 		data() {
 			return {
@@ -86,7 +94,7 @@
 			}
 		},
 		components:{
-			test
+			SliderVIX
 		},
 		methods: {
 			setCurrent(row) {

@@ -1,3 +1,20 @@
+<!-- 
+父组件传入
+:target='per' :actual="per_actual" 
+预计与实际值
+
+父组件用这两个方法 接收预计值 实际值
+@scale='set_Scale'
+@scale_actual='set_Scale_Actual'
+ 
+ set_Scale(val){
+ 	this.per = val 
+ },
+ set_Scale_Actual(val){
+ 	this.per_actual = val 
+ }
+ 
+ -->
 <template>
 	<div>
 
@@ -200,7 +217,7 @@
 	.slider {
 		position: relative;
 		margin: 20px 0;
-		width: 12.5rem;
+		width: 11.5rem;
 		height: 10px;
 		background: #e4e7ed;
 		border-radius: 5px;
@@ -214,7 +231,7 @@
 		width: 112px;
 		height: 10px;
 		border-radius: 5px;
-		background: #0184ff;
+		background: #F56C6C;
 	}
 
 	.process_actual {
@@ -224,8 +241,8 @@
 		width: 112px;
 		height: 10px;
 		border-radius: 5px;
-		background: #23a500;
-		opacity: .85;
+		background: #67C23A;
+		opacity: .9;
 	}
 
 	.slider .thunk {
@@ -245,20 +262,19 @@
 	}
 
 	.slider .block {
-		width:  22px;
+		width: 22px;
 		height: 22px;
 		border-radius: 4%;
 		border: 2px solid #409eff;
 		background: white;
 		transition: .2s all
-		
 	}
 
 	.slider .block_actual {
-		width:  22px;
+		width: 22px;
 		height: 22px;
 		border-radius: 50%;
-		border: 2px solid #55ff7f;
+		border: 2px solid #23a500;
 		background: rgba(255, 255, 255, 1);
 		transition: .2s all
 	}
@@ -289,6 +305,7 @@
 		transform: scale(1.1);
 		opacity: .8
 	}
+
 	.slider .block_actual:hover {
 		transform: scale(1.41);
 		opacity: .6
