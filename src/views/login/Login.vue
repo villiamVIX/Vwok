@@ -1,317 +1,264 @@
 <template>
-	<div class="loginForm" :model='loginForm'>
-		<div class="Login-icon">
-			<img :src="imgBaseUrl+'/logo.png'" />
-		</div>
-		<section class="switch-type">
-			<span :class="{activeType:loginMode}" @click="changeMode(true)">验证码登录</span>
-			<span :class="{activeType:!loginMode}" @click="changeMode(false)">密码登录</span>
-		</section>
-		<div v-show="loginMode" class="mod">
-			<section class="login-form">
-				<div class="phoneCheck">
-					<input maxlength="11" type="tel" class="username" placeholder="手机号" v-model="phoneForm.phone" autofocus style="width:56vw">
-					<button class="BtnDef" :disabled="!phoneRight" v-if="!countDown" :class="{BtnOk:phoneRight}" @click.prevent="countLoad">验证码</button>
-					<button class="BtnDef" v-else="countDown" disabled="disabled">已发送 {{countDown}}s</button>
+	<div class="login-register">
+		<div class="contain">
+			<div class="big-box" :class="{active:isLogin}">
+				<div class="big-contain" v-if="isLogin">
+					<div class="btitle">账户登录</div>
+					<div class="bform">
+						<input type="email" placeholder="邮箱" v-model="form.useremail">
+						<span class="errTips" v-if="emailError">* 邮箱填写错误 *</span>
+						<input type="password" placeholder="密码" v-model="form.userpwd">
+						<span class="errTips" v-if="emailError">* 密码填写错误 *</span>
+					</div>
+					<button class="bbutton" @click="login">登录</button>
 				</div>
-				<input type="text" class="password" maxlength="5" autocomplete='password' v-model="phoneForm.randomCode"
-				 placeholder="验证码">
-			</section>
-		</div>
-		<div v-show='!loginMode' class="mod">
-			<section class="login-form">
-				<input contenteditable="true" type="text" class="username" placeholder="用户名" v-model="loginForm.username" autofocus>
-				<div class="psw-switch">
-					<input v-show="pswShow" type="password" class="password" autocomplete='password' v-model="loginForm.password"
-					 placeholder="密码">
-					<input v-show="!pswShow" type="text" class="password" autocomplete='password' v-model="loginForm.password"
-					 placeholder="密码">
-					<img @click.prevent="PswMode" v-show="!pswShow" src="~assets/img/profile/login/show.png" />
-					<img @click.prevent="PswMode" v-show="pswShow" src="~assets/img/profile/login/hide.png" />
+				<div class="big-contain" v-else>
+					<div class="btitle">创建账户</div>
+					<div class="bform">
+						<input type="text" placeholder="用户名" v-model="form.username">
+						<span class="errTips" v-if="existed">* 用户名已经存在！ *</span>
+						<input type="email" placeholder="邮箱" v-model="form.useremail">
+						<input type="password" placeholder="密码" v-model="form.userpwd">
+					</div>
+					<button class="bbutton" @click="register">注册</button>
 				</div>
-				<div id="captcheCode">
-					<input type="text" style="width: 46vw;" class="checkCode" v-model="loginForm.checkCode" placeholder="验证码">
-					<img ref='captcheImg' style="width: 30vw;" src="" @click.prevent="flashCaptche" />
+			</div>
+			<div class="small-box" :class="{active:isLogin}">
+				<div class="small-contain" v-if="isLogin">
+					<div class="stitle">你好，朋友!</div>
+					<p class="scontent">开始注册，和我们一起旅行</p>
+					<button class="sbutton" @click="changeType">注册</button>
 				</div>
-			</section>
+				<div class="small-contain" v-else>
+					<div class="stitle">欢迎回来!</div>
+					<p class="scontent">与我们保持联系，请登录你的账户</p>
+					<button class="sbutton" @click="changeType">登录</button>
+				</div>
+			</div>
 		</div>
-		<el-button type="success" class='btn' size="large" @click='Login'>登录</el-button>
-		<el-button type="primary" class='btn' size="large" @click='back' plain>返回</el-button>
-		<span class="cadetblue" @click="autoPhone">管理员:14444444444</span>
-		<span  class="cadetblue" @click="autoCoach">教练:13333333333</span>
-		<span>首登即注册</span>
 	</div>
 </template>
 
 <script>
-	import {
-		LoginCaptche,
-		phoneCode,
-		phoneLogin,
-		pwdLogin
-	} from 'network/NetLogin.js'
-	import {
-		checkLoginMixin
-	} from 'common/mixin.js'
-
-
-	export default {
-		mixins: [checkLoginMixin],
-		data() {
+	export default{
+		name:'login-register',
+		data(){
 			return {
-				baseUrl:this.GLOBAL.baseUrl,
-				imgBaseUrl:this.GLOBAL.imgBaseUrl,
-				countDown: 0,
-				loginMode: true,
-				pswShow: true,
-				catpcheImg: '',
-				loginForm: {
-					username: '',
-					password: '',
-					checkCode: ''
-				},
-				phoneForm: {
-					phone: '',
-					randomCode: ''
-				},
-				typeNow: false
-			}
-		},
-		mounted() {
-			this.flashCaptche()
-		},
-		updated() {
-			// console.log(this.loginForm)
-			if (this.phoneForm.phone.length == 11) {
-				if (this.typeNow == false) { //去调用自动发送
-					if (this.phoneRight) {
-						this.countLoad()
-						this.typeNow = true
-					}
+				isLogin:false,
+				emailError: false,
+				passwordError: false,
+				existed: false,
+				form:{
+					username:'',
+					useremail:'',
+					userpwd:''
 				}
 			}
 		},
-		computed: {
-			phoneRight() {
-				return /^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phoneForm.phone)
+		methods:{
+			changeType() {
+				this.isLogin = !this.isLogin
+				this.form.username = ''
+				this.form.useremail = ''
+				this.form.userpwd = ''
 			},
-			randomCodeRight() {
-				return /^\d{5}$/.test(this.phoneForm.randomCode)
-			}
-		},
-		methods: {
-			flashCaptche() { //发动态图片验证码1
-				this.$refs.captcheImg.src = this.baseUrl+"/users/api/login/captche?time=" + new Date()
-			},
-			PswMode() { //切换密码是否隐藏 
-				this.pswShow = !this.pswShow
-			},
-			changeMode(flag) { //切换登录模式
-				this.loginMode = flag
-			},
-			countLoad() { //发送短信之后倒计时 和check模块
-				phoneCode(this.phoneForm.phone).then(res => {
-					console.log(res)
-					// alert('验证码：' + res.randomCode || "")
-					this.phoneForm.randomCode = res
-				})
-				this.countDown = 5
-				let timer = setInterval(() => {
-					this.countDown--
-					if (this.countDown === 0) {
-						clearInterval(timer)
-					}
-				}, 1000)
-			},
-			back() {
-				this.$router.back()
-			},
-			Login() { //登录按钮点击后
-				if (this.loginMode === true) {
-					if (this.phoneForm.phone.length < 11) {
-						vant.Toast('输入完整手机号码')
-						return;
-					} else if (!this.phoneRight) {
-						vant.Toast('输入正确手机号码')
-						return;
-					}
-					if (!this.phoneForm.randomCode) {
-						vant.Toast('输入完整验证码')
-						return;
-					} else if (!this.randomCodeRight) {
-						vant.Toast('输入正确验证码')
-						return;
-					}
-					
-					phoneLogin(this.phoneForm).then(res => { // 网络请求
-						console.log(res.data)
-						if(res.data==undefined){
-						   return vant.Toast(res)
+			login() {
+				const self = this;
+				if (self.form.useremail != "" && self.form.userpwd != "") {
+					self.$axios({
+						method:'post',
+						url: 'http://127.0.0.1:10520/api/user/login',
+						data: {
+							email: self.form.useremail,
+							password: self.form.userpwd
 						}
-						vant.Toast(res.message)
-						this.$store.dispatch('rewriteUserInfo', res.data)
-						// this.refresh()
+					})
+					.then( res => {
+						switch(res.data){
+							case 0: 
+								alert("登陆成功！");
+								break;
+							case -1:
+								this.emailError = true;
+								break;
+							case 1:
+								this.passwordError = true;
+								break;
+						}
+					})
+					.catch( err => {
+						console.log(err);
+					})
+				} else{
+					alert("填写不能为空！");
+				}
+			},
+			register(){
+				const self = this;
+				if(self.form.username != "" && self.form.useremail != "" && self.form.userpwd != ""){
+					self.$axios({
+						method:'post',
+						url: 'http://127.0.0.1:10520/api/user/add',
+						data: {
+							username: self.form.username,
+							email: self.form.useremail,
+							password: self.form.userpwd
+						}
+					})
+					.then( res => {
+						switch(res.data){
+							case 0:
+								alert("注册成功！");
+								this.login();
+								break;
+							case -1:
+								this.existed = true;
+								break;
+						}
+					})
+					.catch( err => {
+						console.log(err);
 					})
 				} else {
-					// 账号登陆
-					if (!this.loginForm.username || !this.loginForm.password || !this.loginForm.checkCode) {
-						vant.Toast('输入完整登陆信息')
-						return;
-					}
-					let {
-						username,
-						password,
-						checkCode
-					} = this.loginForm //按需拨取出
-
-					pwdLogin(username, password, checkCode).then(res => {
-						if(res.data==undefined){
-						   return vant.Toast(res)
-						}
-						vant.Toast(res.message)
-						this.$store.dispatch('rewriteUserInfo', res.data)
-						// this.refresh()
-					})
+					alert("填写不能为空！");
 				}
-			},
-			refresh() {
-				this.$router.replace('/')
-				location.reload()
 			}
-		},
-
+		}
 	}
 </script>
 
-<style scoped>
-	.loginForm {
-		font: 15px 'Microsoft YaHei', arial, tahoma, \5b8b\4f53, sans-serif;
+<style scoped="scoped">
+	.login-register{
+		width: 100vw;
+		height: 100vh;
+		box-sizing: border-box;
+	}
+	.contain{
+		width: 60%;
+		height: 60%;
+		position: relative;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		background-color: #fff;
+		border-radius: 20px;
+		box-shadow: 0 0 3px #f0f0f0,
+					0 0 6px #f0f0f0;
+	}
+	.big-box{
+		width: 70%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 30%;
+		transform: translateX(0%);
+		transition: all 1s;
+	}
+	.big-contain{
+		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
-		display: -webkit-flex;
-		align-items: center;
 		justify-content: center;
+		align-items: center;
 	}
-
-	.Login-icon {
-		margin: 3.3rem 0;
+	.btitle{
+		font-size: 1.5em;
+		font-weight: bold;
+		color: rgb(57,167,176);
 	}
-
-	.Login-icon img {
-		height: 2.25rem;
-		width: 17.25rem;
-	}
-
-	.loginForm section {
-		flex: 1;
-	}
-	.switch-type{
-		margin:  0 0 2.2rem 0;
-	}
-	.switch-type span {
-		padding: 8px 7.5px;
-	}
-
-	.activeType {
-		border-bottom: 3px #41b88361 dashed;
-	}
-
-	.login-form {
+	.bform{
+		width: 100%;
+		height: 40%;
+		padding: 2em 0;
 		display: flex;
-		display: -webkit-flex;
-		align-items: center;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: space-around;
+		align-items: center;
 	}
-
-	.phoneCheck {
-		float: left;
-
+	.bform .errTips{
+		display: block;
+		width: 50%;
+		text-align: left;
+		color: red;
+		font-size: 0.7em;
+		margin-left: 1em;
 	}
-
-	.phoneCheck input {
-		float: left;
-		width: 20%;
-	}
-
-	.BtnDef {
-		color: gray;
-	}
-
-	.BtnOk {
-		color: #41b883;
-	}
-
-	.phoneCheck button {
-		width: 20vw;
+	.bform input{
+		width: 50%;
+		height: 30px;
 		border: none;
-		border-bottom: #41b88361 solid;
-		height: 2.8rem;
-		background-color: white;
-	}
-
-	.login-form input {
-		height: 2.8rem;
-		width: 77vw;
-		border: none;
-		border-bottom: #41b88361 solid;
 		outline: none;
-		border-radius: 0;
+		border-radius: 10px;
+		padding-left: 2em;
+		background-color: #f0f0f0;
 	}
-
-	.psw-switch {
-		float: left;
-		
-	}
-
-	.psw-switch input {
-		width: 70vw;
-		float: left;
-	}
-
-	.psw-switch img {
+	.bbutton{
+		width: 20%;
+		height: 40px;
+		border-radius: 24px;
 		border: none;
-		/* width: 1.125rem; */
-		/* border-bottom: #41b88361 solid; */
-		padding:   0.5rem 0.187rem;
-		height: 2.2937rem;
-		margin-top: 1.62rem;
-		background-color: white;
+		outline: none;
+		background-color: rgb(57,167,176);
+		color: #fff;
+		font-size: 0.9em;
+		cursor: pointer;
 	}
-
-	#captcheCode {
-		float: left;
+	.small-box{
+		width: 30%;
+		height: 100%;
+		background: linear-gradient(135deg,rgb(57,167,176),rgb(56,183,145));
+		position: absolute;
+		top: 0;
+		left: 0;
+		transform: translateX(0%);
+		transition: all 1s;
+		border-top-left-radius: inherit;
+		border-bottom-left-radius: inherit;
 	}
-
-	#captcheCode input {
-		float: left;
+	.small-contain{
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
-
-	#captcheCode img {
-		border: none;
-		border-bottom: #41b88361 solid;
-		height: 2.75rem;
-		margin-top: 0.053rem;
-		background-color: white;
+	.stitle{
+		font-size: 1.5em;
+		font-weight: bold;
+		color: #fff;
 	}
-
-	.password {
-		margin: 20px 0;
+	.scontent{
+		font-size: 0.8em;
+		color: #fff;
+		text-align: center;
+		padding: 2em 4em;
+		line-height: 1.7em;
+	}
+	.sbutton{
+		width: 60%;
+		height: 40px;
+		border-radius: 24px;
+		border: 1px solid #fff;
+		outline: none;
+		background-color: transparent;
+		color: #fff;
+		font-size: 0.9em;
+		cursor: pointer;
 	}
 	
-	.btn{
-		width: 76vw;
-		margin: 15px 0;
+	.big-box.active{
+		left: 0;
+		transition: all 0.5s;
 	}
-	.BtnDef{
-		font-size: 10px;
+	.small-box.active{
+		left: 100%;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+		border-top-right-radius: inherit;
+		border-bottom-right-radius: inherit;
+		transform: translateX(-100%);
+		transition: all 1s;
 	}
-	.btn:first-of-type {
-		
-		background-color: #07c160;
-	}
-	.cadetblue{
-		color: cadetblue;
-	}
-	
 </style>
