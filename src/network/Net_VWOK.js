@@ -1,11 +1,11 @@
 import {VIX} from './axiosVIX'
 
-export function getAdminNewsChart(data){ //贴吧流量监控
+export function create_New_WOK(data){ //新建任务
 	return VIX({
-		url:'/admin/analysis/pubilsh',
-		params:{
-			data
-		}
+		url:'/vwok/create',
+		method:'post',
+		timeout:3000,
+		data:data
 	})
 }
 

@@ -31,6 +31,11 @@
 						name: '/frame/wokitem',
 						navItem: '任务信息',
 						class: 'el-icon-s-custom'
+					},
+					{
+						name: '/frame/wokcreate',
+						navItem: '新建任务',
+						class: 'el-icon-s-custom'
 					}
 				]
 			};

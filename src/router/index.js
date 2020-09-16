@@ -6,6 +6,7 @@ const Login = () => import('views/login/Login.vue')
 const Frame = () => import('views/frame/Frame.vue')
 const WokList = () => import('views/wok-list/Wok-List.vue')
 const WokItem = () => import('views/wok-item/Wok-Item.vue')
+const WokCreate = () => import('views/wok-create/Wok-Create.vue')
 
 
 
@@ -41,7 +42,14 @@ const routes = [{
 				},
 				component: WokItem
 			},
-
+			{
+				name: 'wokcreate',
+				path: 'wokcreate',
+				meta: {
+					title: '新建任务'
+				},
+				component: WokCreate
+			},
 		]
 	},
 
