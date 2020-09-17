@@ -1,12 +1,23 @@
 import {VIX} from './axiosVIX'
 
-export function create_New_WOK(data){ //新建任务
+export function create_New_VWOK(data){ //新建任务
 	return VIX({
 		url:'/vwok/create',
 		method:'post',
 		timeout:3000,
 		data:data
 	})
+}
+
+export async function get_My_VWOK(data){ //新建任务
+let {currentPage,uid} = data
+    let res = await VIX({
+		url:'/vwok/woklist',
+		params:{
+			currentPage,uid
+		}
+	})
+	return res
 }
 
 

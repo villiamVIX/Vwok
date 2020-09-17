@@ -17,23 +17,24 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		 <span class="demonstration"></span>
-		    <el-pagination
-		      @size-change="handleSizeChange"
-		      @current-change="handleCurrentChange"
-		      :current-page.sync="currentPage2"
-		      :page-sizes="[20, 40, 80, 100]"
-		      :page-size="100"
-		      layout="sizes, prev, pager, next"
-		      :total="1000">
-		    </el-pagination>
+		<span class="demonstration"></span>
+		<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage2"
+		 :page-sizes="[20, 40, 80, 100]" :page-size="100" layout="sizes, prev, pager, next" :total="1000">
+		</el-pagination>
 	</div>
 </template>
 
 <script>
+	import {
+		get_My_VWOK
+	} from 'network/Net_VWOK.js'
 	export default {
+		created() {
+			this.init_data()
+		},
 		data() {
 			return {
+				currentPage: 1,
 				currentPage1: 5,
 				currentPage2: 5,
 				currentPage3: 5,
@@ -61,15 +62,27 @@
 				}]
 			}
 		},
-		 methods: {
-		      handleSizeChange(val) {
-		        console.log(`每页 ${val} 条`);
-		      },
-		      handleCurrentChange(val) {
-		        console.log(`当前页: ${val}`);
-		      }
-		    },
-	
+		methods: {
+			handleSizeChange(val) {
+				console.log(`每页 ${val} 条`);
+			},
+			handleCurrentChange(val) {
+				console.log(`当前页: ${val}`);
+			},
+			init_data() {
+				let uid = '56e122a0-f901-11ea-850d-538177ec27f6'
+				let currentPage = this.currentPage
+				let data = {
+					currentPage,
+					uid
+				}
+				get_My_VWOK(data).then((res) => {
+					console.log(res)
+				});
+			}
+
+		}
+
 	}
 </script>
 

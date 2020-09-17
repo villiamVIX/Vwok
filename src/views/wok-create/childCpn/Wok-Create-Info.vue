@@ -31,7 +31,7 @@
 
 <script>
 	import {
-		create_New_WOK
+		create_New_VWOK
 	} from 'network/Net_VWOK.js'
 	export default {
 		data() {
