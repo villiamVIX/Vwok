@@ -18,6 +18,7 @@ module.exports = {
 			vue: 'Vue',
 			'element-ui': 'ELEMENT',
 			'axios':'axios',
+			'qs':'Qs',
 			'vuex':'Vuex',
 			'vue-router': 'VueRouter',
 		},

@@ -10,11 +10,13 @@ export function create_New_VWOK(data){ //新建任务
 }
 
 export async function get_My_VWOK(data){ //新建任务
-let {currentPage,uid} = data
+let {currentPage,uid,limit} = data
     let res = await VIX({
 		url:'/vwok/woklist',
 		params:{
-			currentPage,uid
+			uid,
+			currentPage,
+			limit
 		}
 	})
 	return res
