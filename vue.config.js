@@ -1,7 +1,5 @@
-
-
 module.exports = {
-    lintOnSave: false,
+	lintOnSave: false,
 	configureWebpack: {
 		resolve: {
 			alias: {
@@ -17,10 +15,10 @@ module.exports = {
 			//cdn
 			vue: 'Vue',
 			'element-ui': 'ELEMENT',
-			'axios':'axios',
-			'qs':'Qs',
-			'vuex':'Vuex',
-			'vue-router': 'VueRouter',
+			'axios': 'axios',
+			'qs': 'Qs',
+			'vuex': 'Vuex',
+			'vue-router': 'VueRouter'
 		},
 		// 优化Gzip打包
 		// plugins: [
@@ -35,5 +33,5 @@ module.exports = {
 	},
 	// 优化打包速度
 	productionSourceMap: false,
-	
+
 }

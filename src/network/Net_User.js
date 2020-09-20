@@ -31,6 +31,16 @@ export async function net_Send_Email({email}) { //新建任务
 			email
 		}
 	})
-	
+	return res
+}
+
+export async function net_Login({email,password}) { //新建任务
+	let res = await VIX({
+		url: '/user/login',
+		method: 'post',
+		data: {
+			email,password
+		}
+	})
 	return res
 }

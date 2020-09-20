@@ -7,6 +7,7 @@ const Frame = () => import('views/frame/Frame.vue')
 const WokList = () => import('views/wok-list/Wok-List.vue')
 const WokItem = () => import('views/wok-item/Wok-Item.vue')
 const WokCreate = () => import('views/wok-create/Wok-Create.vue')
+const WokMission = () => import('views/wok-mission/Wok-Mission.vue')
 
 
 
@@ -50,6 +51,14 @@ const routes = [{
 				},
 				component: WokCreate
 			},
+			{
+				name: 'wokmission',
+				path: 'wokmission',
+				meta: {
+					title: '任务看板'
+				},
+				component: WokMission
+			}	
 		]
 	},
 

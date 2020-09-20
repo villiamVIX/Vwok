@@ -25,7 +25,6 @@
 		components: {
 			WokItemInfo,
 			WokItemDetail,
-			// test
 		},
 		methods:{
 		

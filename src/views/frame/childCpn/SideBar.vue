@@ -36,6 +36,11 @@
 						name: '/frame/wokcreate',
 						navItem: '新建任务',
 						class: 'el-icon-s-custom'
+					},
+					{
+						name: '/frame/wokmission',
+						navItem: '任务看板',
+						class: 'el-icon-s-custom'
 					}
 				]
 			};

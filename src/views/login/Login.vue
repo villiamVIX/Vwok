@@ -3,28 +3,47 @@
 		<div class="contain">
 			<div class="big-box" :class="{active:isLogin}">
 				<div class="big-contain" v-if="isLogin">
-					<div class="btitle">账户登录</div>
-					<div class="bform">
-						<input type="email" placeholder="邮箱" v-model="form.email">
-						<span class="errTips" v-if="emailError">* 邮箱填写错误 *</span>
-						<input type="password" placeholder="密码" v-model="form.password">
-						<span class="errTips" v-if="emailError">* 密码填写错误 *</span>
+					<div class="btitle">连接效率，重塑价值</div>
+
+					<div class="bform" v-if="isForgot">
+						<input type="email" placeholder="邮箱" v-on:input="Login_Error_Tip=false" v-model="form.email">
+						<input type="password" placeholder="密码" v-on:input="Login_Error_Tip=false" v-model="form.password">
+						<transition name="fade-transform">
+							<span class="errTips" v-if="Login_Error_Tip">* 登录信息有误 * </span>
+						</transition>
 					</div>
-					<button class="bbutton" @click="login">登录</button>
+					<!-- 忘记密码的表单 -->
+					<div class="bform" v-else>
+						<input type="email" placeholder="注册的邮箱" v-on:input="Login_Error_Tip=false" v-model="form.email">
+						<input type="number" placeholder="验证码" v-on:input="Login_Error_Tip=false" v-model="form.verify">
+						<input type="password" placeholder="新密码" v-on:input="Login_Error_Tip=false" v-model="form.password">
+						<transition name="fade-transform">
+							<span class="errTips" v-if="Login_Error_Tip">* 登录信息有误 *</span>
+						</transition>
+					</div>
+					<div v-if="isForgot">
+						<el-button type="success" class='vbutton vbutton_email' @click="login">登录</el-button>
+					</div>
+					<!-- 忘记密码的按钮部分 -->
+					<div v-else>
+						<el-button type="success" class='vbutton vbutton_email' @click="reset_Password">重置</el-button>
+						<el-button type="success" class='vbutton vbutton_email' @click="send_Forgot_Email">发射验证码</el-button>
+					</div>
+
 				</div>
 				<div class="big-contain" v-else>
 					<div class="btitle">创建账户</div>
 					<div class="bform">
 						<input type="text" placeholder="用户名" v-model="form.username">
-						<span class="errTips" v-if="existed">* 用户名已经存在！ *</span>
-						<input type="email" placeholder="邮箱" v-model="form.email">
-						<span class="errTips" v-if="email_type_Error">* 邮箱填写错误 *</span>
+						<input type="email" placeholder="邮箱" v-on:input="clear_errTip" v-model="form.email">
+						<span class="errTips" v-if="email_existed">* 邮箱已被占用 *</span>
+
 						<input type="password" placeholder="密码" v-model="form.password">
-						<input type="number" maxlength="4" v-on:input="is_Verify_Full" placeholder="验证码" @change='' v-model="form.verify">
+						<input type="number" maxlength="4" v-on:input="is_Verify_Full" placeholder="验证码" v-model="form.verify">
 					</div>
 					<div>
 						<transition name="slide-fade">
-						<el-button type="primary" class='vbutton' v-show='is_Show_Register' @click="register">注册</el-button>							
+							<el-button type="primary" class='vbutton' v-show='is_Show_Register_Btn' @click="register">注册</el-button>
 						</transition>
 						<el-button type="success" class='vbutton vbutton_email' v-if='!countDown' @click="check_Email">发射验证码</el-button>
 						<el-button type="info" v-else="countDown" disabled="disabled">已发射 {{countDown}}s</el-button>
@@ -33,13 +52,15 @@
 			</div>
 			<div class="small-box" :class="{active:isLogin}">
 				<div class="small-contain" v-if="isLogin">
-					<div class="stitle">你好，朋友!</div>
-					<p class="scontent">开始注册，和我们一起旅行</p>
+					<div class="stitle">Vwok!</div>
+					<p class="scontent">开始注册，和Vwok一起飞行</p>
 					<button class="sbutton" @click="changeType">注册</button>
+					<br />
+					<button class="sbutton" @click="switch_isForgot">{{btn_text}}</button>
 				</div>
 				<div class="small-contain" v-else>
-					<div class="stitle">欢迎回来!</div>
-					<p class="scontent">与我们保持联系，请登录你的账户</p>
+					<div class="stitle">你好，朋友!</div>
+					<p class="scontent">密码记清楚哦，暂时没有忘记密码功能</p>
 					<button class="sbutton" @click="changeType">登录</button>
 				</div>
 			</div>
@@ -50,51 +71,69 @@
 <script>
 	import {
 		net_Register,
-		net_Send_Email
+		net_Send_Email,
+		net_Login
 	} from 'network/Net_User.js'
 
 	export default {
 		name: 'login-register',
 		data() {
 			return {
-				isLogin: false,
-				emailError: false,
-				passwordError: false,
-				email_type_Error: false,
-				existed: false,
+				isForgot: false,
+				isLogin: true,
+				Login_Error_Tip: false,
+				email_existed: false,
 				form: {
 					username: '',
 					email: '',
 					password: '',
 					verify: ''
 				},
-				countDown:0,
-				is_Show_Register:false
+				countDown: 0,
+				is_Show_Register_Btn: false,
+				btn_text: '忘记密码'
 			}
 		},
 		methods: {
-			is_Verify_Full(){
-				let {verify} = this.form
-				// 限制长度
-				if(verify > 4) this.form.verify =  verify.slice(0, 4)
-				this.form.verify.length == 4 ? this.is_Show_Register = true : this.is_Show_Register = false
+			reset_Password() {
+
 			},
-			changeType() {
-				this.isLogin = !this.isLogin
+			send_Forgot_Email() {
 				
+			},
+			switch_isForgot() {
+				let text1 = '忘记密码',
+					text2 = '登录'
+
+				this.isForgot = !this.isForgot
+				this.isForgot ? this.btn_text = text1 : this.btn_text = text2
+			},
+			clear_errTip() { // 清除错误提示
+				this.email_existed = false
+			},
+			is_Verify_Full() { // 到达4位就不让输了
+				let {
+					verify
+				} = this.form
+				// 限制长度
+				if (verify > 4) this.form.verify = verify.slice(0, 4)
+				this.form.verify.length == 4 ? this.is_Show_Register_Btn = true : this.is_Show_Register_Btn = false
+			},
+			changeType() { // 切换登录/注册状态
+				this.isLogin = !this.isLogin
 			},
 			check_Email() {
 				var regEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
 				if (this.form.email != '' && !regEmail.test(this.form.email)) {
 					this.$notify({
-					          title: '警告',
-					          message: '邮箱格式不正确',
-					          type: 'warning'
-					        });
+						title: '警告',
+						message: '邮箱格式不正确',
+						type: 'warning'
+					});
 					return false
 				}
 				this.send_Email()
-				
+
 				this.countDown = 5
 				let timer = setInterval(() => {
 					this.countDown--
@@ -104,42 +143,62 @@
 				}, 1000)
 			},
 			send_Email() {
-				let {email} = this.form
+				let {
+					email
+				} = this.form
+
+				if (email == '') { // 判空
+					return this.alert_No_Null()
+				}
+
 				net_Send_Email({
 					email
 				}).then(res => {
-					console.log(email)
+					let {
+						msg,
+						code
+					} = res
+					let type = 'success'
+
+					console.log(res)
+
+					// 切换弹窗类型
+					code == 421 ? type = 'warning' : null
+					code == 450 ? this.email_existed = true : null
+
+					this.$notify({
+						title: '邮件发送提示',
+						message: `${res.msg}`,
+						type
+					});
 				})
 			},
 			login() {
-				const self = this;
-				if (self.form.email != "" && self.form.password != "") {
-					self.$axios({
-							method: 'post',
-							url: 'http://127.0.0.1:10520/api/user/login',
-							data: {
-								email: self.form.email,
-								password: self.form.password
-							}
+				let {
+					email,
+					password
+				} = this.form
+				if (email != "" && password != "") {
+					net_Login({
+							email,
+							password
 						})
 						.then(res => {
-							switch (res.data) {
-								case 0:
-									alert("登陆成功！");
-									break;
-								case -1:
-									this.emailError = true;
-									break;
-								case 1:
-									this.passwordError = true;
-									break;
+							let {
+								code,
+								msg
+							} = res
+							console.log(res)
+							if (code !== 200) {
+								return this.Login_Error_Tip = true
 							}
+							this.alert_Success(msg)
 						})
 						.catch(err => {
 							console.log(err);
 						})
 				} else {
-					alert("填写不能为空！");
+					this.alert_No_Null()
 				}
 			},
 			register() {
@@ -150,8 +209,7 @@
 					email
 				} = this.form
 
-
-				if (this.form.username != "" && this.form.email != "" && this.form.password != "" && this.form.verify !== '') {
+				if (username != "" && email != "" && password != "" && verify !== '') {
 
 					net_Register({
 							username,
@@ -161,22 +219,35 @@
 						})
 						.then(res => {
 							console.log(res)
-							switch (res.data) {
-								case 0:
-									alert("注册成功！");
-									this.login();
-									break;
-								case -1:
-									this.existed = true;
-									break;
-							}
+							let {
+								msg,
+								code
+							} = res
+
+							code == 450 ? this.email_existed = true : null
+							this.alert_Success(msg)
+
 						})
 						.catch(err => {
 							console.log(err);
 						})
 				} else {
-					alert("填写不能为空！");
+					this.alert_No_Null()
 				}
+			},
+			alert_Success(msg) {
+				this.$notify({
+					title: '登录/注册提示',
+					message: msg,
+					type: 'success',
+					position: 'top-left'
+				});
+			},
+			alert_No_Null() {
+				this.$notify({
+					title: '提示',
+					message: `填写不能为空！`,
+				});
 			}
 		}
 	}
@@ -187,6 +258,11 @@
 		width: 100vw;
 		height: 100vh;
 		box-sizing: border-box;
+
+	}
+
+	* {
+		font-family: "PingFangSC-Regular", "PingFang SC", core_sans_n45_regular, "Avenir Next", "Helvetica Neue", Helvetica, Arial, "Source Han Sans SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi MicroHei", sans-serif;
 	}
 
 	.contain {
@@ -199,7 +275,7 @@
 		background-color: #fff;
 		border-radius: 20px;
 		box-shadow: 0 0 3px #f0f0f0,
-			0 0 6px #f0f0f0;
+			1px 4px 20px 17px #d6d6d640;
 	}
 
 	.big-box {
@@ -277,20 +353,20 @@
 		background-color: #39b39a;
 		border-color: #38b19c;
 	}
-	
+
 	.vbutton_email {
 		border-radius: 1.125rem;
 		background-color: #3a97b3;
 		border-color: #38b19c;
 	}
-	
+
 	.vbutton:hover {
 		box-shadow: 0px 0.5px 10px 1px #534c4c17;
 		opacity: .7;
 	}
 
-   
-	
+
+
 	.small-box {
 		width: 30%;
 		height: 100%;
