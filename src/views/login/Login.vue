@@ -3,8 +3,8 @@
 		<div class="contain">
 			<div class="big-box" :class="{active:isLogin}">
 				<div class="big-contain" v-if="isLogin">
-					<div class="btitle">连接效率，重塑价值</div>
-
+					<div class="btitle" v-if="isForgot">连接效率，重塑价值</div>
+					<div class="btitle" v-else>重置密码</div>
 					<div class="bform" v-if="isForgot">
 						<input type="email" placeholder="邮箱" v-on:input="Login_Error_Tip=false" v-model="form.email">
 						<input type="password" placeholder="密码" v-on:input="Login_Error_Tip=false" v-model="form.password">
@@ -79,7 +79,7 @@
 		name: 'login-register',
 		data() {
 			return {
-				isForgot: false,
+				isForgot: true,
 				isLogin: true,
 				Login_Error_Tip: false,
 				email_existed: false,
