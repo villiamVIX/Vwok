@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true; //开启携带session
 
 
 
-const url1 = 'http://192.168.1.103:3066'
+const url1 = 'http://192.168.1.105:3066'
 const url2 = 'http://120.79.171.194:3066'
 
 // switch (process.env.NODE_ENV) {

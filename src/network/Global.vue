@@ -1,5 +1,5 @@
 <script>
-	const baseUrl = 'http://192.168.1.102:3066'
+	const baseUrl = 'http://192.168.1.105:3066'
 	const imgBaseUrl='http://gymimg.coderv.cn' //图床路径
 	
 	// 线上

@@ -14,18 +14,21 @@
 			</el-breadcrumb>
 		</div>
 		<div class="header-mid">
-			<img src="~assets/logo.png">
-			<h2 class="">报工系统</h2>
+			<img src="~assets/logo_v1.1.png" style="height:1.5rem;margin:.31rem">
+			<!-- <h2 class="">报工系统</h2> -->
 		</div>
 
 		<div class="header-right">
-			<span>宁好 &nbsp; {{username}}</span>
-			<el-dropdown>
-				<i class="el-icon-setting"></i>
-				<el-dropdown-menu slot="dropdown">
-					<el-dropdown-item command="logout">退出</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
+			<div class="header-right-box">
+				<span style="font-size: .8rem;">宁好 &nbsp; {{username}}</span>
+				<el-dropdown>
+					<i class="el-icon-setting" style="font-size: 1rem;"></i>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item @click.native='Change_Password'>修改密码</el-dropdown-item>
+						<el-dropdown-item @click.native='Logout'>退出</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
+			</div>
 		</div>
 	</div>
 </template>
@@ -63,6 +66,14 @@
 				console.log(this.$route.matched)
 				this.levelList = matched;
 			},
+			Logout() {
+				console.log(123)
+				this.$store.dispatch('log_Out')
+				window.location.reload()
+			},
+			Change_Password() {
+
+			}
 		}
 	}
 </script>
@@ -83,20 +94,17 @@
 		width: 0.9375rem;
 	}
 
-	.header-left {
-		/* flex: 1; */
-	}
-
 	.header-mid {
-		 display: flex;
+		display: flex;
 		align-self: flex-start;
 	}
-	.header-mid img{
+
+	.header-mid img {
 		height: 1.825rem;
 	}
 
-	.head-right {
-		margin-right: 0.9375rem;
-		
+	.header-right-box {
+		display: flex;
+		justify-content: space-between
 	}
 </style>

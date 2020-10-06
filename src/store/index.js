@@ -9,14 +9,17 @@ import common from './modules/common'
 
 Vue.use(Vuex)
 
+
+const state = {
+	User: {},
+	Token: ''
+}
+
 export default new Vuex.Store({
-	state: {
-		User: {}
-	},
-	
-	actions: actions,
-	mutations: mutations,
-	getters: getters,
+	state,
+	actions,
+	mutations,
+	getters,
 	modules: {
 		common
 	}

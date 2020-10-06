@@ -23,12 +23,34 @@ export async function net_Register({username,password,verify,email}) { //注册
 	return res
 }
 
-export async function net_Send_Email({email}) { //新建任务
+export async function net_Send_Register_Email({email}) { //注册邮件
 	let res = await VIX({
-		url: '/user/email',
+		url: '/user/register/email',
 		method: 'post',
 		data: {
 			email
+		}
+	})
+	return res
+}
+
+export async function net_Send_Forgot_Email({email}) { //重置密码邮件
+	let res = await VIX({
+		url: '/user/forgot/email',
+		method: 'post',
+		data: {
+			email
+		}
+	})
+	return res
+}
+
+export async function net_Reset_Password({email,password,verify}) { //重置密码
+	let res = await VIX({
+		url: '/user/forgot/reset/password',
+		method: 'post',
+		data: {
+			email,password,verify
 		}
 	})
 	return res

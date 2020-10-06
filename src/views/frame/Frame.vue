@@ -23,6 +23,7 @@
 	import TopBar from './childCpn/TopBar'
 	
 	export default {
+
 		components: {
 			SideBar,
 			TopBar

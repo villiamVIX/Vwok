@@ -1,74 +1,73 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
+const Login = () => import("views/login/Login.vue");
+const Frame = () => import("views/frame/Frame.vue");
+const WokList = () => import("views/wok-list/Wok-List.vue");
+const WokItem = () => import("views/wok-item/Wok-Item.vue");
+const WokCreate = () => import("views/wok-create/Wok-Create.vue");
+const WokMission = () => import("views/wok-mission/Wok-Mission.vue");
 
-const Login = () => import('views/login/Login.vue')
-const Frame = () => import('views/frame/Frame.vue')
-const WokList = () => import('views/wok-list/Wok-List.vue')
-const WokItem = () => import('views/wok-item/Wok-Item.vue')
-const WokCreate = () => import('views/wok-create/Wok-Create.vue')
-const WokMission = () => import('views/wok-mission/Wok-Mission.vue')
-
-
-
-Vue.use(Router)
+Vue.use(Router);
 
 const routes = [{
-		name: 'frame',
-		path: '',
-		redirect: '/frame'
+		name: "frame",
+		path: "",
+		redirect: "/frame/woklist",
 	},
 	{
-		name: 'login',
-		path: '/login',
+		name: "login",
+		path: "/login",
 		component: Login,
 	},
 	{
-		name: 'Frame',
-		path: '/frame',
+		name: "Frame",
+		path: "/frame",
 		component: Frame,
 		children: [{
-				name: 'woklist',
-				path: 'woklist',
+				name: "woklist",
+				path: "woklist",
 				meta: {
-					title: '快速报工'
+					title: "快速报工",
+					needLogin: true, //需要加校检判断的路由
 				},
-				component: WokList
+				component: WokList,
 			},
 			{
-				name: 'wokitem',
-				path: 'wokitem',
+				name: "wokitem",
+				path: "wokitem",
 				meta: {
-					title: '任务信息'
+					title: "任务信息",
+					needLogin: true,
 				},
-				component: WokItem
+				component: WokItem,
 			},
 			{
-				name: 'wokcreate',
-				path: 'wokcreate',
+				name: "wokcreate",
+				path: "wokcreate",
 				meta: {
-					title: '新建任务'
+					title: "新建任务",
+					needLogin: true,
 				},
-				component: WokCreate
+				component: WokCreate,
 			},
 			{
-				name: 'wokmission',
-				path: 'wokmission',
+				name: "wokmission",
+				path: "wokmission",
 				meta: {
-					title: '任务看板'
+					title: "任务看板",
+					needLogin: true,
 				},
-				component: WokMission
-			}	
-		]
+				component: WokMission,
+			},
+		],
 	},
-
-
-]
+];
 
 const router = new Router({
-	mode: 'history',
+	mode: "history",
 	// base: process.env.BASE_URL,
-	routes
-})
+	routes,
+});
 
-export default router
+export default router;
