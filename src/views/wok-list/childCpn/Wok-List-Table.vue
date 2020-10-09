@@ -1,7 +1,7 @@
 <template>
 	<div>
 
-		<el-table :data="tableData" stripe style="width: 100%">
+		<el-table v-loading="loading" :data="tableData" stripe style="width: 100%">
 			<el-table-column prop="is_today" label="今日WOK？" width="100">
 			</el-table-column>
 			<el-table-column prop="wok_name" label="WOK" width="180">
@@ -31,7 +31,8 @@
 		get_My_VWOK
 	} from 'network/Net_VWOK.js'
 	export default {
-		created() {
+		mounted() {
+			console.log('woklist _______________mounted')
 			this.init_data()
 		},
 		data() {
@@ -46,7 +47,8 @@
 					uid:'56e122a0-f901-11ea-850d-538177ec27f6',
 					currentPage:1,
 					limit: 4
-				}
+				},
+				loading:true
 			}
 		},
 		methods: {
@@ -69,6 +71,7 @@
 			},
 			sync_Table_Data(res){
 				this.tableData = res.result.data
+				this.loading=false
 			},
 
 		}

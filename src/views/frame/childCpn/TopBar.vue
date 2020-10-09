@@ -69,7 +69,7 @@
 			Logout() {
 				console.log(123)
 				this.$store.dispatch('log_Out')
-				window.location.reload()
+				window.location.reload(true)
 			},
 			Change_Password() {
 

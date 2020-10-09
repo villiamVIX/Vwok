@@ -4,10 +4,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 // 改写post请求的参数
 axios.defaults.transformRequest = data => qs.stringify(data);
-axios.defaults.timeout = 10000;
+axios.defaults.timeout = 15000;
 axios.defaults.withCredentials = true; //开启携带session
 
-
+import Vue from 'vue';
+import ElementUI from 'element-ui';
 
 const url1 = 'http://192.168.1.105:3066'
 const url2 = 'http://120.79.171.194:3066'
@@ -29,7 +30,7 @@ export function VIX(config) {
 	// 请求拦截器 发请求 -> [请求拦截] -> 服务器
 	Axios_Vix.interceptors.request.use(config => {
 		// 携带token访问后台
-		let token = localStorage.getItem('token')
+		let token = localStorage.getItem('Token')
 		token && (config.headers.Authorization = token)
 		return config
 	}, error => {
@@ -45,8 +46,10 @@ export function VIX(config) {
 	Axios_Vix.interceptors.response.use(
 		res => res.data,
 		error => {
+			console.log(error)
 			if (error.message.includes('timeout')) { // 判断请求异常信息中是否含有超时timeout字符串
-				// vant.Notify('请求超时')
+				console.log('timeoutututututututu')
+				ElementUI.Message.error('请求超时')
 				return Promise.reject(error); // reject这个错误信息
 			}
 			let {
@@ -55,20 +58,26 @@ export function VIX(config) {
 			if (response) {
 				// 虽错误-至少返回结果了
 				switch (response.status) {
-					case 401: // 权限不足
+					case 401:
+						ElementUI.Message({
+							message: '登录超时，访问权限不足',
+							type: 'warning'
+						})
 						break;
 					case 403: // 服务器拒绝执行，无token
 						break;
-					case 404: // 无页面
+					case 404:
+						ElementUI.Message({
+							message: '访问错误页面',
+							type: 'warning'
+						});
 						break;
 				}
+				return new Promise(() => { }) // 返回一个pedding状态的promise
 			} else {
 				if (!window.navigator.onLine) { // 返回值都没有 断网处理:去断网页面
-					if (error.message.includes('timeout')) { // 判断请求异常信息中是否含有超时timeout字符串
-						// vant.Notify('请求超时')
-						return Promise.reject(error); // reject这个错误信息
-					}
-
+					ElementUI.Message.error('请求超时，请检查您的网络')
+					return Promise.reject(error); // reject这个错误信息
 				}
 			}
 		})
