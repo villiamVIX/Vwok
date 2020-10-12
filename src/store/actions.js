@@ -6,11 +6,11 @@ import {
 
 export default{
 	rewriteUserInfo({commit},info){  //注册时用户信息插入
-			commit(REWRITE_USERINFO,info)
+		commit(REWRITE_USERINFO,info)
 	},
 	async reqLastUserInfo({commit}){  //更新用户信息
-	        let res= getLastUserInfo()
-			commit(REWRITE_USERINFO,res)
+	    let res= getLastUserInfo()
+		commit(REWRITE_USERINFO,res)
 	},
 	set_Token({commit},token){
 		commit(SET_TOKEN,token)

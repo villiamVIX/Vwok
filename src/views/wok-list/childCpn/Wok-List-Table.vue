@@ -21,7 +21,7 @@
 		</el-table>
 		<span class="demonstration"></span>
 		<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage2"
-		 :page-sizes="[3, 40, 80, 100]" layout="sizes, prev, pager, next" :total="1000">
+		 :page-sizes="[10, 40, 80, 100]" layout="sizes, prev, pager, next" :total="1000">
 		</el-pagination>
 	</div>
 </template>

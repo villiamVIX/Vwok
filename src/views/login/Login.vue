@@ -255,6 +255,7 @@ export default {
 
       if (code == 200) {
         this.$store.dispatch("set_Token", User_Info.token);
+		this.$store.dispatch("")
         this.alert_Success(msg);
         this.$router.replace('/frame/woklist')
       } else {
