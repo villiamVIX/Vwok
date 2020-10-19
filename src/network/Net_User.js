@@ -56,12 +56,23 @@ export async function net_Reset_Password({email,password,verify}) { //重置密�
 	return res
 }
 
-export async function net_Login({email,password}) { //新建任务
+export async function net_Login({email,password}) { //登录
 	let res = await VIX({
 		url: '/user/login',
 		method: 'post',
 		data: {
 			email,password
+		}
+	})
+	return res
+}
+
+export async function net_AutoLogin({token}) { //登录
+	let res = await VIX({
+		url: '/user/autologin',
+		method: 'post',
+		data: {
+			token
 		}
 	})
 	return res

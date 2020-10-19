@@ -8,7 +8,7 @@ import {
 export default {
 	[REWRITE_USERINFO](state, info) {
 		console.log(info)
-		state.User = info;
+		state.UserInfo = info;
 	},
 	[SET_TOKEN](state,token){
 		state.Token = token 

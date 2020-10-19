@@ -6,5 +6,5 @@ export default {
     }
     return state.token;
   },
-  username:(state) =>state.User.username
+  username:(state) =>state.UserInfo.username
 };

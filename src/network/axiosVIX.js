@@ -10,8 +10,9 @@ axios.defaults.withCredentials = true; //开启携带session
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 
-const url1 = 'http://192.168.1.105:3066'
-const url2 = 'http://120.79.171.194:3066'
+const url1 = 'http://192.168.1.105:4009'
+const url2 = 'http://120.79.171.194:4009'
+const url3 = 'http://localhost:4009'
 
 // switch (process.env.NODE_ENV) {
 // 	case "production":
@@ -24,7 +25,7 @@ const url2 = 'http://120.79.171.194:3066'
 
 export function VIX(config) {
 	const Axios_Vix = axios.create({
-		baseURL: url1
+		baseURL: url3
 	})
 
 	// 请求拦截器 发请求 -> [请求拦截] -> 服务器
@@ -68,7 +69,7 @@ export function VIX(config) {
 						break;
 					case 404:
 						ElementUI.Message({
-							message: '访问错误页面',
+							message: '调用错误接口',
 							type: 'warning'
 						});
 						break;

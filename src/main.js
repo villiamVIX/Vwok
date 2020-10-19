@@ -18,6 +18,8 @@ router.beforeEach(function(to, from, next) {// 登录/权限校验
 	if (to.meta.needLogin) {
 	  //页面是否登录
 	  if (localStorage.getItem("Token")) {
+		  console.log(store.state.UserInfo.uid==undefined)
+		  // if(this.$store.UserInfo)
 		next(); //表示已经登录
 	  } else {
 		//next可以传递一个路由对象作为参数 表示需要跳转到的页面

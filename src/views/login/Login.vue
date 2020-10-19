@@ -248,13 +248,16 @@ export default {
 
       let { email, password } = this.form;
       if (email == "" && password == "") return this.alert_No_Null();
-      let { msg, code, User_Info } = await net_Login({
+      let { msg, code, User_Info ,Token } = await net_Login({
         email,
         password,
       });
 
       if (code == 200) {
-        this.$store.dispatch("set_Token", User_Info.token);
+        this.$store.dispatch("set_Token", Token);
+        this.$store.dispatch("rewriteUserInfo", User_Info);
+		
+		
 		this.$store.dispatch("")
         this.alert_Success(msg);
         this.$router.replace('/frame/woklist')

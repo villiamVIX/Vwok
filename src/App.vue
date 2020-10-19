@@ -9,7 +9,17 @@
 </template>
 
 <script>
+	import {net_AutoLogin} from 'network/Net_User.js';
 	export default {
+		mounted() {
+		this.AutoLogin()
+		},
+		methods:{
+			AutoLogin(){
+				let token = localStorage.getItem('Token')
+				token && net_AutoLogin(token)
+			}
+		},
 		name: 'App',
 		components: {
 

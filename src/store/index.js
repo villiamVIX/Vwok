@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 
 const state = {
-	User: {},
+	UserInfo: {},
 	Token: ''
 }
 
