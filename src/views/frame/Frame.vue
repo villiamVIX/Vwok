@@ -21,9 +21,8 @@
 <script>
 	import SideBar from './childCpn/SideBar'
 	import TopBar from './childCpn/TopBar'
-	
-	export default {
 
+	export default {
 		components: {
 			SideBar,
 			TopBar

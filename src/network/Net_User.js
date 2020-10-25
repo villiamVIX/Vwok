@@ -67,13 +67,10 @@ export async function net_Login({email,password}) { //登录
 	return res
 }
 
-export async function net_AutoLogin({token}) { //登录
+export async function net_TokenLogin() { //Token登录
 	let res = await VIX({
-		url: '/user/autologin',
+		url: '/user/tokenlogin',
 		method: 'post',
-		data: {
-			token
-		}
 	})
 	return res
 }

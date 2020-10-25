@@ -10,8 +10,8 @@ import 'assets/css/transition.css'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$bus = new Vue()
-Vue.prototype.GLOBAL = Global_ //挂载到Vue实例上面
+// Vue.prototype.$bus = new Vue()
+// Vue.prototype.GLOBAL = Global_ //挂载到Vue实例上面
 
 router.beforeEach(function(to, from, next) {// 登录/权限校验
 	console.log(localStorage)

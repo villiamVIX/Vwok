@@ -9,11 +9,15 @@ const WokCreate = () => import("views/wok-create/Wok-Create.vue");
 const WokMission = () => import("views/wok-mission/Wok-Mission.vue");
 
 Vue.use(Router);
+const VueRouterReplace = Router.prototype.replace //抛出App.vue的原地跳转报错
+Router.prototype.replace = function replace (to) {
+  return VueRouterReplace.call(this, to).catch(err => err)
+}
 
 const routes = [{
-		name: "frame",
+		name: "index_login",
 		path: "",
-		redirect: "/frame/woklist",
+		redirect: "/login",
 	},
 	{
 		name: "login",

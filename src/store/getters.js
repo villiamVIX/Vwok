@@ -1,10 +1,5 @@
 export default {
   sidebar: (state) => state.common.sidebar,
-  getToken(state) {
-    if (!state.token) {
-      state.token = localStorage.getItem("token");
-    }
-    return state.token;
-  },
+  Token: (state) => state.Token,
   username:(state) =>state.UserInfo.username
 };

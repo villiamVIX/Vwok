@@ -9,15 +9,40 @@
 </template>
 
 <script>
-	import {net_AutoLogin} from 'network/Net_User.js';
+	import {
+		mapGetters
+	} from 'vuex'
+	import{
+		net_TokenLogin
+	} from 'network/Net_User.js'
 	export default {
-		mounted() {
-		this.AutoLogin()
+		created() {
+			this.auto_Login()
 		},
-		methods:{
-			AutoLogin(){
-				let token = localStorage.getItem('Token')
-				token && net_AutoLogin(token)
+		computed: {
+			...mapGetters(["Token"]),
+		},
+		methods: {
+			async auto_Login() {
+				const Token = this.Token
+				if (Token) {
+					let {
+						code,
+						User_Info,
+						msg
+					} = await net_TokenLogin()
+					if (code == 200) {
+						console.log(User_Info)
+						this.$store.dispatch("rewriteUserInfo", User_Info);
+						this.$notify({
+							title: "登录/注册提示",
+							message: msg,
+							type: "success",
+							position: "top-left",
+						});
+						this.$router.replace('/frame/woklist')
+					}
+				}
 			}
 		},
 		name: 'App',
@@ -28,9 +53,8 @@
 </script>
 
 <style>
-
 	@import "assets/css/base.css";
-    
+
 	.box-card:last-of-type {
 		margin-top: 1.2rem;
 	}
@@ -44,7 +68,7 @@
 		height: 100vh;
 	}
 
-	
+
 
 	.page-component__scroll {
 		height: 100%;

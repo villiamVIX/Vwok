@@ -64,6 +64,8 @@ export function VIX(config) {
 							message: '登录超时，访问权限不足',
 							type: 'warning'
 						})
+						console.log(Vue)
+						window.location.href='/login'
 						break;
 					case 403: // 服务器拒绝执行，无token
 						break;

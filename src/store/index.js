@@ -12,7 +12,7 @@ Vue.use(Vuex)
 
 const state = {
 	UserInfo: {},
-	Token: ''
+	Token: localStorage.getItem("Token") || ''
 }
 
 export default new Vuex.Store({
