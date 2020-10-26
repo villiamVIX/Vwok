@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 
 const state = {
-	UserInfo: {},
+	UserInfo: JSON.parse(sessionStorage.getItem('UserInfo'))||{},
 	Token: localStorage.getItem("Token") || ''
 }
 

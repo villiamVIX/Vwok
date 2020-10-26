@@ -63,7 +63,7 @@
 			},
 			getBreadcrumb() {
 				let matched = this.$route.matched.filter(item => item.meta.title)
-				console.log(this.$route.matched)
+				// console.log(this.$route.matched)
 				this.levelList = matched;
 			},
 			Logout() {

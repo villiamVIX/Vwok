@@ -20,19 +20,21 @@
 			this.auto_Login()
 		},
 		computed: {
-			...mapGetters(["Token"]),
+			...mapGetters(["Token","UserInfo"]),
 		},
 		methods: {
 			async auto_Login() {
 				const Token = this.Token
-				if (Token) {
+				const UserInfo = this.UserInfo
+				console.log(UserInfo)
+				if (Token && !UserInfo.uid) {
 					let {
 						code,
 						User_Info,
 						msg
 					} = await net_TokenLogin()
 					if (code == 200) {
-						console.log(User_Info)
+						
 						this.$store.dispatch("rewriteUserInfo", User_Info);
 						this.$notify({
 							title: "登录/注册提示",

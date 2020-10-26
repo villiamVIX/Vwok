@@ -8,8 +8,8 @@ import {
 export default {
 	[REWRITE_USERINFO](state, info) {
 		state.UserInfo = info;
-		window.sessionStorage.UserInfo=info
-		info = JSON.stringify(info)
+		let UserInfo=JSON.stringify(info)
+		window.sessionStorage.setItem("UserInfo",UserInfo)
 	},
 	[SET_TOKEN](state,token){
 		state.Token = token 

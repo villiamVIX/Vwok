@@ -30,10 +30,16 @@
 	import {
 		get_My_VWOK
 	} from 'network/Net_VWOK.js'
+	import {
+		mapGetters
+	} from 'vuex'
+	
 	export default {
 		mounted() {
-			console.log('woklist _______________mounted')
 			this.init_data()
+		},
+		computed: {
+			...mapGetters(["UserInfo"]),
 		},
 		data() {
 			return {
@@ -44,7 +50,7 @@
 				currentPage4: 4,
 				tableData: [],
 				page_info: {
-					uid:'56e122a0-f901-11ea-850d-538177ec27f6',
+					uid:'',
 					currentPage:1,
 					limit: 4
 				},
@@ -64,7 +70,7 @@
 				console.log(`当前页: ${val}`);
 			},
 			init_data() {
-				
+				this.page_info.uid=this.UserInfo.uid
 				get_My_VWOK(this.page_info).then((res) => {
 					this.sync_Table_Data(res)
 				});

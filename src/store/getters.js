@@ -1,5 +1,6 @@
 export default {
   sidebar: (state) => state.common.sidebar,
   Token: (state) => state.Token,
-  username:(state) =>state.UserInfo.username
+  UserInfo:(state) =>state.UserInfo,
+  username:(state) =>state.UserInfo.username,
 };
