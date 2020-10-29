@@ -33,7 +33,7 @@
 	import {
 		mapGetters
 	} from 'vuex'
-	
+
 	export default {
 		mounted() {
 			this.init_data()
@@ -50,18 +50,18 @@
 				currentPage4: 4,
 				tableData: [],
 				page_info: {
-					uid:'',
-					currentPage:1,
+					uid: '',
+					currentPage: 1,
 					limit: 4
 				},
-				loading:true
+				loading: true
 			}
 		},
 		methods: {
-			
+
 			handleSizeChange(val) {
-				this.page_info.limit=val
-				
+				this.page_info.limit = val
+
 				get_My_VWOK(this.page_info).then((res) => {
 					this.sync_Table_Data(res)
 				});
@@ -70,14 +70,14 @@
 				console.log(`当前页: ${val}`);
 			},
 			init_data() {
-				this.page_info.uid=this.UserInfo.uid
+				this.page_info.uid = this.UserInfo.uid
 				get_My_VWOK(this.page_info).then((res) => {
 					this.sync_Table_Data(res)
 				});
 			},
-			sync_Table_Data(res){
+			sync_Table_Data(res) {
 				this.tableData = res.result.data
-				this.loading=false
+				this.loading = false
 			},
 
 		}

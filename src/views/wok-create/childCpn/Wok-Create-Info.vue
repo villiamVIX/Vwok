@@ -33,7 +33,14 @@
 	import {
 		create_New_VWOK
 	} from 'network/Net_VWOK.js'
+	import {
+		mapGetters
+	} from 'vuex'
+	
 	export default {
+		computed: {
+			...mapGetters(["UserInfo"]),
+		},
 		data() {
 			return {
 				form: {
@@ -41,17 +48,20 @@
 					start_time: '',
 					estimate_time: '',
 					teammate: [],
-					creater_name: '张威'
+					creater_name: '',
+					uid:''
 				}
 			}
 		},
 		methods: {
 			onSubmit() {
-				console.log(this.form);
 				let data = this.form
-			 create_New_WOK(data)
+				const {uid,username} = this.UserInfo
+				data.creater_name = username
+				data.uid = uid
+				create_New_VWOK(data)
 				let submit_Create_Date = async (data) => {
-					await create_New_WOK(data)
+					await create_New_VWOK(data)
 				}
 				submit_Create_Date()
 			}
