@@ -2,14 +2,6 @@ import {
 	VIX
 } from './axiosVIX'
 
-export function create_New_VWOK(data) { //新建任务
-	return VIX({
-		url: '/vwok/create',
-		method: 'post',
-		timeout: 3000,
-		data: data
-	})
-}
 
 export async function net_Register({username,password,verify,email}) { //注册
 	let res = await VIX({

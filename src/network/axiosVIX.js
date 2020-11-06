@@ -1,9 +1,9 @@
 import axios from 'axios'
 import qs from 'qs'
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 // 改写post请求的参数
-axios.defaults.transformRequest = data => qs.stringify(data);
+axios.defaults.transformRequest = data => qs.stringify(data, { indices: false });
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.timeout = 15000;
 axios.defaults.withCredentials = true; //开启携带session
 
@@ -49,7 +49,7 @@ export function VIX(config) {
 		error => {
 			console.log(error)
 			if (error.message.includes('timeout')) { // 判断请求异常信息中是否含有超时timeout字符串
-				console.log('timeoutututututututu')
+				console.log('time out')
 				ElementUI.Message.error('请求超时')
 				return Promise.reject(error); // reject这个错误信息
 			}

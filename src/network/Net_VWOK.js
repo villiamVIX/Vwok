@@ -4,12 +4,11 @@ export function create_New_VWOK(data){ //新建任务
 	return VIX({
 		url:'/vwok/create',
 		method:'post',
-		timeout:3000,
-		data:data
+		data
 	})
 }
 
-export async function get_My_VWOK(data){ //新建任务
+export async function get_My_VWOK(data){ //获取个人任务
 let {currentPage,uid,limit} = data
     let res = await VIX({
 		url:'/vwok/woklist',

@@ -44,26 +44,24 @@
 		data() {
 			return {
 				form: {
-					wok_name: '',
-					start_time: '',
-					estimate_time: '',
-					teammate: [],
+					wok_name: '阿斯蒂芬大大',
+					start_time: '2020-10-10',
+					estimate_time: '2020-10-10',
+					teammate: ['dasd','asdxx打算'],
 					creater_name: '',
 					uid:''
 				}
 			}
 		},
 		methods: {
-			onSubmit() {
-				let data = this.form
+			async onSubmit() {
+				const data = JSON.parse(JSON.stringify(this.form)) 
 				const {uid,username} = this.UserInfo
 				data.creater_name = username
 				data.uid = uid
-				create_New_VWOK(data)
-				let submit_Create_Date = async (data) => {
-					await create_New_VWOK(data)
-				}
-				submit_Create_Date()
+				
+				let {msg,code} =await create_New_VWOK(data)
+				console.log(msg,code)
 			}
 		}
 	}
