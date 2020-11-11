@@ -26,7 +26,7 @@
 			async auto_Login() {
 				const Token = this.Token
 				const UserInfo = this.UserInfo
-				console.log(UserInfo)
+				console.log(Token && !UserInfo.uid)
 				if (Token && !UserInfo.uid) {
 					let {
 						code,
@@ -34,7 +34,6 @@
 						msg
 					} = await net_TokenLogin()
 					if (code == 200) {
-						
 						this.$store.dispatch("rewriteUserInfo", User_Info);
 						this.$notify({
 							title: "登录/注册提示",
@@ -48,9 +47,6 @@
 			}
 		},
 		name: 'App',
-		components: {
-
-		}
 	}
 </script>
 

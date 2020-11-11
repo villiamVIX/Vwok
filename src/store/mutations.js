@@ -18,6 +18,8 @@ export default {
 	
 	[CLEAR_TOKEN](state){
 		state.Token=''
-		localStorage.Token=''
+		state.UserInfo={}
+		window.localStorage.clear()
+		window.sessionStorage.clear()
 	}
 }

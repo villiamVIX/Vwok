@@ -10,9 +10,10 @@ axios.defaults.withCredentials = true; //开启携带session
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 
-const url1 = 'http://192.168.1.105:4009'
-const url2 = 'http://120.79.171.194:4009'
-const url3 = 'http://localhost:4009'
+const url1 = 'http://192.168.1.105:3009'
+const url2 = 'http://120.79.171.194:3009'
+const url3 = 'http://localhost:3009'
+import actions from 'vuex'
 
 // switch (process.env.NODE_ENV) {
 // 	case "production":
@@ -64,7 +65,8 @@ export function VIX(config) {
 							message: '登录超时，访问权限不足',
 							type: 'warning'
 						})
-						console.log(Vue)
+						window.localStorage.clear()
+						window.sessionStorage.clear()
 						window.location.href='/login'
 						break;
 					case 403: // 服务器拒绝执行，无token

@@ -2,7 +2,7 @@ module.exports = {
 	lintOnSave: false,
 	devServer: {
 		disableHostCheck: true,
-		port:3009
+		port:4009
 	},
 	configureWebpack: {
 		resolve: {
