@@ -2,7 +2,7 @@
 	<div>
 
 		<el-table v-loading="loading" :data="tableData" stripe style="width: 100%">
-			<el-table-column prop="is_today" label="今日WOK？" width="100">
+			<el-table-column prop="is_today" label="今日WOK?" width="100">
 			</el-table-column>
 			<el-table-column prop="wok_name" label="WOK" width="180">
 			</el-table-column>
@@ -20,8 +20,8 @@
 			</el-table-column>
 		</el-table>
 		<span class="demonstration"></span>
-		<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage2"
-		 :page-sizes="[10, 40, 80, 100]" layout="sizes, prev, pager, next" :total="1000">
+		<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="page_info.currentPage"
+		 :page-sizes="page_sizes" layout="sizes, prev, pager, next" :total="total">
 		</el-pagination>
 	</div>
 </template>
@@ -29,7 +29,7 @@
 <script>
 	import {
 		get_My_VWOK
-	} from 'network/Net_VWOK.js'
+	} from 'network/Net_Vwok.js'
 	import {
 		mapGetters
 	} from 'vuex'
@@ -43,40 +43,44 @@
 		},
 		data() {
 			return {
-				currentPage: 1,
-				currentPage1: 5,
 				currentPage2: 5,
-				currentPage3: 5,
-				currentPage4: 4,
+				page_sizes:[4,8,12,16],
 				tableData: [],
 				page_info: {
 					uid: '',
 					currentPage: 1,
 					limit: 4
 				},
-				loading: true
+				loading: true,
+				total: 0
 			}
 		},
 		methods: {
 
 			handleSizeChange(val) {
 				this.page_info.limit = val
-
-				get_My_VWOK(this.page_info).then((res) => {
-					this.sync_Table_Data(res)
-				});
+				this.net_Get_Vwok()
 			},
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`);
+				this.page_info.currentPage = val
+				this.net_Get_Vwok()
+			},
+			async net_Get_Vwok() {
+				let res = await get_My_VWOK(this.page_info)
+				this.sync_Table_Data(res)
 			},
 			init_data() {
 				this.page_info.uid = this.UserInfo.uid
-				get_My_VWOK(this.page_info).then((res) => {
-					this.sync_Table_Data(res)
-				});
+				this.net_Get_Vwok()
 			},
 			sync_Table_Data(res) {
-				this.tableData = res.result.data
+				const {
+					total,
+					data
+				} = res.result
+				this.tableData = data
+				this.total = total
 				this.loading = false
 			},
 
@@ -85,5 +89,5 @@
 	}
 </script>
 
-<style>
+<style scoped="scoped">
 </style>

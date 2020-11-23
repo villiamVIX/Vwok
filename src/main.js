@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 // Vue.prototype.GLOBAL = Global_ //挂载到Vue实例上面
 
 router.beforeEach(function(to, from, next) {// 登录/权限校验
-	console.log(localStorage)
+	// console.log(localStorage)
 	if (to.meta.needLogin) {
 	  //页面是否登录
 	  if (localStorage.getItem("Token")) {

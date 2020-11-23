@@ -1,7 +1,6 @@
 <template>
 	<div>
-
-		<el-table ref="singleTable" :data="tableData" highlight-current-row @current-change="handleCurrentChange" style="width: 100%"
+		<el-table ref="singleTable" :data="vwok_items" highlight-current-row @current-change="handleCurrentChange" style="width: 100%"
 		 border>
 			<el-table-column type="index" width="30">
 			</el-table-column>
@@ -45,6 +44,7 @@
 
 <script>
 	import SliderVIX from 'common/SliderVIX/SliderVIX.vue'
+	import {mapGetters} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -95,6 +95,9 @@
 		},
 		components:{
 			SliderVIX
+		},
+		computed: {
+			...mapGetters(["vwok_items"]),
 		},
 		methods: {
 			setCurrent(row) {

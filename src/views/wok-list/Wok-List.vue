@@ -1,12 +1,15 @@
 <template>
 	<div id="Wok-List">
+		<!-- <el-card class="box-card"> -->
+			<WokListBoxs></WokListBoxs>
+		<!-- </el-card> -->
 		<el-card class="box-card">
-			<WokListExport></WokListExport>
-			<WokListTable></WokListTable>
+			<WokItemCreate></WokItemCreate>
+			<WokItemDetail></WokItemDetail>
 		</el-card>
-		<el-card class="box-card">
-			<WokListText></WokListText>
-		</el-card>
+		<!-- <el-card class="box-card">
+		</el-card> -->
+		<!-- 	<WokListExport></WokListExport> -->
 	</div>
 
 
@@ -15,23 +18,32 @@
 
 
 <script>
-	import WokListTable from './childCpn/Wok-List-Table'
+	import WokListBoxs from './childCpn/Wok-List-Boxs'
 	import WokListExport from './childCpn/Wok-List-Export'
 	import WokListText from './childCpn/Wok-List-Text'
+	import WokItemDetail from '../wok-item/childCpn/Wok-Item-Detail'
+	import WokItemCreate from '../wok-item/childCpn/Wok-Item-Create'
 	export default {
 		components: {
-			WokListTable,
+			WokItemCreate,
 			WokListExport,
-			WokListText
+			WokListText,
+			WokItemDetail,
+			WokListBoxs
 		},
-		methods: {
-
-		},
-
 	}
 </script>
 
 
 <style scoped="scoped">
-
+	#Wok-List {
+		display: flex;
+		justify-content:baseline;
+	}
+/* 	.box-card:first{
+flex: 1;
+	} */
+	/* .box-card:last-child{
+		flex: 1;
+	} */
 </style>

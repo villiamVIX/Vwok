@@ -6,6 +6,7 @@ import getters from './getters'
 
 // modules子模块
 import common from './modules/common'
+import vwok from './modules/vwok'
 
 Vue.use(Vuex)
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
 	mutations,
 	getters,
 	modules: {
-		common
+		common,
+		vwok
 	}
 })
