@@ -35,6 +35,11 @@
 		computed: {
 			...mapGetters(["UserInfo"]),
 		},
+		watch:{
+			'$store.state.vwok.vwok_items':function(){
+				console.log(567567567)
+			},
+		},
 		data() {
 			return {
 				tableData: [],
@@ -62,6 +67,8 @@
 				let {code , result} = await get_My_Vwok_Item(index)
 				console.log(result)
 				this.$store.dispatch('vwok/Rewrite_Items',result)
+				this.$store.dispatch('vwok/Rewrite_Current_Wok_Id',index)
+				console.log(this.$store.state)
 				// Rewrite_Items
 			},
 			async net_Get_Vwok() {

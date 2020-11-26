@@ -21,6 +21,11 @@
 		mounted() {
 			this.init()
 		},
+		watch:{
+			'$store.state.vwok.current_wok':function(index){
+				this.form.vwok_id=index
+			}
+		},
 		data() {
 			return {
 				form:{
