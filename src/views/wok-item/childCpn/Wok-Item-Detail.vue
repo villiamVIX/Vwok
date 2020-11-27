@@ -46,24 +46,17 @@
 	import {
 		mapGetters
 	} from 'vuex'
-	import {update_Vwok_Item} from 'network/Net_Vwok_Item.js'
+	import {
+		update_Vwok_Item
+	} from 'network/Net_Vwok_Item.js'
 	export default {
 		data() {
 			return {
-				tableData: [{
-						date: '2016-05-02',
-						name: '王小虎',
-						wok_desc: '上线测试端',
-						jira: 'CYFCZJ-6666',
-						estimate: 100,
-						actual: 80,
-						spend: 2,
-						remarks: "太多做不完了"
-					},
-
-				],
+				tableData: [],
 				currentRow: null,
-				textarea: ''
+				textarea: '',
+				diffData: [],//变化的数据
+				rawData:[]//原始数据
 			}
 		},
 		components: {
@@ -79,7 +72,22 @@
 		},
 		methods: {
 			async onChange_Item() {
-				let {code,msg,result} = await update_Vwok_Item()
+				let data_Length = this.rawData.length
+				for(let i=0;i<data_Length;i++){  //遍历现有数据
+					 for(let k in this.tableData[i]){
+						 if(this.tableData[i][k] !== this.rawData[i][k]){
+							 console.log(this.tableData[i],this.tableData[i][k])
+							 this.diffData.push(this.tableData[i]) 
+						 } 
+					 }
+				}
+				console.log(this.diffData)
+				
+				let {
+					code,
+					msg,
+					result
+				} = await update_Vwok_Item(this.diffData)
 			},
 			setCurrent(row) {
 				this.$refs.singleTable.setCurrentRow(row);
@@ -90,6 +98,7 @@
 			refresh_Items(items) {
 				this.tableData = items
 				console.log(this.tableData)
+				this.rawData=JSON.parse(JSON.stringify(items))
 			}
 		}
 	}

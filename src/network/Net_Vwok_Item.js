@@ -29,6 +29,6 @@ export async function update_Vwok_Item(data) { //获取个人任务
 	return await VIX({
 		url: '/vwok/item/update',
 		method: 'post',
-		data
+		data:data
 	})
 }

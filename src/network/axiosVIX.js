@@ -1,8 +1,6 @@
 import axios from 'axios'
-import qs from 'qs'
 
-// 改写post请求的参数
-axios.defaults.transformRequest = data => qs.stringify(data, { indices: false });
+// 改写post请求的参数, { indices: false }
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.timeout = 15000;
 axios.defaults.withCredentials = true; //开启携带session
@@ -13,15 +11,6 @@ import ElementUI from 'element-ui';
 const url1 = 'http://192.168.1.105:3009'
 const url2 = 'http://120.79.171.194:3009'
 const url3 = 'http://localhost:3009'
-import actions from 'vuex'
-
-// switch (process.env.NODE_ENV) {
-// 	case "production":
-// 		axios.defaults.baseURL = url2
-// 		break;
-// 	default:
-// 		axios.defaults.baseURL = url1
-// }
 
 
 export function VIX(config) {
@@ -36,7 +25,6 @@ export function VIX(config) {
 		token && (config.headers.Authorization = token)
 		return config
 	}, error => {
-		// console.log(err)
 		return Promise.reject(error)
 	})
 
@@ -50,7 +38,6 @@ export function VIX(config) {
 		error => {
 			console.log(error)
 			if (error.message.includes('timeout')) { // 判断请求异常信息中是否含有超时timeout字符串
-				console.log('time out')
 				ElementUI.Message.error('请求超时')
 				return Promise.reject(error); // reject这个错误信息
 			}
