@@ -3,8 +3,8 @@ import Router from "vue-router";
 
 const Login = () => import("views/login/Login.vue");
 const Frame = () => import("views/frame/Frame.vue");
-const WokList = () => import("views/wok-list/Wok-List.vue");
-const WokItem = () => import("views/wok-item/Wok-Item.vue");
+const WokList = () => import("views/wok-core/wok-list/Wok-List.vue");
+const WokItem = () => import("views/wok-core/wok-item/Wok-Item.vue");
 const WokCreate = () => import("views/wok-create/Wok-Create.vue");
 const WokMission = () => import("views/wok-mission/Wok-Mission.vue");
 

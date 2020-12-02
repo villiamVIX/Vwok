@@ -55,8 +55,8 @@
 				tableData: [],
 				currentRow: null,
 				textarea: '',
-				diffData: [],//变化的数据
-				rawData:[]//原始数据
+				diffData: [], //变化的数据 比对池
+				rawData: [] //原始数据
 			}
 		},
 		components: {
@@ -73,21 +73,29 @@
 		methods: {
 			async onChange_Item() {
 				let data_Length = this.rawData.length
-				for(let i=0;i<data_Length;i++){  //遍历现有数据
-					 for(let k in this.tableData[i]){
-						 if(this.tableData[i][k] !== this.rawData[i][k]){
-							 console.log(this.tableData[i],this.tableData[i][k])
-							 this.diffData.push(this.tableData[i]) 
-						 } 
-					 }
+				for (let i = 0; i < data_Length; i++) { //遍历现有数据
+					for (let k in this.tableData[i]) {
+						if (this.tableData[i][k] !== this.rawData[i][k]) {
+							this.diffData.push(this.tableData[i])
+						}
+					}
 				}
 				console.log(this.diffData)
-				
+
 				let {
 					code,
 					msg,
 					result
 				} = await update_Vwok_Item(this.diffData)
+				
+				if (code == 200) {
+					this.$message({
+						message: '保存成功',
+						type: 'success'
+					});
+					this.$store.dispatch('vwok/Rewrite_Items',result) //更新更新后的数据
+					this.diffData = [] // 清空比对池
+				}
 			},
 			setCurrent(row) {
 				this.$refs.singleTable.setCurrentRow(row);
@@ -97,8 +105,7 @@
 			},
 			refresh_Items(items) {
 				this.tableData = items
-				console.log(this.tableData)
-				this.rawData=JSON.parse(JSON.stringify(items))
+				this.rawData = JSON.parse(JSON.stringify(items))
 			}
 		}
 	}

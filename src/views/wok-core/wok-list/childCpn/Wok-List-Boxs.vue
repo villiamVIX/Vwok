@@ -37,7 +37,7 @@
 		},
 		watch:{
 			'$store.state.vwok.vwok_items':function(){
-				console.log(567567567)
+				
 			},
 		},
 		data() {
@@ -62,14 +62,14 @@
 				this.net_Get_Vwok()
 			},
 			async click_Box(index) {
-				console.log(index)
+				// console.log(index)
 				this.current_Index = index
 				let {code , result} = await get_My_Vwok_Item(index)
-				console.log(result)
+				// console.log(result)
 				this.$store.dispatch('vwok/Rewrite_Items',result)
 				this.$store.dispatch('vwok/Rewrite_Current_Wok_Id',index)
-				console.log(this.$store.state)
-				// Rewrite_Items
+				// console.log(this.$store.state)
+				
 			},
 			async net_Get_Vwok() {
 				let res = await get_My_VWOK(this.page_info)
@@ -90,7 +90,7 @@
 				this.tableData = data
 				this.total = total
 				this.loading = false
-				console.log(this.tableData)
+				// console.log(this.tableData)
 			},
 
 		}
@@ -105,7 +105,8 @@
 		justify-content: flex-start;
 		height: 18rem;
 		overflow: -Scroll;
-		overflow-x: hidden
+		overflow-x: hidden;
+		width: 11rem;
 	}
 
 	.wok_boxs {

@@ -1,21 +1,12 @@
 <template>
-	<div id="Wok-List">
-		<!-- <el-card class="box-card"> -->
-			<WokListBoxs></WokListBoxs>
-		<!-- </el-card> -->
-		<el-card class="box-card">
+	<CardVIX class="box-card">
+		<WokListBoxs></WokListBoxs>
+		<div style="width: 55rem; padding: 15px;">
 			<WokItemCreate></WokItemCreate>
 			<WokItemDetail></WokItemDetail>
-		</el-card>
-		<!-- <el-card class="box-card">
-		</el-card> -->
-		<!-- 	<WokListExport></WokListExport> -->
-	</div>
-
-
+		</div>
+	</CardVIX>
 </template>
-
-
 
 <script>
 	import WokListBoxs from './childCpn/Wok-List-Boxs'
@@ -23,27 +14,28 @@
 	import WokListText from './childCpn/Wok-List-Text'
 	import WokItemDetail from '../wok-item/childCpn/Wok-Item-Detail'
 	import WokItemCreate from '../wok-item/childCpn/Wok-Item-Create'
+	import CardVIX from 'common/Components/CardVIX/CardVIX.vue'
 	export default {
 		components: {
 			WokItemCreate,
 			WokListExport,
 			WokListText,
 			WokItemDetail,
-			WokListBoxs
+			WokListBoxs,
+			CardVIX
 		},
 	}
 </script>
 
 
 <style scoped="scoped">
-	#Wok-List {
-		display: flex;
-		justify-content:baseline;
+	#Wok-List {}
+	.box-card {
+		display:-webkit-flex;
+		display: flex;		
+		flex-direction: row;
+		
 	}
-/* 	.box-card:first{
-flex: 1;
-	} */
-	/* .box-card:last-child{
-		flex: 1;
-	} */
+
+
 </style>

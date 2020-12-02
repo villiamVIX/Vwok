@@ -21,29 +21,39 @@
 		mounted() {
 			this.init()
 		},
-		watch:{
-			'$store.state.vwok.current_wok':function(index){
-				this.form.vwok_id=index
+		watch: {
+			'$store.state.vwok.current_wok': function(index) {
+				this.form.vwok_id = index
 			}
 		},
 		data() {
 			return {
-				form:{
+				form: {
 					vwok_item_name: '',
-					uid:'',
-					vwok_id:'d60a1190-2bd3-11eb-b4d2-a902bbce58cd'
+					uid: '',
+					vwok_id: 'd60a1190-2bd3-11eb-b4d2-a902bbce58cd'
 				}
 			}
 		},
 		methods: {
-			init(){
+			init() {
 				this.form.uid = this.UserInfo.uid
 			},
 			async create_Item() {
 				let {
 					res,
-					code
+					code,
+					result
 				} = await create_New_Vwok_Item(this.form)
+				if (code == 200) {
+					this.$message({
+						message: '创建成功',
+						type: 'success'
+					});
+					this.$store.dispatch('vwok/Rewrite_Items', result)
+				}else{
+					this.$message.error('创建失败，请重试');
+				}
 			}
 
 		}
