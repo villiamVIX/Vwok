@@ -63,6 +63,7 @@
 		border-bottom-right-radius: 35px;
 		box-shadow: 3px 1px 7px 2px #ebeef5;
 		top: 2rem;
+		min-width: 3.5rem;
 	}
 
 	.el-menu-vertical-demo:not(.el-menu--collapse) {

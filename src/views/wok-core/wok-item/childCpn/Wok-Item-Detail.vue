@@ -1,7 +1,12 @@
 <template>
 	<div>
-		<el-table ref="singleTable" :data="tableData" highlight-current-row @current-change="handleCurrentChange" style="width: 100%"
-		 border>
+		<el-table ref="singleTable" :data="tableData" 
+		stripe
+		height="450"
+		style='width: 100%;'
+		:fit='true' 
+		highlight-current-row @current-change="handleCurrentChange" 
+		 >
 			<el-table-column type="index" width="30">
 			</el-table-column>
 			<el-table-column property="start_time" label="开始时间" width="100">

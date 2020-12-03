@@ -7,9 +7,9 @@
 					{{woks.wok_name}}
 				</div>
 				<div class="wok_times">
-					<p class="wok_times">
-						{{woks.start_time}}-{{woks.estimate_time}}
-					</p>
+					{{woks.start_time |formatDate}}-{{woks.estimate_time|formatDate}}
+					<!-- <p class="wok_times">
+					</p> -->
 				</div>
 			</div>
 			<el-progress :percentage="50"></el-progress>
@@ -35,9 +35,9 @@
 		computed: {
 			...mapGetters(["UserInfo"]),
 		},
-		watch:{
-			'$store.state.vwok.vwok_items':function(){
-				
+		watch: {
+			'$store.state.vwok.vwok_items': function() {
+
 			},
 		},
 		data() {
@@ -53,6 +53,7 @@
 				current_Index: undefined
 			}
 		},
+
 		methods: {
 			load() {
 				if (this.isLimit) {
@@ -64,12 +65,15 @@
 			async click_Box(index) {
 				// console.log(index)
 				this.current_Index = index
-				let {code , result} = await get_My_Vwok_Item(index)
+				let {
+					code,
+					result
+				} = await get_My_Vwok_Item(index)
 				// console.log(result)
-				this.$store.dispatch('vwok/Rewrite_Items',result)
-				this.$store.dispatch('vwok/Rewrite_Current_Wok_Id',index)
+				this.$store.dispatch('vwok/Rewrite_Items', result)
+				this.$store.dispatch('vwok/Rewrite_Current_Wok_Id', index)
 				// console.log(this.$store.state)
-				
+
 			},
 			async net_Get_Vwok() {
 				let res = await get_My_VWOK(this.page_info)
@@ -93,28 +97,38 @@
 				// console.log(this.tableData)
 			},
 
+		},
+		filters: {
+			formatDate: function(time) {
+				if (time != null && time != "") {
+					var date = time.replace(/\-/g,'.');
+					return date
+				} else {
+					return "";
+				}
+			}
+		},
 		}
-
-	}
 </script>
 
 <style scoped="scoped">
 	#WokListBoxs {
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-start;
-		height: 18rem;
+		justify-content: space-between;
+		height: 28rem;
 		overflow: -Scroll;
 		overflow-x: hidden;
-		width: 11rem;
+		width: 12.2rem;
+		padding-right: 0.9375rem;
+		min-width: 11.2rem;
 	}
 
 	.wok_boxs {
-		padding: 0.5rem;
+		padding: 0.68rem 0.2rem;
 		margin: 0.25rem 0;
 		border-radius: 0.5375rem;
 		border: 1px #e4e5e7 solid;
-		height: 4rem;
 	}
 
 	.wok_boxs:hover {
@@ -137,11 +151,12 @@
 
 	.wok_times {
 		color: #a1a5aa;
-		font-size: 5px;
+		text-align: left;
+		font-size: 0.5125rem;
 		white-space: nowrap;
 		-webkit-transform-origin-x: 0;
 		/*缩小后文字居左*/
-		-webkit-transform: scale(0.90);
+		/* -webkit-transform: scale(0.90); */
 		/*缩小90%*/
 	}
 </style>

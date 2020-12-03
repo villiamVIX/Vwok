@@ -1,7 +1,7 @@
 <template>
 	<CardVIX class="box-card">
 		<WokListBoxs></WokListBoxs>
-		<div style="width: 55rem; padding: 15px;">
+		<div class="WokItems">
 			<WokItemCreate></WokItemCreate>
 			<WokItemDetail></WokItemDetail>
 		</div>
@@ -34,7 +34,12 @@
 		display:-webkit-flex;
 		display: flex;		
 		flex-direction: row;
+			height: 90vh;
+	}
+	.WokItems{
+		max-width: 80vw;
 		
+		padding-left: 0.9375rem;
 	}
 
 
