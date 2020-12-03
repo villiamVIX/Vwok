@@ -30,17 +30,17 @@
 
 <style scoped="scoped">
 	#Wok-List {}
+
 	.box-card {
-		display:-webkit-flex;
-		display: flex;		
+		display: -webkit-flex;
+		display: flex;
 		flex-direction: row;
-			height: 90vh;
+		height: 90vh;
 	}
-	.WokItems{
-		max-width: 80vw;
+
+	.WokItems {
 		
+		flex:1;
 		padding-left: 0.9375rem;
 	}
-
-
 </style>
