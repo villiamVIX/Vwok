@@ -1,7 +1,7 @@
 <template>
 	<el-container>
 		<div class="drawer-bg" @click="$store.dispatch('app/closeSideBar')" />
-		<el-header style="height:44px;">
+		<el-header style="height:2.25rem;">
 			<TopBar></TopBar>
 		</el-header>
 		<el-container>
