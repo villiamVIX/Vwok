@@ -31,7 +31,7 @@
 				form: {
 					vwok_item_name: '',
 					uid: '',
-					vwok_id: 'd60a1190-2bd3-11eb-b4d2-a902bbce58cd'
+					vwok_id: ''
 				}
 			}
 		},

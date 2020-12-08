@@ -1,13 +1,10 @@
 <template>
 	<div>
-		<el-table ref="singleTable" :data="tableData" 
-		stripe
-		height="450"
-		style='width: 100%;'
-		:fit='true' 
-		highlight-current-row @current-change="handleCurrentChange" 
-		 >
-			<el-table-column type="index" width="30">
+		<!-- :fit='true' 
+		 stripe-->
+		<el-table ref="singleTable" :data="tableData" max-height="450" style='width: 100%;' :fit='true' highlight-current-row
+		 @current-change="handleCurrentChange">
+			<el-table-column type="index" width="38">
 			</el-table-column>
 			<el-table-column property="start_time" label="开始时间" width="100">
 			</el-table-column>
@@ -23,9 +20,11 @@
 					</el-input>
 				</template>
 			</el-table-column>
-			<el-table-column property="estimate" label="预计进度" width="250">
+			<el-table-column property="estimate" label="进度" width="200">
 				<template slot-scope="scope">
-					<SliderVIX :target='scope.row.scroll_estimate' :actual="scope.row.scroll_actual"></SliderVIX>
+					<SliderVIX :target='scope.row.scroll_estimate' 
+					:actual="scope.row.scroll_actual"
+					@Progress = 'get_Progress'></SliderVIX>
 				</template>
 			</el-table-column>
 
@@ -58,7 +57,7 @@
 		data() {
 			return {
 				tableData: [],
-				currentRow: null,
+				currentRow: {},
 				textarea: '',
 				diffData: [], //变化的数据 比对池
 				rawData: [] //原始数据
@@ -76,8 +75,15 @@
 			},
 		},
 		methods: {
+			get_Progress(da){ // 更新进度条未完成
+				// console.log(this.currentRow.vwok_item_id )
+				// let id = this.currentRow.vwok_item_id
+				
+				// console.log(this.tableData[id])
+			},
 			async onChange_Item() {
 				let data_Length = this.rawData.length
+
 				for (let i = 0; i < data_Length; i++) { //遍历现有数据
 					for (let k in this.tableData[i]) {
 						if (this.tableData[i][k] !== this.rawData[i][k]) {
@@ -87,18 +93,22 @@
 				}
 				console.log(this.diffData)
 
+				if (!this.diffData.length) {// 没有改动 
+					this.$message('未改动 不保存');
+					return false
+				}
+				
 				let {
 					code,
-					msg,
 					result
 				} = await update_Vwok_Item(this.diffData)
-				
+
 				if (code == 200) {
 					this.$message({
 						message: '保存成功',
 						type: 'success'
 					});
-					this.$store.dispatch('vwok/Rewrite_Items',result) //更新更新后的数据
+					this.$store.dispatch('vwok/Rewrite_Items', result) //更新更新后的数据
 					this.diffData = [] // 清空比对池
 				}
 			},
@@ -107,6 +117,7 @@
 			},
 			handleCurrentChange(val) {
 				this.currentRow = val;
+				console.log(val)
 			},
 			refresh_Items(items) {
 				this.tableData = items

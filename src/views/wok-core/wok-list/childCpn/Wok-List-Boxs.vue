@@ -63,13 +63,16 @@
 				this.net_Get_Vwok()
 			},
 			async click_Box(index) {
-				// console.log(index)
+				// 若相同索引 ，不请求数据
+				if(this.current_Index == index ) return false
+				
 				this.current_Index = index
+				
 				let {
 					code,
 					result
 				} = await get_My_Vwok_Item(index)
-				// console.log(result)
+				
 				this.$store.dispatch('vwok/Rewrite_Items', result)
 				this.$store.dispatch('vwok/Rewrite_Current_Wok_Id', index)
 				// console.log(this.$store.state)

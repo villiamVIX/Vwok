@@ -111,7 +111,7 @@
 					// 最大是（拖动值，最大值）的最小值 不超100
 					_this.per = Math.min(_this.per, _this.max);
 					// 传值给父组件
-					_this.$emit('scale', _this.per)
+					_this.$emit('Progress', _this.per)
 				}
 				document.onmouseup = function() {
 					document.onmousemove = document.onmouseup = null;
@@ -120,7 +120,7 @@
 			}
 
 			this.thunk_actual.onmousedown = function(e) {
-				console.log(_this)
+				// console.log(_this)
 				// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
 				var width = parseInt(_this.width_actual);
 				// disX 点击时的鼠标横坐标  起始点
@@ -144,7 +144,7 @@
 					// 最大是（拖动值，最大值）的最小值 不超100
 					_this.per_actual = Math.min(_this.per_actual, _this.max);
 					// 传值给父组件
-					_this.$emit('scale_actual', _this.per_actual)
+					_this.$emit('Progress_Actual', _this.per_actual)
 				}
 				document.onmouseup = function() {
 					document.onmousemove = document.onmouseup = null;
@@ -193,7 +193,7 @@
 			},
 			left_actual() {
 				if (this.slider) {
-					console.log(this.thunk.offsetWidth)
+					// console.log(this.thunk.offsetWidth)
 					return this.slider.offsetWidth * this.scale_actual - this.thunk_actual.offsetWidth / 2 + 'px';
 				} else {
 					return 0 + 'px'
@@ -211,14 +211,14 @@
 	.clear:after {
 		content: '';
 		display: block;
-		clear: both
+		clear: both;
 	}
 
 	.slider {
 		position: relative;
-		margin: 20px 0;
-		width: 11.5rem;
-		height: 10px;
+		margin: 0.975rem 0;
+		width: 9.85rem;
+		height: 0.5625rem;
 		background: #e4e7ed;
 		border-radius: 5px;
 		cursor: pointer
@@ -231,13 +231,11 @@
 		width: 112px;
 		height: 10px;
 		border-radius: 5px;
-		background: #F56C6C;
+		background: #409eff;
 	}
 
 	.process_actual {
 		position: absolute;
-		left: 0;
-		top: 0;
 		width: 112px;
 		height: 10px;
 		border-radius: 5px;
@@ -247,38 +245,48 @@
 
 	.slider .thunk {
 		position: absolute;
-		left: 100px;
-		top: -7px;
-		width: 20px;
-		height: 20px
+		top: -4px;
+		width: 22px;
+		height: 22px;
 	}
 
 	.slider .thunk_actual {
 		position: absolute;
-		left: 100px;
-		top: 15px;
-		width: 20px;
-		height: 20px
+		top: 12px;
+		width: 22px;
+		height: 22px;
 	}
 
 	.slider .block {
-		width: 22px;
-		height: 22px;
+		width: 1rem;
+		height: 1rem;
 		border-radius: 4%;
 		border: 2px solid #409eff;
 		background: white;
-		transition: .2s all
+		transition: .2s all;
+		margin-left:0.15625rem;
 	}
 
 	.slider .block_actual {
-		width: 22px;
-		height: 22px;
+		width: 0.9rem;
+		height: 0.9rem;
 		border-radius: 50%;
 		border: 2px solid #23a500;
 		background: rgba(255, 255, 255, 1);
-		transition: .2s all
+		transition: .2s all;
+		margin-left:0.1825rem;
+	}
+	
+	.slider .block:hover {
+		transform: scale(1.51);
+		opacity: .8
 	}
 
+	.slider .block_actual:hover {
+		transform: scale(1.12);
+		opacity: .6
+	}
+	
 	/* .slider .tips {
 		position: absolute;
 		left: -7px;
@@ -291,7 +299,7 @@
 		height: 24px;
 		color: #fff
 	}
-
+	
 	.slider .tips i {
 		position: absolute;
 		margin-left: -5px;
@@ -300,14 +308,5 @@
 		font-size: 16px;
 		color: #000
 	} */
-
-	.slider .block:hover {
-		transform: scale(1.1);
-		opacity: .8
-	}
-
-	.slider .block_actual:hover {
-		transform: scale(1.41);
-		opacity: .6
-	}
 </style>
+
