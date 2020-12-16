@@ -21,7 +21,7 @@
 		<div class="slider" ref="slider">
 			<div class="process" :style="{width:width}"></div>
 
-			<div class="thunk" ref="trunk" :style="{left}">
+			<div class="trunk_estimate" ref="trunk" :style="{left}">
 				<div class="block"></div>
 				<!-- <div class="tips">
 					<span>{{scale*100}}</span>
@@ -72,42 +72,22 @@
 		data() {
 			return {
 				slider: null, //整个    滚动条DOM元素
-				thunk: null, //小点点->拖拽DOM元素
+				trunk_estimate: null, //小点点->拖拽DOM元素
 				thunk_actual: null,
 				per: this.target, //接收一个当前值
 				per_actual: this.actual
 			}
 		},
-		methods:{
-			debounce(func,delay){
-				let timer = null
-				return function(...args){
-					if(timer) clearTimeout(timer)
-					timer= setTimeout(()=>{
-						func.apply(this,args)
-					},delay)
-				}
-			}
-			// function debounce(fn,wait){
-			//     var timer = null;
-			//     return function(){
-			//         if(timer !== null){
-			//             clearTimeout(timer);
-			//         }
-			//         timer = setTimeout(fn,wait);
-			//     }
-			// }
-		},
 		//渲染到页面的时候
 		mounted() {
 			// 初始化
 			this.slider = this.$refs.slider;
-			this.thunk = this.$refs.trunk;
+			this.trunk_estimate = this.$refs.trunk;
 			this.thunk_actual = this.$refs.thunk_actual;
 
 			var _this = this;
 			// 小点的点击事件
-			this.thunk.onmousedown = function(e) {
+			this.trunk_estimate.onmousedown = function(e) {
 				// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
 				var width = parseInt(_this.width);
 				// disX 点击时的鼠标横坐标  起始点
@@ -132,10 +112,7 @@
 					_this.per = Math.min(_this.per, _this.max);
 					// 传值给父组件
 					// _this.$emit('Progress', _this.per)
-					_this.$emit('Progress', _this.per)
-					
-					
-					
+					_this.$emit('Estimate', _this.per)
 				}
 				document.onmouseup = function() {
 					document.onmousemove = document.onmouseup = null;
@@ -211,14 +188,14 @@
 			left() {
 				if (this.slider) {
 					// 减去小圆球的一半 10 
-					return this.slider.offsetWidth * this.scale - this.thunk.offsetWidth / 2 + 'px';
+					return this.slider.offsetWidth * this.scale - this.trunk_estimate.offsetWidth / 2 + 'px';
 				} else {
 					return 0 + 'px'
 				}
 			},
 			left_actual() {
 				if (this.slider) {
-					// console.log(this.thunk.offsetWidth)
+					// console.log(this.trunk_estimate.offsetWidth)
 					return this.slider.offsetWidth * this.scale_actual - this.thunk_actual.offsetWidth / 2 + 'px';
 				} else {
 					return 0 + 'px'
@@ -268,7 +245,7 @@
 		opacity: .9;
 	}
 
-	.slider .thunk {
+	.slider .trunk_estimate {
 		position: absolute;
 		top: -4px;
 		width: 22px;

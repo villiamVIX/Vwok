@@ -20,7 +20,9 @@
 			</el-table-column>
 			<el-table-column property="estimate" label="进度" min-width="20%">
 				<template slot-scope="scope">
-					<SliderVIX :target='scope.row.scroll_estimate' :actual="scope.row.scroll_actual" @Progress='get_Progress'></SliderVIX>
+					<SliderVIX :target='scope.row.scroll_estimate' 
+					:actual="scope.row.scroll_actual" 
+					@Estimate='set_Estimate'></SliderVIX>
 				</template>
 			</el-table-column>
 			<el-table-column property="remarks" label="备注" min-width="25%">
@@ -42,61 +44,44 @@
 	import {
 		update_Vwok_Item
 	} from 'network/Net_Vwok_Item.js'
+	import {debounce} from 'lodash'
+	
 	export default {
 		data() {
 			return {
-				tableData: [],
-				currentRow: {},
-				textarea: '',
+				tableData: [], //总数据
 				diffData: [], //变化的数据 比对池
 				rawData: [], //原始数据
-				table_Hight: 0
+				currentRow: {}, //当前改变行的数据
+				table_Hight: 0 //容器高
 			}
 		},
-		created() {
-
-		},
 		mounted() {
-			// this.table_Hight = document.getElementsByClassName('box-card-Wok-List')[0].offsetHeight-205
-
-			this.$nextTick(() => {
-				let heigth = document.getElementsByClassName('box-card-Wok-List')[0].offsetHeight - 105
-				this.table_Hight = heigth
-				// console.log(this.table_Hight)
-			})
+			this.calculate_Height() // 自适应容器高度
 		},
 		components: {
 			SliderVIX
 		},
-		computed: {
-			...mapGetters(["vwok_items"]),
-		},
-		watch: {
+		// computed: {
+		// 	...mapGetters(["vwok_items"]),
+		// },
+		watch: { // 动态改变工项
 			'$store.state.vwok.vwok_items': function(items) {
 				this.refresh_Items(items)
 			},
 		},
 		methods: {
 		
-			get_Progress(da) { // 更新进度条未完成
-				
-				debounce(function(da){
-					console.log(123)
-				}, 500)
-				
-				function debounce(fn, wait) {
-				 let timeout = null
-				 return function() {
-				 console.log(fn)
-				  if(timeout !== null) clearTimeout(timeout)   
-				  timeout = setTimeout(fn, wait);
-				 }
-				}
-				// console.log(this.currentRow.vwok_item_id )
-				// let id = this.currentRow.vwok_item_id
-
-				// console.log(this.tableData[id])
+			calculate_Height(){
+				this.$nextTick(() => {
+					let heigth = document.getElementsByClassName('box-card-Wok-List')[0].offsetHeight - 105
+					this.table_Hight = heigth
+				})
 			},
+			set_Estimate:debounce(function(data){
+				console.log(data,this.currentRow)
+				
+			},500),
 			async onChange_Item() {
 				let data_Length = this.rawData.length
 
@@ -127,9 +112,6 @@
 					this.$store.dispatch('vwok/Rewrite_Items', result) //更新更新后的数据
 					this.diffData = [] // 清空比对池
 				}
-			},
-			setCurrent(row) {
-				this.$refs.singleTable.setCurrentRow(row);
 			},
 			handleCurrentChange(val) {
 				this.currentRow = val;
