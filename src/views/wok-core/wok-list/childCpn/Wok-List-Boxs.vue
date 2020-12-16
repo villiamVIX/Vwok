@@ -119,7 +119,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		height: 28rem;
+		height: 100%;
 		overflow: -Scroll;
 		overflow-x: hidden;
 		width: 12.2rem;

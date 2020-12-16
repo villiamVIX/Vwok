@@ -78,6 +78,26 @@
 				per_actual: this.actual
 			}
 		},
+		methods:{
+			debounce(func,delay){
+				let timer = null
+				return function(...args){
+					if(timer) clearTimeout(timer)
+					timer= setTimeout(()=>{
+						func.apply(this,args)
+					},delay)
+				}
+			}
+			// function debounce(fn,wait){
+			//     var timer = null;
+			//     return function(){
+			//         if(timer !== null){
+			//             clearTimeout(timer);
+			//         }
+			//         timer = setTimeout(fn,wait);
+			//     }
+			// }
+		},
 		//渲染到页面的时候
 		mounted() {
 			// 初始化
@@ -111,7 +131,11 @@
 					// 最大是（拖动值，最大值）的最小值 不超100
 					_this.per = Math.min(_this.per, _this.max);
 					// 传值给父组件
+					// _this.$emit('Progress', _this.per)
 					_this.$emit('Progress', _this.per)
+					
+					
+					
 				}
 				document.onmouseup = function() {
 					document.onmousemove = document.onmouseup = null;
@@ -145,6 +169,7 @@
 					_this.per_actual = Math.min(_this.per_actual, _this.max);
 					// 传值给父组件
 					_this.$emit('Progress_Actual', _this.per_actual)
+					
 				}
 				document.onmouseup = function() {
 					document.onmousemove = document.onmouseup = null;

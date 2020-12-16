@@ -66,8 +66,6 @@
 		height: 99vh;
 	}
 
-
-
 	.page-component__scroll {
 		height: 100%;
 	}

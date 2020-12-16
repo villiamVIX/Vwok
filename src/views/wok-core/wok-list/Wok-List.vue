@@ -1,9 +1,9 @@
 <template>
-	<CardVIX class="box-card">
+	<CardVIX class="box-card-Wok-List">
 			<WokListBoxs></WokListBoxs>
 			<div class="WokItems clearfix">
 				<WokItemCreate></WokItemCreate>
-				<WokItemDetail></WokItemDetail>
+				<WokItemDetail class='WokItemDetail'></WokItemDetail>
 			</div>
 	</CardVIX>
 </template>
@@ -29,18 +29,20 @@
 
 
 <style scoped="scoped">
-	#Wok-List {}
 
-	.box-card {
+	.box-card-Wok-List {
 		display: -webkit-flex;
 		display: flex;
 		flex-direction: row;
-		height: 88vh;
+		height: 84.3vh;
 	}
 
 	.WokItems {
-		width: 60vw;
-		flex: 1;
+		width: 86vw;
 		padding-left: 0.9375rem;
+	}
+	
+	.WokItemDetail{
+		/* height: 111vh; */
 	}
 </style>
