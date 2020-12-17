@@ -1,20 +1,20 @@
 <template>
-	<div id="WokListBoxs" v-infinite-scroll="load">
-		<div v-for="woks in tableData" :keys='woks.vwok_id' class="wok_boxs" :class="{active:current_Index==woks.vwok_id}"
-		 @click="click_Box(woks.vwok_id)">
-			<div class="wok_font_info">
-				<div class="wok_name">
-					{{woks.wok_name}}
+<!-- 	<el-scrollbar class='page-component__scroll'>
+	</el-scrollbar> -->
+		<div id="WokListBoxs" v-infinite-scroll="load">
+			<div v-for="woks in tableData" :keys='woks.vwok_id' class="wok_boxs" :class="{active:current_Index==woks.vwok_id}"
+			 @click="click_Box(woks.vwok_id)">
+				<div class="wok_font_info">
+					<div class="wok_name">
+						{{woks.wok_name}}
+					</div>
+					<div class="wok_times">
+						{{woks.start_time |formatDate}}-{{woks.estimate_time|formatDate}}
+					</div>
 				</div>
-				<div class="wok_times">
-					{{woks.start_time |formatDate}}-{{woks.estimate_time|formatDate}}
-					<!-- <p class="wok_times">
-					</p> -->
-				</div>
+				<el-progress :percentage="50"></el-progress>
 			</div>
-			<el-progress :percentage="50"></el-progress>
 		</div>
-	</div>
 </template>
 
 <script>
@@ -35,11 +35,6 @@
 		computed: {
 			...mapGetters(["UserInfo"]),
 		},
-		watch: {
-			'$store.state.vwok.vwok_items': function() {
-
-			},
-		},
 		data() {
 			return {
 				tableData: [],
@@ -53,7 +48,6 @@
 				current_Index: undefined
 			}
 		},
-
 		methods: {
 			load() {
 				if (this.isLimit) {
@@ -64,19 +58,17 @@
 			},
 			async click_Box(index) {
 				// 若相同索引 ，不请求数据
-				if(this.current_Index == index ) return false
-				
+				if (this.current_Index == index) return false
+
 				this.current_Index = index
-				
+
 				let {
 					code,
 					result
 				} = await get_My_Vwok_Item(index)
-				
+
 				this.$store.dispatch('vwok/Rewrite_Items', result)
 				this.$store.dispatch('vwok/Rewrite_Current_Wok_Id', index)
-				// console.log(this.$store.state)
-
 			},
 			async net_Get_Vwok() {
 				let res = await get_My_VWOK(this.page_info)
@@ -97,21 +89,21 @@
 				this.tableData = data
 				this.total = total
 				this.loading = false
-				// console.log(this.tableData)
+				
 			},
 
 		},
 		filters: {
 			formatDate: function(time) {
 				if (time != null && time != "") {
-					var date = time.replace(/\-/g,'.');
+					var date = time.replace(/\-/g, '.');
 					return date
 				} else {
 					return "";
 				}
 			}
 		},
-		}
+	}
 </script>
 
 <style scoped="scoped">
@@ -161,5 +153,13 @@
 		/*缩小后文字居左*/
 		/* -webkit-transform: scale(0.90); */
 		/*缩小90%*/
+	}
+	
+	.page-component__scroll {
+		height: 100%;
+	}
+	
+	.page-component__scroll .el-scrollbar__wrap {
+		overflow-x: auto;
 	}
 </style>

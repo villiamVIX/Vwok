@@ -6,7 +6,6 @@
 		<el-card class="box-card" shadow="hover">
 			<div slot="header" class="clearfix">
 				<span>任务信息</span>
-				<WokItemDetail></WokItemDetail>				
 			</div>
 		</el-card>
 	</div>
@@ -14,7 +13,6 @@
 
 <script>
 	import WokItemInfo from './childCpn/Wok-Item-Info'
-	import WokItemDetail from './childCpn/Wok-Item-Detail'
 	export default {
 		data() {
 			return {
@@ -24,7 +22,7 @@
 		},
 		components: {
 			WokItemInfo,
-			WokItemDetail,
+			
 		},
 		methods:{
 		

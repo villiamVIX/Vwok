@@ -1,8 +1,10 @@
 <template>
-	<div>
-		<el-table ref="singleTable" :data="tableData" class='WokItemDetail' stripe :height='table_Hight' fit style='width: 100%;'
+	<!-- 保证切换时候不会拉大 -->
+	<div style="width: 96%;"> 
+		<el-table ref="singleTable" :data="tableData" class='WokItemDetail' stripe :height='table_Hight' fit 
+		style='width: 100%;'
 		 highlight-current-row @current-change="handleCurrentChange">
-			<el-table-column type="index" min-width="0%">
+			<el-table-column type="index" min-width="2%">
 			</el-table-column>
 			<el-table-column property="start_time" label="开始时间" min-width="10%">
 			</el-table-column>
@@ -22,7 +24,9 @@
 				<template slot-scope="scope">
 					<SliderVIX :target='scope.row.scroll_estimate' 
 					:actual="scope.row.scroll_actual" 
-					@Estimate='set_Estimate'></SliderVIX>
+					@Estimate='set_Estimate'
+					@Actual='set_Actual'
+					></SliderVIX>
 				</template>
 			</el-table-column>
 			<el-table-column property="remarks" label="备注" min-width="25%">
@@ -71,7 +75,6 @@
 			},
 		},
 		methods: {
-		
 			calculate_Height(){
 				this.$nextTick(() => {
 					let heigth = document.getElementsByClassName('box-card-Wok-List')[0].offsetHeight - 105
@@ -79,8 +82,10 @@
 				})
 			},
 			set_Estimate:debounce(function(data){
-				console.log(data,this.currentRow)
-				
+				this.currentRow.scroll_estimate = data
+			},500),
+			set_Actual:debounce(function(data){
+				this.currentRow.scroll_actual = data
 			},500),
 			async onChange_Item() {
 				let data_Length = this.rawData.length
@@ -127,7 +132,5 @@
 
 
 <style scoped="scoped">
-	.WokItemDetail {
-		/* height: 96%; */
-	}
+	
 </style>

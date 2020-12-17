@@ -63,6 +63,10 @@
 			},
 			target: {
 				type: Number,
+				callback:()=>{
+					console.log(123)
+					this.init()
+				}
 			},
 			actual: {
 				type: Number
@@ -80,80 +84,83 @@
 		},
 		//渲染到页面的时候
 		mounted() {
-			// 初始化
-			this.slider = this.$refs.slider;
-			this.trunk_estimate = this.$refs.trunk;
-			this.thunk_actual = this.$refs.thunk_actual;
-
-			var _this = this;
-			// 小点的点击事件
-			this.trunk_estimate.onmousedown = function(e) {
-				// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
-				var width = parseInt(_this.width);
-				// disX 点击时的鼠标横坐标  起始点
-				var disX = e.clientX;
-				// 全局的鼠标移动事件 实时移动->实时调用
-				document.onmousemove = function(e) {
-					// value, left, width
-					// 当value变化的时候，会通过计算属性修改left，width
-
-					// 拖拽的时候获取的新width
-					//  新的长度   最后的落点 - 起始点 + 老的长度
-					var newWidth = e.clientX - disX + width;
-
-					// 拖拽的时候得到新的百分比
-					//    新的长度        /    总长度 
-					var scale = newWidth / _this.slider.offsetWidth;
-					// 先算出拖动的值
-					_this.per = Math.ceil((_this.max - _this.min) * scale + _this.min);
-					// 最小是（拖动值，最小值）的最大值 不低0
-					_this.per = Math.max(_this.per, _this.min);
-					// 最大是（拖动值，最大值）的最小值 不超100
-					_this.per = Math.min(_this.per, _this.max);
-					// 传值给父组件
-					// _this.$emit('Progress', _this.per)
-					_this.$emit('Estimate', _this.per)
+			this.init()
+		},
+		methods:{
+			init(){
+				// 初始化
+				this.slider = this.$refs.slider;
+				this.trunk_estimate = this.$refs.trunk;
+				this.thunk_actual = this.$refs.thunk_actual;
+				
+				var _this = this;
+				// 小点的点击事件
+				this.trunk_estimate.onmousedown = function(e) {
+					// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
+					var width = parseInt(_this.width);
+					// disX 点击时的鼠标横坐标  起始点
+					var disX = e.clientX;
+					// 全局的鼠标移动事件 实时移动->实时调用
+					document.onmousemove = function(e) {
+						// value, left, width
+						// 当value变化的时候，会通过计算属性修改left，width
+				
+						// 拖拽的时候获取的新width
+						//  新的长度   最后的落点 - 起始点 + 老的长度
+						var newWidth = e.clientX - disX + width;
+				
+						// 拖拽的时候得到新的百分比
+						//    新的长度        /    总长度 
+						var scale = newWidth / _this.slider.offsetWidth;
+						// 先算出拖动的值
+						_this.per = Math.ceil((_this.max - _this.min) * scale + _this.min);
+						// 最小是（拖动值，最小值）的最大值 不低0
+						_this.per = Math.max(_this.per, _this.min);
+						// 最大是（拖动值，最大值）的最小值 不超100
+						_this.per = Math.min(_this.per, _this.max);
+						// 传值给父组件
+						// _this.$emit('Progress', _this.per)
+						_this.$emit('Estimate', _this.per)
+					}
+					document.onmouseup = function() {
+						document.onmousemove = document.onmouseup = null;
+					}
+					return false;
 				}
-				document.onmouseup = function() {
-					document.onmousemove = document.onmouseup = null;
+				
+				this.thunk_actual.onmousedown = function(e) {
+					// console.log(_this)
+					// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
+					var width = parseInt(_this.width_actual);
+					// disX 点击时的鼠标横坐标  起始点
+					var disX = e.clientX;
+					// 全局的鼠标移动事件 实时移动->实时调用
+					document.onmousemove = function(e) {
+						// value, left, width
+						// 当value变化的时候，会通过计算属性修改left，width
+				
+						// 拖拽的时候获取的新width
+						//  新的长度   最后的落点 - 起始点 + 老的长度
+						var newWidth = e.clientX - disX + width;
+				
+						// 拖拽的时候得到新的百分比
+						//    新的长度        /    总长度 
+						var scale = newWidth / _this.slider.offsetWidth;
+						// 先算出拖动的值
+						_this.per_actual = Math.ceil((_this.max - _this.min) * scale + _this.min);
+						// 最小是（拖动值，最小值）的最大值 不低0
+						_this.per_actual = Math.max(_this.per_actual, _this.min);
+						// 最大是（拖动值，最大值）的最小值 不超100
+						_this.per_actual = Math.min(_this.per_actual, _this.max);
+						// 传值给父组件
+						_this.$emit('Actual', _this.per_actual)
+					}
+					document.onmouseup = function() {
+						document.onmousemove = document.onmouseup = null;
+					}
+					return false;
 				}
-				return false;
 			}
-
-			this.thunk_actual.onmousedown = function(e) {
-				// console.log(_this)
-				// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
-				var width = parseInt(_this.width_actual);
-				// disX 点击时的鼠标横坐标  起始点
-				var disX = e.clientX;
-				// 全局的鼠标移动事件 实时移动->实时调用
-				document.onmousemove = function(e) {
-					// value, left, width
-					// 当value变化的时候，会通过计算属性修改left，width
-
-					// 拖拽的时候获取的新width
-					//  新的长度   最后的落点 - 起始点 + 老的长度
-					var newWidth = e.clientX - disX + width;
-
-					// 拖拽的时候得到新的百分比
-					//    新的长度        /    总长度 
-					var scale = newWidth / _this.slider.offsetWidth;
-					// 先算出拖动的值
-					_this.per_actual = Math.ceil((_this.max - _this.min) * scale + _this.min);
-					// 最小是（拖动值，最小值）的最大值 不低0
-					_this.per_actual = Math.max(_this.per_actual, _this.min);
-					// 最大是（拖动值，最大值）的最小值 不超100
-					_this.per_actual = Math.min(_this.per_actual, _this.max);
-					// 传值给父组件
-					_this.$emit('Progress_Actual', _this.per_actual)
-					
-				}
-				document.onmouseup = function() {
-					document.onmousemove = document.onmouseup = null;
-				}
-				return false;
-			}
-
 		},
 		computed: {
 			// 设置一个百分比，提供计算slider进度宽度和trunk的left值
