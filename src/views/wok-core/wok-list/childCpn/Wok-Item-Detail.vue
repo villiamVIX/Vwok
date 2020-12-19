@@ -1,6 +1,6 @@
 <template>
 	<!-- 保证切换时候不会拉大 -->
-	<div style="width: 96%;"> 
+	<div style="width: 99%;"> 
 		<el-table ref="singleTable" :data="tableData" class='WokItemDetail' stripe :height='table_Hight' fit 
 		style='width: 100%;'
 		 highlight-current-row @current-change="handleCurrentChange">
@@ -37,6 +37,7 @@
 			</el-table-column>
 		</el-table>
 		<el-button type="primary" @click="onChange_Item">保存</el-button>
+		<el-button type="primary" @click="dialogVisible">导出</el-button>
 	</div>
 </template>
 
@@ -46,7 +47,8 @@
 		mapGetters
 	} from 'vuex'
 	import {
-		update_Vwok_Item
+		update_Vwok_Item,
+		get_Today_Estimate
 	} from 'network/Net_Vwok_Item.js'
 	import {debounce} from 'lodash'
 	
@@ -75,6 +77,11 @@
 			},
 		},
 		methods: {
+			async dialogVisible(){
+				this.$emit('dialogVisible',true)
+				let res = await get_Today_Estimate()
+				console.log(res)
+			},
 			calculate_Height(){
 				this.$nextTick(() => {
 					let heigth = document.getElementsByClassName('box-card-Wok-List')[0].offsetHeight - 105

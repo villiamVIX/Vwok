@@ -48,6 +48,15 @@
 	 * v-model 对当前值进行双向绑定实时显示拖拽进度
 	 * */
 	export default {
+		watch:{
+			target(){
+				this.per=this.target
+			},
+			actual(){
+				this.per_actual=this.actual
+			},
+		}
+		,
 		props: {
 			min: {
 				type: Number,
@@ -63,10 +72,6 @@
 			},
 			target: {
 				type: Number,
-				callback:()=>{
-					console.log(123)
-					this.init()
-				}
 			},
 			actual: {
 				type: Number
@@ -79,7 +84,8 @@
 				trunk_estimate: null, //小点点->拖拽DOM元素
 				thunk_actual: null,
 				per: this.target, //接收一个当前值
-				per_actual: this.actual
+				per_actual: this.actual,
+				
 			}
 		},
 		//渲染到页面的时候

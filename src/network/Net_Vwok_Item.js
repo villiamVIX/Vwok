@@ -32,3 +32,10 @@ export async function update_Vwok_Item(data) { //获取个人任务
 		data:data
 	})
 }
+
+export async function get_Today_Estimate(data) { //获取今日预计
+	return await VIX({
+		url: '/vwok/item/today/estimate',
+	})
+}
+

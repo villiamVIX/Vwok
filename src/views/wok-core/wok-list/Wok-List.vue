@@ -1,10 +1,11 @@
 <template>
 	<CardVIX class="box-card-Wok-List">
-			<WokListBoxs></WokListBoxs>
-			<div class="WokItems">
-				<WokItemCreate></WokItemCreate>
-				<WokItemDetail class='WokItemDetail'></WokItemDetail>
-			</div>
+		<WokListBoxs></WokListBoxs>
+		<div class="WokItems">
+			<WokItemCreate></WokItemCreate>
+			<WokItemDetail class='WokItemDetail' @dialogVisible='dialogVisible =true'></WokItemDetail>
+			<WokListExport :dialogVisible='dialogVisible'></WokListExport>
+		</div>
 	</CardVIX>
 </template>
 
@@ -24,24 +25,31 @@
 			WokListBoxs,
 			CardVIX
 		},
+		data() {
+			return {
+				dialogVisible: false
+			}
+		},
+		methods:{
+			// dialogVisible(){
+			// 	this.dialogVisible=true
+			// }
+		}
 	}
 </script>
 
 
 <style scoped="scoped">
-
 	.box-card-Wok-List {
 		display: -webkit-flex;
 		display: flex;
 		flex-direction: row;
 		height: 84.3vh;
-		
+
 	}
 
 	.WokItems {
-		width:100%;
+		width: 100%;
 		padding-left: 0.9375rem;
 	}
-	
-	
 </style>
