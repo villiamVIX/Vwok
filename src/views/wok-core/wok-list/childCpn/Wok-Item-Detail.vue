@@ -36,8 +36,9 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		<el-button type="primary" @click="onChange_Item">保存</el-button>
-		<el-button type="primary" @click="dialogVisible">导出</el-button>
+		<el-button type="primary" @click="update_Item">保存</el-button>
+		<el-button type="primary" @click="visible_Item">导出</el-button>
+		<el-button type="danger"  @click="delete_Item">终结项目</el-button>
 	</div>
 </template>
 
@@ -67,20 +68,24 @@
 		},
 		components: {
 			SliderVIX
-		},
-		// computed: {
-		// 	...mapGetters(["vwok_items"]),
-		// },
+			},
 		watch: { // 动态改变工项
 			'$store.state.vwok.vwok_items': function(items) {
 				this.refresh_Items(items)
 			},
 		},
+		computed:{
+			...mapGetters([
+				'uid'
+			])
+		},
 		methods: {
-			async dialogVisible(){
-				this.$emit('dialogVisible',true)
-				let res = await get_Today_Estimate()
-				console.log(res)
+			delete_Item(){
+			},
+			async visible_Item(){
+				let {result,code} = await get_Today_Estimate(this.uid) 
+				this.$store.dispatch('vwok_item/Rewrite_export_Estimate_Text',result)
+				this.$store.dispatch('vwok_item/Visible_Export',true)
 			},
 			calculate_Height(){
 				this.$nextTick(() => {
@@ -94,7 +99,7 @@
 			set_Actual:debounce(function(data){
 				this.currentRow.scroll_actual = data
 			},500),
-			async onChange_Item() {
+			async update_Item() {
 				let data_Length = this.rawData.length
 
 				for (let i = 0; i < data_Length; i++) { //遍历现有数据

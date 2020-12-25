@@ -1,8 +1,8 @@
 <template>
 	<div id="Wok-Item-Info">
 		<el-form ref="form" :model="form" :rules='rules' label-width="180px" label-position="left">
-			<el-form-item label="任务名称" prop='wok_name'>
-				<el-input v-model="form.wok_name"></el-input>
+			<el-form-item label="任务名称" prop='vwok_name'>
+				<el-input v-model="form.vwok_name"></el-input>
 			</el-form-item>
 			<el-form-item label="活动时间" required>
 				<el-col :span="11">
@@ -45,7 +45,7 @@
 		data() {
 			return {
 				form: {
-					wok_name: '',
+					vwok_name: '',
 					start_time: '',
 					estimate_time: '',
 					teammate: [],
@@ -54,7 +54,7 @@
 				},
 				checked_Teammate: [],
 				rules: {
-					wok_name: [{
+					vwok_name: [{
 						required: true,
 						message: '请输入活动名称',
 						trigger: 'blur'

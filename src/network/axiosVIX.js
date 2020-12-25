@@ -2,14 +2,14 @@ import axios from 'axios'
 
 // 改写post请求的参数, { indices: false }
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.timeout = 15000;
+axios.defaults.timeout = 8000;
 axios.defaults.withCredentials = true; //开启携带session
 
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 
 const url1 = 'http://192.168.1.105:3009'
-const url2 = 'http://120.79.171.194:3009'
+const url2 = 'http://v.coderv.cn:3009'
 const url3 = 'http://localhost:3009'
 
 

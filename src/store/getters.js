@@ -3,4 +3,5 @@ export default {
   Token: (state) => state.Token,
   UserInfo:(state) =>state.UserInfo,
   username:(state) =>state.UserInfo.username,
+  uid:(state) =>state.UserInfo.uid,
 };

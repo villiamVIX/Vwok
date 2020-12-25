@@ -1,12 +1,12 @@
 <template>
 <!-- 	<el-scrollbar class='page-component__scroll'>
 	</el-scrollbar> -->
-		<div id="WokListBoxs" v-infinite-scroll="load">
+		<div id="WokListBoxs" v-infinite-scroll="load" v-loading="isLoading">
 			<div v-for="woks in tableData" :keys='woks.vwok_id' class="wok_boxs" :class="{active:current_Index==woks.vwok_id}"
 			 @click="click_Box(woks.vwok_id)">
 				<div class="wok_font_info">
-					<div class="wok_name">
-						{{woks.wok_name}}
+					<div class="vwok_name">
+						{{woks.vwok_name}}
 					</div>
 					<div class="wok_times">
 						{{woks.start_time |formatDate}}-{{woks.estimate_time|formatDate}}
@@ -37,6 +37,7 @@
 		},
 		data() {
 			return {
+				isLoading:true,
 				tableData: [],
 				page_info: {
 					uid: '',
@@ -89,7 +90,7 @@
 				this.tableData = data
 				this.total = total
 				this.loading = false
-				
+				this.isLoading=false //关闭加载圈圈
 			},
 
 		},
@@ -138,7 +139,7 @@
 		margin-left: 0.525rem;
 	}
 
-	.wok_name {
+	.vwok_name {
 		text-align: left;
 		font-size: 0.8375rem;
 		font-weight: bold;
