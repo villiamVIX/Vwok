@@ -33,9 +33,9 @@ export async function update_Vwok_Item(data) { //获取个人任务
 	})
 }
 
-export async function get_Today_Estimate(uid) { //获取今日预计
+export async function get_Today_Vwok(uid) { //获取今日预计
 	return await VIX({
-		url: '/vwok/item/today/estimate',
+		url: '/vwok/item/todayvwok',
 		params:{
 			uid
 		}

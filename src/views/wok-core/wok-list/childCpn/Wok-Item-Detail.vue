@@ -49,7 +49,7 @@
 	} from 'vuex'
 	import {
 		update_Vwok_Item,
-		get_Today_Estimate
+		get_Today_Vwok
 	} from 'network/Net_Vwok_Item.js'
 	import {debounce} from 'lodash'
 	
@@ -83,8 +83,8 @@
 			delete_Item(){
 			},
 			async visible_Item(){
-				let {result,code} = await get_Today_Estimate(this.uid) 
-				this.$store.dispatch('vwok_item/Rewrite_export_Estimate_Text',result)
+				let {result,code} = await get_Today_Vwok(this.uid) 
+				this.$store.dispatch('vwok_item/Rewrite_export_Text',result)
 				this.$store.dispatch('vwok_item/Visible_Export',true)
 			},
 			calculate_Height(){

@@ -22,7 +22,9 @@
 			return {
 				dialogVisible: false,
 				estimate_Text: '',
-				actual_Text: ''
+				actual_Text: '',
+				today:'',
+				export_Data:''
 			}
 		},
 		computed: {
@@ -31,29 +33,29 @@
 			]),
 			...mapGetters('vwok_item', [
 				'isShow_Export',
-				'export_Estimate_Text',
-				'export_Actual_Text'
+				'export_Text'
 			]),
 		},
 		watch: {
 			isShow_Export() {
 				this.dialogVisible = this.isShow_Export
 			},
-			export_Estimate_Text() {
-
-				console.log(this.export_Estimate_Text)
-				let {today,wokList} = this.export_Estimate_Text
-				
-				this.format_Export_Text(wokList,today)
-
+			export_Text() {
+				console.log(this.export_Text)
+				let {today,wokList} = this.export_Text
+				this.export_Data = wokList
+				this.today=today
+				this.format_Export_Text()
 			}
 		},
 		methods: {
 			modal_Close() {
 				this.$store.dispatch('vwok_item/Visible_Export', false)
 			},
-			format_Export_Text(text,today) {
-				console.log(text,today)
+			format_Export_Text() {
+				let text = this.export_Data
+				let {today} = this
+				
 				let len = text.length
 				let text_concat = ''
 				let title =`${today}工作计划：\n`
@@ -61,11 +63,13 @@
 					let {
 						vwok_item_name,
 						scroll_estimate,
-						remark
+						remark,
+						jira
 					} = text[i]
-					
+					if(remark) remark = `(${remark})` // 若有备注 就给括号
+					if(jira) jira = `[${jira}]`
 					text_concat +=
-						`${i+1}.${text[i].vw_works.vwok_name}:${vwok_item_name}，预计进度：${scroll_estimate}%。${(remark || '')}\n`
+						`${i+1}.${text[i].vw_works.vwok_name}:${vwok_item_name}，预计进度：${scroll_estimate}%。${remark || ''} ${jira || ''}\n`
 					console.log(this.estimate_Text)
 				}
 				this.estimate_Text = title+text_concat
