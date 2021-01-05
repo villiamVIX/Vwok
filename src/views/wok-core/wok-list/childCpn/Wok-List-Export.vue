@@ -49,6 +49,7 @@
 			}
 		},
 		methods: {
+			copy_Actual(){},
 			modal_Close() {
 				this.$store.dispatch('vwok_item/Visible_Export', false)
 			},

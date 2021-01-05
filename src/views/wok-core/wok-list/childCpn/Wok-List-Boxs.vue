@@ -77,18 +77,16 @@
 			}
 		},
 		methods: {
-			update_Vwok_Name(index) {
+			update_Vwok_Name(index) { // 未完成
 				this.tableData[index].isShow_vwok_name = !this.tableData[index].isShow_vwok_name
 			},
 			load() {
-
 				this.page_info.limit += 3
 				this.net_Get_Vwok()
 				if (this.isLimit) {
 					return false
 				}
 			},
-
 			async click_Box(index) {
 				var res
 				// 若相同索引 ，不请求数据

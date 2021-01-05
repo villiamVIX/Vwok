@@ -38,7 +38,7 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		<el-button type="primary" @click="update_Item">保存</el-button>
+		<el-button type="primary" @click="update_Item" :loading="is_Update">保存</el-button>
 		<el-button type="primary" @click="visible_Item">导出</el-button>
 		<el-button type="danger"  @click="delete_Item">终结项目</el-button>
 	</div>
@@ -62,7 +62,8 @@
 				diffData: [], //变化的数据 比对池
 				rawData: [], //原始数据
 				currentRow: {}, //当前改变行的数据
-				table_Hight: 0 //容器高
+				table_Hight: 0 ,//容器高,
+				is_Update:false,
 			}
 		},
 		mounted() {
@@ -74,7 +75,6 @@
 		watch: { // 动态改变工项
 			'$store.state.vwok.vwok_items': function(items) {
 				this.refresh_Items(items)
-				console.log(items)
 			},
 		},
 		computed:{
@@ -103,13 +103,16 @@
 				this.currentRow.scroll_actual = data
 			},500),
 			async update_Item() {
-				// console.log(this.tableData)
-				// console.log(this.rawData)
-				// console.log()
-				this.diffData=[] // diff多很多
+				this.is_Update=true
+				// console.log(this.tableData,this.rawData)
+				// console.log(this.tableData==this.rawData)
+				
+				// this.diffData=[] // diff多很多
 				for (let i = 0 , j = this.rawData.length; i < j; i++) { //遍历现有数据
 					for (let k in this.tableData[i]) {
+						delete this.tableData[i]['vw_works']
 						if (this.tableData[i][k] !== this.rawData[i][k]) {
+							// console.log(this.tableData[i][k] !== this.rawData[i][k])
 							this.diffData.push(this.tableData[i])
 						}
 					}
@@ -118,6 +121,7 @@
 
 				if (!this.diffData.length) { // 没有改动 
 					this.$message('未改动 不保存');
+					this.is_Update=false
 					return false
 				}
 
@@ -133,6 +137,7 @@
 					});
 					this.$store.dispatch('vwok/Rewrite_Items', result) //更新更新后的数据
 					this.diffData = [] // 清空比对池
+					this.is_Update=false
 				}
 			},
 			handleCurrentChange(val) {
@@ -140,10 +145,7 @@
 			},
 			refresh_Items(items) {
 				this.tableData = items
-				// console.log(this.tableData)
-				this.rawData = JSON.parse(JSON.stringify(items))
-				// console.log(this.tableData)
-				// console.log(this.rawData)
+				this.rawData = JSON.parse(JSON.stringify(items))			
 			}
 		}
 	}
