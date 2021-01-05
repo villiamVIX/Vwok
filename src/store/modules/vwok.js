@@ -14,7 +14,7 @@ const mutations = {
 
 const actions = {
 	Rewrite_Items({commit}, data) {
-		console.log(data)
+		// console.log(data)
 		commit('Rewrite_Items', data)
 	},
 	Rewrite_Current_Wok_Id({commit},data){

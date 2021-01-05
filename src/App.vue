@@ -52,18 +52,18 @@
 
 <style>
 	@import "assets/css/base.css";
-
 	.box-card:last-of-type {
 		margin-top: 1.2rem;
 	}
 
 	#app {
-		font-family: Avenir, Helvetica, Arial, sans-serif;
+		/* font-family: Avenir, Helvetica, Arial, sans-serif; */
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-align: center;
 		color: #2c3e50;
 		height: 99vh;
+		font-family:"PingFang-SC-Regular,Microsoft YaHei,SimSun"
 	}
 
 	.page-component__scroll {

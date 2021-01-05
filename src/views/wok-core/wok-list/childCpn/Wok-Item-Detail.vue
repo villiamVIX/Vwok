@@ -6,9 +6,11 @@
 		 highlight-current-row @current-change="handleCurrentChange">
 			<el-table-column type="index" min-width="2%">
 			</el-table-column>
-			<el-table-column property="start_time" label="开始时间" min-width="10%">
+			<el-table-column property="start_time" label="开始时间" min-width="13%">
 			</el-table-column>
-			<el-table-column property="vwok_item_name" label="WOK描述" min-width="22%">
+			<el-table-column property="vw_works.vwok_name" label="Vwok" min-width="15%">
+			</el-table-column>
+			<el-table-column property="vwok_item_name" label="Vwok工项" min-width="22%">
 				<template slot-scope="scope">
 					<el-input type="textarea" autosize placeholder="请输入内容" v-model="scope.row.vwok_item_name">
 					</el-input>
@@ -20,7 +22,7 @@
 					</el-input>
 				</template>
 			</el-table-column>
-			<el-table-column property="estimate" label="进度" min-width="20%">
+			<el-table-column property="estimate" label="进度" min-width="15%">
 				<template slot-scope="scope">
 					<SliderVIX :target='scope.row.scroll_estimate' 
 					:actual="scope.row.scroll_actual" 
@@ -72,6 +74,7 @@
 		watch: { // 动态改变工项
 			'$store.state.vwok.vwok_items': function(items) {
 				this.refresh_Items(items)
+				console.log(items)
 			},
 		},
 		computed:{
@@ -100,16 +103,18 @@
 				this.currentRow.scroll_actual = data
 			},500),
 			async update_Item() {
-				let data_Length = this.rawData.length
-
-				for (let i = 0; i < data_Length; i++) { //遍历现有数据
+				// console.log(this.tableData)
+				// console.log(this.rawData)
+				// console.log()
+				this.diffData=[] // diff多很多
+				for (let i = 0 , j = this.rawData.length; i < j; i++) { //遍历现有数据
 					for (let k in this.tableData[i]) {
 						if (this.tableData[i][k] !== this.rawData[i][k]) {
 							this.diffData.push(this.tableData[i])
 						}
 					}
 				}
-				console.log(this.diffData)
+				
 
 				if (!this.diffData.length) { // 没有改动 
 					this.$message('未改动 不保存');
@@ -132,11 +137,13 @@
 			},
 			handleCurrentChange(val) {
 				this.currentRow = val;
-				console.log(val)
 			},
 			refresh_Items(items) {
 				this.tableData = items
+				// console.log(this.tableData)
 				this.rawData = JSON.parse(JSON.stringify(items))
+				// console.log(this.tableData)
+				// console.log(this.rawData)
 			}
 		}
 	}

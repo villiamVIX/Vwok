@@ -135,7 +135,6 @@
 				}
 				
 				this.thunk_actual.onmousedown = function(e) {
-					// console.log(_this)
 					// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
 					var width = parseInt(_this.width_actual);
 					// disX 点击时的鼠标横坐标  起始点
@@ -232,7 +231,7 @@
 	.slider {
 		position: relative;
 		margin: 0.975rem 0;
-		width: 9.85rem;
+		width: 70%;
 		height: 0.5625rem;
 		background: #e4e7ed;
 		border-radius: 5px;
@@ -293,7 +292,7 @@
 	}
 	
 	.slider .block:hover {
-		transform: scale(1.51);
+		transform: scale(1.21);
 		opacity: .8
 	}
 
