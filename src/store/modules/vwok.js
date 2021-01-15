@@ -1,6 +1,6 @@
 const state = {
 	vwok_items: [],
-	current_wok:''
+	current_wok_id:''
 }
 
 const mutations = {
@@ -8,7 +8,7 @@ const mutations = {
 		state.vwok_items = data
 	},
 	Rewrite_Current_Wok_Id: (state, data) => {
-		state.current_wok = data
+		state.current_wok_id = data
 	},
 }
 
@@ -23,7 +23,7 @@ const actions = {
 }
 const getters = {
 	vwok_items: (state) => state.vwok_items,
-	current_wok:(state) => state.current_wok
+	current_wok_id:(state) => state.current_wok_id
 }
 
 export default {

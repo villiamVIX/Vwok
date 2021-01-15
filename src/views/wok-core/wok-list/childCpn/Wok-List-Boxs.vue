@@ -7,7 +7,8 @@
 				<div class="vwok_name" v-if="todayData.isShow_vwok_name">
 					{{todayData.vwok_name}}
 				</div>
-				<el-input size='mini' v-else v-model="todayData.vwok_name">>
+				<el-input prefix-icon="el-icon-search" size='mini' v-else v-model="todayData.vwok_name">
+					<el-button slot="append" icon="el-icon-search"></el-button>
 				</el-input>
 				<!-- <div class="wok_times">
 					{{todayData.start_time |formatDate}}-{{todayData.estimate_time|formatDate}}
@@ -100,7 +101,7 @@
 					res = await get_My_Vwok_Item(index)
 					res = res.result
 				}
-				
+
 				// console.log(result)
 				this.$store.dispatch('vwok/Rewrite_Items', res)
 				this.$store.dispatch('vwok/Rewrite_Current_Wok_Id', index)

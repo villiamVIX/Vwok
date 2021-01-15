@@ -15,6 +15,12 @@
  }
  
  -->
+ 
+ 
+ <!-- 待办
+  
+  tofix
+  -->
 <template>
 	<div>
 
@@ -23,9 +29,9 @@
 
 			<div class="trunk_estimate" ref="trunk" :style="{left}">
 				<div class="block"></div>
-				<!-- <div class="tips">
+				<div class="tips">
 					<span>{{scale*100}}</span>
-				</div> -->
+				</div>
 			</div>
 
 			<div class="process_actual" :style="{width:width_actual}"></div>
@@ -301,13 +307,14 @@
 		opacity: .6
 	}
 	
-	/* .slider .tips {
-		position: absolute;
+	.slider .tips {
+		position: relative;
+		
 		left: -7px;
-		bottom: 30px;
-		min-width: 15px;
+		bottom: 40px;
+		min-width: 41px;
 		text-align: center;
-		padding: 4px 8px;
+		padding: 4px 4px;
 		background: #000;
 		border-radius: 5px;
 		height: 24px;
@@ -315,12 +322,13 @@
 	}
 	
 	.slider .tips i {
+		
 		position: absolute;
 		margin-left: -5px;
 		left: 50%;
 		bottom: -9px;
-		font-size: 16px;
+		font-size: 12px;
 		color: #000
-	} */
+	}
 </style>
 

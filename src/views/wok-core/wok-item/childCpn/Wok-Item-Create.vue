@@ -1,8 +1,12 @@
 <template>
 	<div id="WokItemCreate">
-		<el-input v-model="form.vwok_item_name" placeholder="输入一个任务,Enter快速创建">
+		<el-input v-model="form.vwok_item_name"
+		 :disabled="isEdit"
+		 placeholder="输入一个任务,Enter快速创建">
 		</el-input>
-		<el-button type="primary" @click='create_Item'>创建</el-button>
+		<el-button type="primary"
+		 :disabled='isEdit'
+		 @click='create_Item'>创建</el-button>
 	</div>
 </template>
 
@@ -16,14 +20,18 @@
 
 	export default {
 		computed: {
-			...mapGetters(["UserInfo"])
+			...mapGetters(["UserInfo"]),
+			...mapGetters('vwok', [
+				'current_wok_id'
+			])
 		},
 		mounted() {
 			this.init()
 		},
 		watch: {
-			'$store.state.vwok.current_wok': function(index) {
+			'$store.state.vwok.current_wok_id': function(index) {
 				this.form.vwok_id = index
+				index == 'today_Vwok' ? this.isEdit=true : this.isEdit=false
 			}
 		},
 		data() {
@@ -32,7 +40,8 @@
 					vwok_item_name: '',
 					uid: '',
 					vwok_id: ''
-				}
+				},
+				isEdit:false
 			}
 		},
 		methods: {
@@ -40,6 +49,10 @@
 				this.form.uid = this.UserInfo.uid
 			},
 			async create_Item() {
+				if(this.isEdit){
+					return false
+				}
+				
 				let {
 					res,
 					code,
