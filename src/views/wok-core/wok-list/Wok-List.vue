@@ -13,7 +13,7 @@
 	import WokListBoxs from './childCpn/Wok-List-Boxs'
 	import WokListExport from './childCpn/Wok-List-Export'
 	import WokItemDetail from './childCpn/Wok-Item-Detail'
-	import WokItemCreate from '../wok-item/childCpn/Wok-Item-Create'
+	import WokItemCreate from './childCpn/Wok-Item-Create'
 	import CardVIX from 'common/Components/CardVIX/CardVIX.vue'
 	export default {
 		components: {

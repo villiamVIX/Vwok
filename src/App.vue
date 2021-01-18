@@ -2,7 +2,7 @@
 	<div id="app">
 		<el-scrollbar class='page-component__scroll'>
 			<keep-alive exclude="">
-				<router-view class="router-view"></router-view>
+				<router-view class="router-view "></router-view>
 			</keep-alive>
 		</el-scrollbar>
 	</div>
@@ -12,7 +12,7 @@
 	import {
 		mapGetters
 	} from 'vuex'
-	import{
+	import {
 		net_TokenLogin
 	} from 'network/Net_User.js'
 	export default {
@@ -20,7 +20,7 @@
 			this.auto_Login()
 		},
 		computed: {
-			...mapGetters(["Token","UserInfo"]),
+			...mapGetters(["Token", "UserInfo"]),
 		},
 		methods: {
 			async auto_Login() {
@@ -52,9 +52,12 @@
 
 <style>
 	@import "assets/css/base.css";
+
 	.box-card:last-of-type {
 		margin-top: 1.2rem;
 	}
+
+	
 
 	#app {
 		/* font-family: Avenir, Helvetica, Arial, sans-serif; */
@@ -63,7 +66,7 @@
 		text-align: center;
 		color: #2c3e50;
 		height: 99vh;
-		font-family:"PingFang-SC-Regular,Microsoft YaHei,SimSun"
+		font-family: "PingFang-SC-Regular,Microsoft YaHei,SimSun"
 	}
 
 	.page-component__scroll {

@@ -1,18 +1,10 @@
 <template>
-	<!-- 	<el-scrollbar class='page-component__scroll'>
-	</el-scrollbar> -->
-	<div id="WokListBoxs" v-infinite-scroll="load" v-loading="isLoading">
+	<div id="WokListBoxs" v-infinite-scroll="load" v-loading="isLoading" >
 		<div class="wok_boxs" @click="click_Box(todayData.vwok_id)" :class="{active:current_Index==todayData.vwok_id}">
 			<div class="wok_font_info">
-				<div class="vwok_name" v-if="todayData.isShow_vwok_name">
+				<div class="vwok_title">
 					{{todayData.vwok_name}}
 				</div>
-				<el-input prefix-icon="el-icon-search" size='mini' v-else v-model="todayData.vwok_name">
-					<el-button slot="append" icon="el-icon-search"></el-button>
-				</el-input>
-				<!-- <div class="wok_times">
-					{{todayData.start_time |formatDate}}-{{todayData.estimate_time|formatDate}}
-				</div> -->
 			</div>
 			<!-- <el-progress :percentage="todayData.total_progress"></el-progress> -->
 		</div>
@@ -20,17 +12,32 @@
 
 		<div v-for="(woks,index) in tableData" :keys='woks.vwok_id' class="wok_boxs" :class="{active:current_Index==woks.vwok_id}"
 		 @click="click_Box(woks.vwok_id)">
-			<div class="wok_font_info" @dblclick="update_Vwok_Name(index)">
-				<div class="vwok_name" v-if="woks.isShow_vwok_name">
-					{{woks.vwok_name}}
+			<div class="wok_font_info " @dblclick="update_Vwok_Name(index)">
+				<div>
+					<div class="vwok_title "  v-if="woks.isShow_vwok_name">
+						<span>
+							{{woks.vwok_name}}
+						</span>
+						<el-dropdown class='' trigger="click" size="small" @command="handleCommand">
+							<span class="el-dropdown-link">
+								<i class="el-icon-more"></i>
+							</span>
+							<el-dropdown-menu slot="dropdown">
+								<el-dropdown-item command="edit">编辑</el-dropdown-item>
+								<el-dropdown-item command="end">终结</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
+					</div>
+					<el-input type='textarea' autosize v-else v-model="woks.vwok_name">
+					</el-input>
+
 				</div>
-				<el-input size='mini' v-else v-model="woks.vwok_name">>
-				</el-input>
 				<div class="wok_times">
 					{{woks.start_time |formatDate}}-{{woks.estimate_time|formatDate}}
 				</div>
 			</div>
 			<el-progress :percentage="50"></el-progress>
+
 		</div>
 	</div>
 </template>
@@ -78,6 +85,15 @@
 			}
 		},
 		methods: {
+			handleCommand(event) { // event:方块编辑edit/终结end
+			// 未完成
+				var vwok_id = this.current_Index
+				if (event == 'edit') {
+					
+				}
+
+
+			},
 			update_Vwok_Name(index) { // 未完成
 				this.tableData[index].isShow_vwok_name = !this.tableData[index].isShow_vwok_name
 			},
@@ -146,6 +162,16 @@
 </script>
 
 <style scoped="scoped">
+	.mask {
+	 background-color: rgb(139, 139, 139);
+	 /* opacity: 0.3; */
+	 /* position: fixed; */
+	 top: 0;
+	 left: 0;
+	 width: 100%;
+	 height: 100%;
+	 z-index: 1414141
+	}
 	#WokListBoxs {
 		display: flex;
 		flex-direction: column;
@@ -174,13 +200,15 @@
 	}
 
 	.wok_font_info {
-		margin-left: 0.525rem;
+		margin: 0 6px;
 	}
 
-	.vwok_name {
+	.vwok_title {
 		text-align: left;
 		font-size: 0.8375rem;
 		font-weight: bold;
+		display: flex;
+		justify-content: space-between;
 	}
 
 	.wok_times {

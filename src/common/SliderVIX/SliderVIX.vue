@@ -18,8 +18,7 @@
  
  
  <!-- 待办
-  
-  tofix
+  tofix可设置步长
   -->
 <template>
 	<div>
@@ -29,9 +28,9 @@
 
 			<div class="trunk_estimate" ref="trunk" :style="{left}">
 				<div class="block"></div>
-				<div class="tips">
+				<!-- <div class="tips">
 					<span>{{scale*100}}</span>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="process_actual" :style="{width:width_actual}"></div>
@@ -179,11 +178,11 @@
 			// trunk left = slider进度width + trunk宽度/2
 			scale() {
 				// 算百分比
-				return (this.per - this.min) / (this.max - this.min);
+				return ((this.per - this.min) / (this.max - this.min)).toFixed(1);
 			},
 			scale_actual() {
 				// 算百分比
-				return (this.per_actual - this.min) / (this.max - this.min);
+				return ((this.per_actual - this.min) / (this.max - this.min)).toFixed(1);
 			},
 			width() {
 				// 待加载出来再调用
@@ -307,9 +306,8 @@
 		opacity: .6
 	}
 	
-	.slider .tips {
+	/* .slider .tips {
 		position: relative;
-		
 		left: -7px;
 		bottom: 40px;
 		min-width: 41px;
@@ -322,13 +320,12 @@
 	}
 	
 	.slider .tips i {
-		
 		position: absolute;
 		margin-left: -5px;
 		left: 50%;
 		bottom: -9px;
 		font-size: 12px;
 		color: #000
-	}
+	} */
 </style>
 
