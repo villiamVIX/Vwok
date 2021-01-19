@@ -28,19 +28,14 @@
 						class: 'el-icon-receiving'
 					},
 					{
-						name: '/frame/wokitem',
-						navItem: '任务信息',
-						class: 'el-icon-s-custom'
-					},
-					{
 						name: '/frame/wokcreate',
 						navItem: '新建任务',
-						class: 'el-icon-s-custom'
+						class: 'el-icon-circle-plus-outline'
 					},
 					{
 						name: '/frame/wokmission',
 						navItem: '任务看板',
-						class: 'el-icon-s-custom'
+						class: 'el-icon-s-order'
 					}
 				]
 			};

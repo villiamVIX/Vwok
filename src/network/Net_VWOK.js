@@ -28,5 +28,11 @@ let {currentPage,uid,limit} = data
 	return res
 }
 
-
+export async function Update_Vwok_Name(data){ //更新工项名
+    return await VIX({
+		url:'/vwok/update/vwokname',
+		method:'post',
+		data
+	})
+}
 

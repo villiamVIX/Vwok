@@ -1,5 +1,5 @@
 <template>
-	<div id="WokListBoxs" v-infinite-scroll="load" v-loading="isLoading" >
+	<div id="WokListBoxs" v-infinite-scroll="load" v-loading="isLoading">
 		<div class="wok_boxs" @click="click_Box(todayData.vwok_id)" :class="{active:current_Index==todayData.vwok_id}">
 			<div class="wok_font_info">
 				<div class="vwok_title">
@@ -12,29 +12,28 @@
 
 		<div v-for="(woks,index) in tableData" :keys='woks.vwok_id' class="wok_boxs" :class="{active:current_Index==woks.vwok_id}"
 		 @click="click_Box(woks.vwok_id)">
-			<div class="wok_font_info " @dblclick="update_Vwok_Name(index)">
-				<div>
-					<div class="vwok_title "  v-if="woks.isShow_vwok_name">
-						<span>
-							{{woks.vwok_name}}
+			<div class="wok_font_info ">
+				<div class="vwok_title " v-if="woks.isShow_vwok_name">
+					<span>
+						{{woks.vwok_name}}
+					</span>
+					<el-dropdown class='' trigger="click" size="small" @command="handleCommand">
+						<span class="el-dropdown-link">
+							<i class="el-icon-more"></i>
 						</span>
-						<el-dropdown class='' trigger="click" size="small" @command="handleCommand">
-							<span class="el-dropdown-link">
-								<i class="el-icon-more"></i>
-							</span>
-							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item command="edit">编辑</el-dropdown-item>
-								<el-dropdown-item command="end">终结</el-dropdown-item>
-							</el-dropdown-menu>
-						</el-dropdown>
-					</div>
-					<el-input type='textarea' autosize v-else v-model="woks.vwok_name">
-					</el-input>
-
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item :command="{type:'edit',index:index}">编辑</el-dropdown-item>
+							<el-dropdown-item command="end">终结</el-dropdown-item>
+						</el-dropdown-menu>
+					</el-dropdown>
 				</div>
-				<div class="wok_times">
+				<el-input type='textarea' autosize v-else v-model="woks.vwok_name">
+				</el-input>
+				<div class="wok_times" v-if="woks.isShow_vwok_name">
 					{{woks.start_time |formatDate}}-{{woks.estimate_time|formatDate}}
 				</div>
+				<el-button v-else @click='update_Vwok_Name(index)' size="mini"  icon="el-icon-edit">
+				</el-button>
 			</div>
 			<el-progress :percentage="50"></el-progress>
 
@@ -44,7 +43,8 @@
 
 <script>
 	import {
-		get_My_VWOK
+		get_My_VWOK,
+		Update_Vwok_Name
 	} from 'network/Net_Vwok.js'
 	import {
 		get_My_Vwok_Item,
@@ -65,10 +65,6 @@
 			return {
 				isLoading: true,
 				todayData: {
-					createdAt: "2020-12-31 17:41:43",
-					start_time: "2020-12-31",
-					estimate_time: "2020-12-31",
-					isShow_vwok_name: true,
 					total_progress: 25,
 					vwok_id: "today_Vwok",
 					vwok_name: "今日事项",
@@ -85,17 +81,29 @@
 			}
 		},
 		methods: {
-			handleCommand(event) { // event:方块编辑edit/终结end
-			// 未完成
-				var vwok_id = this.current_Index
-				if (event == 'edit') {
+			handleCommand(data) { // event:方块编辑edit/终结end
+				const {type,index} = data
+
+				if (type == 'edit') {
 					
+					this.tableData[index].isShow_vwok_name = false
+				} else {
+					//项目终结
 				}
-
-
 			},
-			update_Vwok_Name(index) { // 未完成
-				this.tableData[index].isShow_vwok_name = !this.tableData[index].isShow_vwok_name
+			async update_Vwok_Name(index) {
+				
+				var {vwok_name,vwok_id} = this.tableData[index]
+				let data = {vwok_name,vwok_id}
+				let {code,msg} = await Update_Vwok_Name(data)
+				
+				if(code==200){
+					this.$message({
+						message: '修改成功',
+						type: 'success'
+					});
+					this.tableData[index].isShow_vwok_name=true
+				}
 			},
 			load() {
 				this.page_info.limit += 3
@@ -163,15 +171,16 @@
 
 <style scoped="scoped">
 	.mask {
-	 background-color: rgb(139, 139, 139);
-	 /* opacity: 0.3; */
-	 /* position: fixed; */
-	 top: 0;
-	 left: 0;
-	 width: 100%;
-	 height: 100%;
-	 z-index: 1414141
+		background-color: rgb(139, 139, 139);
+		/* opacity: 0.3; */
+		/* position: fixed; */
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 1414141
 	}
+
 	#WokListBoxs {
 		display: flex;
 		flex-direction: column;
