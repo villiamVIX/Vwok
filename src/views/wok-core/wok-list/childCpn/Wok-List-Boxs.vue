@@ -32,7 +32,7 @@
 				<div class="wok_times" v-if="woks.isShow_vwok_name">
 					{{woks.start_time |formatDate}}-{{woks.estimate_time|formatDate}}
 				</div>
-				<el-button v-else @click='update_Vwok_Name(index)' size="mini"  icon="el-icon-edit">
+				<el-button v-else @click='update_Vwok_Name(index)' size="mini" icon="el-icon-edit">
 				</el-button>
 			</div>
 			<el-progress :percentage="50"></el-progress>
@@ -76,65 +76,68 @@
 					limit: 3
 				},
 				total: 0,
-				isLimit: false, //到顶？
+				isLoad: false, // 是否加载？
+				isLimit: false, // 是否到顶
 				current_Index: undefined,
 			}
 		},
 		methods: {
 			handleCommand(data) { // event:方块编辑edit/终结end
-				const {type,index} = data
+				const {
+					type,
+					index
+				} = data
 
 				if (type == 'edit') {
-					
+
 					this.tableData[index].isShow_vwok_name = false
 				} else {
 					//项目终结
 				}
 			},
 			async update_Vwok_Name(index) {
+				let {vwok_name,vwok_id} = this.tableData[index]
 				
-				var {vwok_name,vwok_id} = this.tableData[index]
 				let data = {vwok_name,vwok_id}
-				let {code,msg} = await Update_Vwok_Name(data)
 				
-				if(code==200){
+				let {code,msg} = await Update_Vwok_Name(data)
+
+				if (code == 200) {
 					this.$message({
-						message: '修改成功',
+						message: '更新成功',
 						type: 'success'
 					});
-					this.tableData[index].isShow_vwok_name=true
+					this.tableData[index].isShow_vwok_name = true
 				}
 			},
-			load() {
-				this.page_info.limit += 3
-				this.net_Get_Vwok()
-				if (this.isLimit) {
-					return false
-				}
-			},
+
 			async click_Box(index) {
 				var res
 				// 若相同索引 ，不请求数据
 				if (this.current_Index == index) return false
 				this.current_Index = index
 
-				if (index == 'today_Vwok') {
+				if (index == 'today_Vwok') { // 分流接口
 					res = await get_Today_Vwok(this.uid)
 					res = res.result.wokList
 				} else {
 					res = await get_My_Vwok_Item(index)
 					res = res.result
 				}
-
-				// console.log(result)
 				this.$store.dispatch('vwok/Rewrite_Items', res)
 				this.$store.dispatch('vwok/Rewrite_Current_Wok_Id', index)
+			},
+			load() {
+				this.page_info.limit += 3
+				if (!this.isLimit) { // 没到顶
+					this.net_Get_Vwok()
+				}
 			},
 			async net_Get_Vwok() {
 				let res = await get_My_VWOK(this.page_info)
 				this.sync_Table_Data(res)
 				if (res.result.data.length == res.result.total) {
-					this.isLimit = true
+					this.isLimit = true // 是否全加载完
 				}
 			},
 			init_data() {
@@ -151,10 +154,8 @@
 				console.log(data)
 				this.tableData = data
 				this.total = total
-				this.loading = false
 				this.isLoading = false //关闭加载圈圈
 			},
-
 		},
 		filters: {
 			formatDate: function(time) {
@@ -172,8 +173,6 @@
 <style scoped="scoped">
 	.mask {
 		background-color: rgb(139, 139, 139);
-		/* opacity: 0.3; */
-		/* position: fixed; */
 		top: 0;
 		left: 0;
 		width: 100%;
