@@ -12,7 +12,7 @@
 				<div class="vwok_title " v-if="woks.isShow_vwok_name">
 					<span>{{ woks.vwok_name }}</span>
 					<el-dropdown class="" trigger="click" size="small" @command="handleCommand">
-						<span class="el-dropdown-link"><i class="el-icon-more"></i></span>
+						<span class="el-dropdown-link"><i class="el-icon-caret-bottom"></i></span>
 						<el-dropdown-menu slot="dropdown">
 							<el-dropdown-item :command="{ type: 'edit', index: index }">编辑</el-dropdown-item>
 							<el-popconfirm @confirm="end_Vwok(index)" title="注意此操作不可逆!">
@@ -64,7 +64,8 @@ export default {
 		};
 	},
 	methods: {
-		async end_Vwok(index) { // 终结项目
+		async end_Vwok(index) {
+			// 终结项目
 			let { vwok_id } = this.tableData[index];
 			const res = await End_Vwok(vwok_id);
 			const { code } = res;
@@ -74,6 +75,8 @@ export default {
 					message: '终结成功',
 					type: 'success'
 				});
+			}else{
+				this.$message.error('终结失败，请重试');
 			}
 		},
 		handleCommand(data) {
@@ -97,6 +100,8 @@ export default {
 					type: 'success'
 				});
 				this.tableData[index].isShow_vwok_name = true;
+			}else{
+				this.$message.error('更新失败，请重试');
 			}
 		},
 
@@ -202,10 +207,20 @@ export default {
 
 .vwok_title {
 	text-align: left;
-	font-size: 0.8375rem;
+	font-size: 0.825rem;
 	font-weight: bold;
 	display: flex;
 	justify-content: space-between;
+}
+
+.vwok_title span {
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
 }
 
 .wok_times {

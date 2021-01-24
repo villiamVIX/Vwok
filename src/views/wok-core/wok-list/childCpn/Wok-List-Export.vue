@@ -86,6 +86,7 @@
 			},
 			format_Export_Text() {
 				let text = this.export_Data
+				console.log(text)
 				let {
 					today
 				} = this
