@@ -1,4 +1,6 @@
 @import "./normalize.css";
+@import url("element-ui-cover.css");
+
 
 /* 去除type-number的调节器 */
 input::-webkit-outer-spin-button,
@@ -19,6 +21,8 @@ input[type="number"] {
 	--font-size: 16px;
 	--line-height: 1.5;
 	--lesson-bgc: #f9f8f6;
+	
+	--button-color-green: #3ab181;
 }
 
 *,

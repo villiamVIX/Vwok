@@ -36,3 +36,11 @@ export async function Update_Vwok_Name(data){ //更新工项名
 	})
 }
 
+export async function End_Vwok(vwok_id){ //终结工项
+    return await VIX({
+		url:'/vwok/end/vwok',
+		method:'post',
+		data:{vwok_id}
+	})
+}
+
