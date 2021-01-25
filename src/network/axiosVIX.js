@@ -15,7 +15,7 @@ const url3 = 'http://localhost:3009'
 
 export function VIX(config) {
 	const Axios_Vix = axios.create({
-		baseURL: url2
+		baseURL: url3
 	})
 
 	// 请求拦截器 发请求 -> [请求拦截] -> 服务器
