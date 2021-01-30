@@ -42,7 +42,8 @@ export default {
 				return false;
 			}
 
-			let { res, code, result } = await create_New_Vwok_Item(this.form);
+			let { code, result } = await create_New_Vwok_Item(this.form);
+			
 			if (code == 200) {
 				this.$message({
 					message: '创建成功',

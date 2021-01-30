@@ -2,7 +2,6 @@
 父组件传入
 :target='per' :actual="per_actual" 
 预计与实际值
-
 父组件用这两个方法 接收预计值 实际值
 @scale='set_Scale'
 @scale_actual='set_Scale_Actual'
@@ -82,7 +81,6 @@
 				type: Number
 			}
 		},
-
 		data() {
 			return {
 				slider: null, //整个    滚动条DOM元素
@@ -226,13 +224,11 @@
 		margin: 100px auto 0;
 		width: 80%
 	}
-
 	.clear:after {
 		content: '';
 		display: block;
 		clear: both;
 	}
-
 	.slider {
 		position: relative;
 		margin: 0.975rem 0;
@@ -242,7 +238,6 @@
 		border-radius: 5px;
 		cursor: pointer
 	}
-
 	.slider .process {
 		position: absolute;
 		left: 0;
@@ -252,7 +247,6 @@
 		border-radius: 5px;
 		background: #409eff;
 	}
-
 	.process_actual {
 		position: absolute;
 		width: 112px;
@@ -261,21 +255,18 @@
 		background: #67C23A;
 		opacity: .9;
 	}
-
 	.slider .trunk_estimate {
 		position: absolute;
 		top: -4px;
 		width: 22px;
 		height: 22px;
 	}
-
 	.slider .thunk_actual {
 		position: absolute;
 		top: 12px;
 		width: 22px;
 		height: 22px;
 	}
-
 	.slider .block {
 		width: 1rem;
 		height: 1rem;
@@ -285,7 +276,6 @@
 		transition: .2s all;
 		margin-left:0.15625rem;
 	}
-
 	.slider .block_actual {
 		width: 0.9rem;
 		height: 0.9rem;
@@ -300,7 +290,6 @@
 		transform: scale(1.21);
 		opacity: .8
 	}
-
 	.slider .block_actual:hover {
 		transform: scale(1.12);
 		opacity: .6
@@ -328,4 +317,3 @@
 		color: #000
 	} */
 </style>
-

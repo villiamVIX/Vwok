@@ -119,6 +119,7 @@ export default {
 				res = await get_My_Vwok_Item(index);
 				res = res.result;
 			}
+			console.log(res)
 			this.$store.dispatch('vwok/Rewrite_Items', res);
 			this.$store.dispatch('vwok/Rewrite_Current_Wok_Id', index);
 		},

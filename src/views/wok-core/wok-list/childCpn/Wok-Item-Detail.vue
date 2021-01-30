@@ -38,7 +38,6 @@
 		</el-table>
 		<el-button type="primary" @click="update_Item" :loading="is_Update">保存</el-button>
 		<el-button type="primary" @click="visible_Item">导出</el-button>
-		
 	</div>
 </template>
 
@@ -61,7 +60,7 @@ export default {
 	},
 	mounted() {
 		this.calculate_Height(); // 自适应容器高度
-		this.onResize()
+		this.onResize();
 	},
 	components: {
 		SliderVIX
@@ -70,7 +69,9 @@ export default {
 		// 动态改变工项
 		'$store.state.vwok.vwok_items': function(items) {
 			this.refresh_Items(items);
-		}
+			// console.log(items)
+		},
+		
 	},
 	computed: {
 		...mapGetters(['uid']),
@@ -82,12 +83,11 @@ export default {
 			this.$store.dispatch('vwok_item/Rewrite_export_Text', result);
 			this.$store.dispatch('vwok_item/Visible_Export', true);
 		},
-		onResize(){
-			window.onresize = resize;
-			var that = this;
-			function resize() {
-				that.calculate_Height(); // 自适应容器高度
-			}
+		onResize() {
+			window.onresize = () => {
+				// 自适应高度
+				this.calculate_Height();
+			};
 		},
 		calculate_Height() {
 			this.$nextTick(() => {
@@ -96,8 +96,8 @@ export default {
 			});
 		},
 		set_Estimate: debounce(function(data) {
-			this.currentRow.scroll_estimate = data;
-		}, 500),
+				this.currentRow.scroll_estimate = data;
+		}, 1500),
 		set_Actual: debounce(function(data) {
 			this.currentRow.scroll_actual = data;
 		}, 500),
@@ -124,10 +124,9 @@ export default {
 
 			var post; // 动态切换接口
 			this.current_wok_id == 'today_Vwok' ? (post = update_Vwok_Item_Today) : (post = update_Vwok_Item);
-
 			let { code, result } = await post(this.diffData);
 			// 重赋值返回值：若不是一个数组   则  赋值为今日工项接口返回值
-			Array.isArray(result) ? null : (result = result.wokList);
+			this.current_wok_id == 'today_Vwok' ? (result = result.wokList) :null ;
 
 			if (code == 200) {
 				this.$message({
@@ -136,6 +135,9 @@ export default {
 				});
 				this.$store.dispatch('vwok/Rewrite_Items', result); //更新更新后的数据
 				this.diffData = []; // 清空比对池
+				this.is_Update = false;
+			}else{
+				this.$message.error('保存失败，请重试')
 				this.is_Update = false;
 			}
 		},
