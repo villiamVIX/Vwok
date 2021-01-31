@@ -1,14 +1,14 @@
 <template>
 	<div id="WokListBoxs" v-infinite-scroll="load" v-loading="isLoading">
 		<div class="wok_boxs" @click="click_Box(todayData.vwok_id)" :class="{ active: current_Index == todayData.vwok_id }">
-			<div class="wok_font_info">
+			<div class="vwok_font_info">
 				<div class="vwok_title">{{ todayData.vwok_name }}</div>
 			</div>
 			<!-- <el-progress :percentage="todayData.total_progress"></el-progress> -->
 		</div>
 
 		<div v-for="(woks, index) in tableData" :keys="woks.vwok_id" class="wok_boxs" :class="{ active: current_Index == woks.vwok_id }" @click="click_Box(woks.vwok_id)">
-			<div class="wok_font_info ">
+			<div class="vwok_font_info ">
 				<div class="vwok_title " v-if="woks.isShow_vwok_name">
 					<span>{{ woks.vwok_name }}</span>
 					<el-dropdown class="" trigger="click" size="small" @command="handleCommand">
@@ -202,8 +202,8 @@ export default {
 	background-color: #eaf1ff;
 }
 
-.wok_font_info {
-	margin: 0 6px;
+.vwok_font_info {
+	margin: 0 0.375rem;
 }
 
 .vwok_title {

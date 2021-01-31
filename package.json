@@ -1,15 +1,14 @@
 {
 	"name": "Vwok",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"private": true,
 	"scripts": {
-		"serve": "vue-cli-service serve",
+		"vwok": "vue-cli-service serve",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint"
 	},
 	"dependencies": {
 		"core-js": "^3.6.5",
-		"lodash": "^4.17.20",
 		"vue": "^2.6.11",
 		"vuedraggable": "^2.24.1"
 	},

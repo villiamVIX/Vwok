@@ -15,10 +15,6 @@
  
  -->
  
- 
- <!-- 待办
-  tofix可设置步长
-  -->
 <template>
 	<div>
 
@@ -128,7 +124,6 @@
 						// 最大是（拖动值，最大值）的最小值 不超100
 						_this.per = Math.min(_this.per, _this.max);
 						// 传值给父组件
-						// _this.$emit('Progress', _this.per)
 						_this.$emit('Estimate', _this.per)
 					}
 					document.onmouseup = function() {

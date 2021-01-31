@@ -33,6 +33,14 @@ export async function update_Vwok_Item(data) { //更新个人任务
 	})
 }
 
+// export async function update_Vwok_Item(vwok_item_id,data) { //更新个人任务
+// 	return await VIX({
+// 		url: '/vwok/item/update',
+// 		method: 'post',
+// 		data:{vwok_item_id,data}
+// 	})
+// }
+
 export async function update_Vwok_Item_Today(data) { //更新个人任务-金日
 	return await VIX({
 		url: '/vwok/item/update/today',
