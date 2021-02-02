@@ -9,8 +9,8 @@ const WokMission = () => import("views/wok-mission/Wok-Mission.vue");
 
 Vue.use(Router);
 const VueRouterReplace = Router.prototype.replace //抛出App.vue的原地跳转报错
-Router.prototype.replace = function replace (to) {
-  return VueRouterReplace.call(this, to).catch(err => err)
+Router.prototype.replace = function replace(to) {
+	return VueRouterReplace.call(this, to).catch(err => err)
 }
 
 const routes = [{
@@ -23,13 +23,14 @@ const routes = [{
 		path: "/login",
 		component: Login,
 	},
-	{
+	{   //做自动抓取路由用 必须放第二个
 		name: "Frame",
 		path: "/frame",
 		component: Frame,
 		children: [{
 				name: "woklist",
 				path: "woklist",
+				icon: 'el-icon-receiving',
 				meta: {
 					title: "快速报工",
 					needLogin: true, //需要加校检判断的路由
@@ -39,6 +40,7 @@ const routes = [{
 			{
 				name: "wokcreate",
 				path: "wokcreate",
+				icon: "el-icon-circle-plus-outline",
 				meta: {
 					title: "新建任务",
 					needLogin: true,
@@ -48,6 +50,7 @@ const routes = [{
 			{
 				name: "wokmission",
 				path: "wokmission",
+				icon: "el-icon-s-order",
 				meta: {
 					title: "任务看板",
 					needLogin: true,
@@ -64,4 +67,7 @@ const router = new Router({
 	routes,
 });
 
-export default router;
+export {
+	router,
+	routes
+}

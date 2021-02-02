@@ -1,57 +1,39 @@
 <template>
-	<el-menu
-		:default-active="this.$route.path"
-		:show-timeout="10"
-		:hide-timeout="10"
-		:collapse-transition="false"
-		router
-		class="sidebar el-menu-vertical-demo"
-		@open="handleOpen"
-		@close="handleClose"
-		:collapse="sidebar"
-	>
-		<el-menu-item :index="item.name" v-for="(item, index) in navList" :key="index">
-			<i :class="item.class"></i>
-			<span slot="title">{{ item.navItem }}</span>
+	<el-menu 
+	:default-active="this.$route.path" 
+	:collapse-transition='false'
+	router class="sidebar el-menu-vertical-demo" :collapse='sidebar'>
+		<el-menu-item :index="item.path" v-for="(item, index) in navList" :key="index">
+			<i :class="item.icon"></i>
+			<span slot="title">{{ item.title }}</span>
 		</el-menu-item>
 	</el-menu>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { routes } from 'router/index.js';
 export default {
-	computed: {
-		...mapGetters(['sidebar'])
+	mounted() {
+		this.Catch_Router();
 	},
 	data() {
 		return {
-			navList: [
-				{
-					name: '/frame/woklist',
-					navItem: '快速报工',
-					class: 'el-icon-receiving'
-				},
-				{
-					name: '/frame/wokcreate',
-					navItem: '新建任务',
-					class: 'el-icon-circle-plus-outline'
-				},
-				{
-					name: '/frame/wokmission',
-					navItem: '任务看板',
-					class: 'el-icon-s-order'
-				}
-			]
+			navList: []
 		};
 	},
 	methods: {
-		handleOpen(key, keyPath) {
-			console.log(key, keyPath);
-		},
-		handleClose(key, keyPath) {
-			console.log(key, keyPath);
+		Catch_Router() { // auto catch router 
+			routes[2].children.forEach(item => {
+				let { meta, path, icon } = item;
+				let { title } = meta;
+				this.navList.push({ path, icon, title });
+			});
 		}
-	}
+	},
+	computed: {
+		...mapGetters(['sidebar'])
+	},
 };
 </script>
 

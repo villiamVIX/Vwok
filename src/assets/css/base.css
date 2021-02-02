@@ -71,7 +71,7 @@ a {
 	zoom: 1;
 }
 
-.arrow-right {
+/* .arrow-right {
 	border-top: 1px solid #999;
 	border-left: 1px solid #999;
 	width: 9px;
@@ -80,7 +80,7 @@ a {
 	transform: rotate(135deg);
 	display: inline-block;
 	margin-left: .1rem;
-}
+} */
 
 .left {
 	float: left;

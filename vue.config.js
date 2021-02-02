@@ -20,6 +20,7 @@ module.exports = {
 				'network': '@/network',
 				'views': '@/views',
 				'tools': '@/tools',
+				'router' : '@/router'
 			}
 		},
 		externals: {
