@@ -11,30 +11,25 @@
 				</transition-group>
 			</el-breadcrumb>
 		</div>
-		<div class="header-mid">
-			<img src="~assets/logo_v1.1.png" style="height:1.5rem;margin:.31rem" />
-			<!-- <h2 class="">报工系统</h2> -->
-		</div>
+
+		<div class="header-mid"><img src="../../../../public/logoFont_v2.1.png" /></div>
 
 		<div class="header-right">
-			<div class="header-right-box">
-				<span style="font-size: .8rem;">宁好 &nbsp; {{ username }}</span>
-				<!-- <AvatarVIX></AvatarVIX> -->
-				<el-dropdown>
-					<i class="el-icon-setting" style="font-size: 1rem;"></i>
-					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item @click.native="Change_Password">修改密码</el-dropdown-item>
-						<el-dropdown-item @click.native="Logout">退出</el-dropdown-item>
-					</el-dropdown-menu>
-				</el-dropdown>
-			</div>
+			<el-dropdown>
+				<i class="el-icon-user-solid"></i>
+				<el-dropdown-menu slot="dropdown">
+					<el-dropdown-item @click.native="Change_Password">修改密码</el-dropdown-item>
+					<el-dropdown-item @click.native="Logout">退出</el-dropdown-item>
+				</el-dropdown-menu>
+			</el-dropdown>
+			<span>{{ username }}</span>
 		</div>
 	</div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import AvatarVIX from '../../../common/Components/AvatarVIX/AvatarVIX.vue'
+import AvatarVIX from '../../../common/Components/AvatarVIX/AvatarVIX.vue';
 export default {
 	computed: {
 		...mapGetters(['username'])
@@ -44,7 +39,7 @@ export default {
 			this.getBreadcrumb();
 		}
 	},
-	components:{
+	components: {
 		AvatarVIX
 	},
 	mounted() {
@@ -84,9 +79,9 @@ export default {
 
 .header-Box {
 	display: flex;
-	align-items: flex-end;
+	align-items:center;
 	justify-content: space-between;
-	margin-top: 15px;
+	margin-top: 5px;
 }
 
 .toggle {
@@ -95,15 +90,27 @@ export default {
 
 .header-mid {
 	display: flex;
-	align-self: flex-start;
+	align-self: center;
 }
 
 .header-mid img {
-	height: 1.825rem;
+	height: 32px;
 }
 
-.header-right-box {
+.header-right {
 	display: flex;
-	justify-content: space-between;
+	/* align-items: flex-start; */
+	font-size: 1rem;
 }
+
+.header-right i {
+	font-size: 1.4rem;
+}
+
+/* .header-right i:hover {
+ background-color: #00c58e1f;
+ border-radius: 15px;
+ 
+} */
+
 </style>

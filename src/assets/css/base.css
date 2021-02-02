@@ -14,6 +14,13 @@ input[type="number"] {
 }
 
 :root {
+	/* nav: #00c58e
+	   hover:#00e0a1
+	   #0bc793
+	 */
+	
+	
+	
 	--color-text: #666;
 	--color-high-text: #ff5777;
 	--color-tint: #ff8198;
@@ -22,7 +29,7 @@ input[type="number"] {
 	--line-height: 1.5;
 	--lesson-bgc: #f9f8f6;
 	
-	--button-color-green: #3ab181;
+	--button-color-green: #00c58e;
 }
 
 *,

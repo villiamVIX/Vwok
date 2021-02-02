@@ -52,7 +52,7 @@
 			<div class="small-box" :class="{ active: isLogin }">
 				<div class="small-contain" v-if="isLogin">
 					<div class="stitle">
-						<img src="../../../public/logo_white.png" style="width: 7rem" />
+						<img src="~/assets/logoFont_v2.1.png" style="width: 7rem" />
 					</div>
 					<p class="scontent">开始注册，和Vwok一起飞行</p>
 					<button class="sbutton" @click="changeType">注册</button>

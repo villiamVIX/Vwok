@@ -1,3 +1,9 @@
+
+/* nav: #00c58e
+	   hover:#00e0a1
+	   #0bc793
+	 */
+
 /* 按钮 */	
 .el-button--primary {
 	color: #FFF;
@@ -6,8 +12,8 @@
 }
 /* 按钮-hover */	
 .el-button--primary:focus, .el-button--primary:hover {
-    background: #3dbf8b;
-    border-color: #3dbf8b;
+    background: #00e0a1;
+    border-color: #00e0a1;
     color: #FFF;
 }
 
