@@ -29,7 +29,10 @@ input[type="number"] {
 	--line-height: 1.5;
 	--lesson-bgc: #f9f8f6;
 	
+	--custom-bgc:#314658;
+	--custom-green:#00c58e;
 	--button-color-green: #00c58e;
+	
 }
 
 *,

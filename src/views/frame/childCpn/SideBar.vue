@@ -27,6 +27,7 @@ export default {
 			routes[2].children.forEach(item => {
 				let { meta, path, icon } = item;
 				let { title } = meta;
+				path = `/frame/${path}`
 				this.navList.push({ path, icon, title });
 			});
 		}

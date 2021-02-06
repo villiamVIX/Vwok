@@ -18,13 +18,13 @@
  }
 
  .fade-transform-enter {
- 	opacity: 0.8;
- 	transform: translateX(-100px);
+ 	opacity: .001;
+ 	transform: translateX(-10px);
  }
 
  .fade-transform-leave-to {
  	opacity: 0.88;
- 	transform: translateX(30px);
+ 	transform: translateX(0px);
  }
 
  /* breadcrumb transition */

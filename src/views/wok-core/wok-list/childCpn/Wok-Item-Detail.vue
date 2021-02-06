@@ -15,7 +15,9 @@
 			>
 				<el-table-column type="index" min-width="1%"></el-table-column>
 				<!-- <el-table-column property="start_time" label="开始时间" min-width="13%"></el-table-column> -->
-				<el-table-column property="vw_works.vwok_name" label="Vwok" v-if="show" min-width="15"></el-table-column>
+				<el-table-column property="vw_works.vwok_name" label="Vwok" 
+				:show-overflow-tooltip='true'
+				v-if="show" min-width="15"></el-table-column>
 				<el-table-column property="vwok_item_name" label="Vwok工项" min-width="22%">
 					<template slot-scope="scope">
 						<el-input
@@ -86,7 +88,7 @@ export default {
 	},
 	methods: {
 		loadmore() {
-			console.log('订到了');
+			// console.log('订到了');
 		},
 		Debounce_Request: debounce(function(data, item_name, currentRow_data) {
 			// requset_LS:name/jira/ramark

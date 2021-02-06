@@ -21,8 +21,14 @@
 		<div class="slider" ref="slider">
 			<div class="process" :style="{width:width}"></div>
 
-			<div class="trunk_estimate" ref="trunk" :style="{left}">
+			<div class="trunk_estimate" v-show="!isComplete" ref="trunk" :style="{left}">
 				<div class="block"></div>
+				<!-- <div class="tips">
+					<span>{{scale*100}}</span>
+				</div> -->
+			</div>
+			<div class="trunk_estimate"  v-show="isComplete" style="left: 100%;">
+				<div class="complete"></div>
 				<!-- <div class="tips">
 					<span>{{scale*100}}</span>
 				</div> -->
@@ -55,6 +61,11 @@
 			actual(){
 				this.per_actual=this.actual
 			},
+			per_actual(newval,oldval){
+				if(newval==100){
+					this.isComplete=true
+				}
+			}
 		}
 		,
 		props: {
@@ -84,7 +95,7 @@
 				thunk_actual: null,
 				per: this.target, //接收一个当前值
 				per_actual: this.actual,
-				
+				isComplete:false
 			}
 		},
 		//渲染到页面的时候
@@ -217,7 +228,7 @@
 <style>
 	.box {
 		margin: 100px auto 0;
-		width: 80%
+		width: 80%;
 	}
 	.clear:after {
 		content: '';
@@ -228,37 +239,40 @@
 		position: relative;
 		margin: 0.975rem 0;
 		width: 70%;
-		height: 0.5625rem;
+		height: 6px;
 		background: #e4e7ed;
 		border-radius: 5px;
-		cursor: pointer
+		cursor: pointer;
 	}
 	.slider .process {
 		position: absolute;
 		left: 0;
 		top: 0;
 		width: 112px;
-		height: 10px;
+		height: 6px;
 		border-radius: 5px;
-		background: #409eff;
+		border-top-left-radius: 0.45px;
+		background: var(--custom-bgc);
 	}
 	.process_actual {
 		position: absolute;
 		width: 112px;
-		height: 10px;
+		height: 6px;
 		border-radius: 5px;
-		background: #67C23A;
-		opacity: .9;
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px;
+		background: var(--custom-green);
+		opacity: 0.9;
 	}
 	.slider .trunk_estimate {
 		position: absolute;
-		top: -4px;
+		top: -5px;
 		width: 22px;
 		height: 22px;
 	}
 	.slider .thunk_actual {
 		position: absolute;
-		top: 12px;
+		top: 5px;
 		width: 22px;
 		height: 22px;
 	}
@@ -266,49 +280,76 @@
 		width: 1rem;
 		height: 1rem;
 		border-radius: 4%;
-		border: 2px solid #409eff;
+		border: 2px solid var(--custom-bgc);
 		background: white;
-		transition: .2s all;
-		margin-left:0.15625rem;
+		transition: 0.2s all;
+		margin-left: 0.15625rem;
 	}
 	.slider .block_actual {
 		width: 0.9rem;
 		height: 0.9rem;
 		border-radius: 50%;
-		border: 2px solid #23a500;
+		border: 2px solid var(--custom-green);
 		background: rgba(255, 255, 255, 1);
-		transition: .2s all;
-		margin-left:0.1825rem;
+		transition: 0.2s all;
+		margin-left: 0.1825rem;
 	}
 	
 	.slider .block:hover {
 		transform: scale(1.21);
-		opacity: .8
+		opacity: 0.8;
 	}
 	.slider .block_actual:hover {
 		transform: scale(1.12);
-		opacity: .6
+		opacity: 0.6;
+	}
+	
+	/* ✔ */
+	
+	.complete {
+		position: relative;
+		display: inline-block;
+		top: -1px;
+		width: 1rem;
+		height: 1rem;
+		background: var(--custom-green);
+		border-radius: 25px;
+	}
+	.complete::after {
+		content: '';
+		position: absolute;
+		left: 0.255rem;
+		top: 0.35rem;
+		width: 50%;
+		height: 25%;
+		border: 2.9px solid #000;
+		border-radius: 1px;
+		border-top: none;
+		border-right: none;
+		background: var(--custom-green);
+		transform: rotate(-45deg);
+		z-index: 888;
 	}
 	
 	/* .slider .tips {
-		position: relative;
-		left: -7px;
-		bottom: 40px;
-		min-width: 41px;
-		text-align: center;
-		padding: 4px 4px;
-		background: #000;
-		border-radius: 5px;
-		height: 24px;
-		color: #fff
-	}
-	
-	.slider .tips i {
-		position: absolute;
-		margin-left: -5px;
-		left: 50%;
-		bottom: -9px;
-		font-size: 12px;
-		color: #000
-	} */
+			position: relative;
+			left: -7px;
+			bottom: 40px;
+			min-width: 41px;
+			text-align: center;
+			padding: 4px 4px;
+			background: #000;
+			border-radius: 5px;
+			height: 24px;
+			color: #fff
+		}
+		
+		.slider .tips i {
+			position: absolute;
+			margin-left: -5px;
+			left: 50%;
+			bottom: -9px;
+			font-size: 12px;
+			color: #000
+		} */
 </style>
