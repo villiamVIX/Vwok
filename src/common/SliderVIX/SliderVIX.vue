@@ -12,7 +12,6 @@
  set_Scale_Actual(val){
  	this.per_actual = val 
  }
- 
  -->
 
 <template>
@@ -116,10 +115,11 @@ export default {
 			// 小点的点击事件
 			this.trunk_estimate.onmousedown = function(e) {
 				// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
-				var width = parseInt(_this.width)*0.01 * slider_Width;
-				
+				// _this.width是百分比 转成px再计算
+				let width = parseInt(_this.width)/100 * slider_Width,
 				// disX 点击时的鼠标横坐标  起始点
-				var disX = e.clientX;
+				disX = e.clientX;
+								
 				// 全局的鼠标移动事件 实时移动->实时调用
 				document.onmousemove = function(e) {
 					// value, left, width
