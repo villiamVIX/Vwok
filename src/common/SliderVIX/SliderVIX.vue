@@ -20,19 +20,20 @@
 			<div class="process" :style="{ width: width }"></div>
 
 			<div class="trunk_estimate" v-show="!isComplete" ref="trunk" :style="{ left }">
-				<div class="block"></div>
-				<!-- <div class="tips">
-					<span>{{scale*100}}</span>
-				</div> -->
+				<div class="block" @mouseenter="show_tip" @mouseleave="hide_tip">
+					<div :class="isShowTip ? 'tips' : ''">
+						<span>{{ scale * 100 }}</span>
+					</div>
+				</div>
 			</div>
-			<div class="trunk_estimate" @click="un_Complete" v-show="isComplete" style="left: 100%;"><div class="complete"></div></div>
+			<div class="trunk_estimate" @click="un_Complete" v-show="isComplete" style="left: 92%;"><div class="complete"></div></div>
 
 			<div class="process_actual" :style="{ width: width_actual }"></div>
 
 			<div class="thunk_actual" ref="thunk_actual" v-show="!isComplete" :style="{ left: left_actual }">
 				<div class="block_actual"></div>
 				<!-- <div class="tips">
-					<span>{{scale_actual*100}}</span>
+					<span>{{ scale_actual * 100 }}</span>
 				</div> -->
 			</div>
 		</div>
@@ -51,10 +52,14 @@ export default {
 		},
 		actual() {
 			this.per_actual = this.actual;
+		},
+		per_actual(newV, oldV) {
+			if (newV >= 99) {
+				this.isComplete = true;
+				document.onmousemove = document.onmouseup = null;
+			}
+			console.log(newV, oldV);
 		}
-	},
-	updated() {
-		this.check_isComplete();
 	},
 	props: {
 		min: {
@@ -83,7 +88,8 @@ export default {
 			thunk_actual: null,
 			per: this.target, //接收一个当前值
 			per_actual: this.actual,
-			isComplete: false
+			isComplete: false,
+			isShowTip: false
 		};
 	},
 	//渲染到页面的时候
@@ -91,18 +97,15 @@ export default {
 		this.init();
 	},
 	methods: {
+		show_tip() {
+			this.isShowTip = true;
+		},
+		hide_tip() {
+			this.isShowTip = false;
+		},
 		un_Complete() {
 			this.isComplete = false;
-			this.per_actual = -10;
-			this.init();
-		},
-		check_isComplete() {
-			// console.log(this.per_actual == 100);
-			if (this.per_actual == 100) {
-				this.isComplete = true;
-				// 阻断完成后的拖动
-				document.onmousemove = document.onmouseup = null;
-			}
+			// this.per_actual = 99;
 		},
 		init() {
 			// 初始化
@@ -111,15 +114,15 @@ export default {
 			this.thunk_actual = this.$refs.thunk_actual;
 
 			var _this = this,
-			slider_Width = this.slider.offsetWidth
+				slider_Width = this.slider.offsetWidth;
 			// 小点的点击事件
 			this.trunk_estimate.onmousedown = function(e) {
 				// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
 				// _this.width是百分比 转成px再计算
-				let width = parseInt(_this.width)/100 * slider_Width,
-				// disX 点击时的鼠标横坐标  起始点
-				disX = e.clientX;
-								
+				let width = (parseInt(_this.width) / 100) * slider_Width,
+					// disX 点击时的鼠标横坐标  起始点
+					disX = e.clientX;
+
 				// 全局的鼠标移动事件 实时移动->实时调用
 				document.onmousemove = function(e) {
 					// value, left, width
@@ -149,9 +152,9 @@ export default {
 
 			this.thunk_actual.onmousedown = function(e) {
 				// parseInt 字符串转数字  因为在这个组件内，this这里指向slider  width是内进度的宽度
-				var width = parseInt(_this.width_actual);
-				// disX 点击时的鼠标横坐标  起始点
-				var disX = e.clientX;
+				var width = (parseInt(_this.width_actual) / 100) * slider_Width,
+					// disX 点击时的鼠标横坐标  起始点
+					disX = e.clientX;
 				// 全局的鼠标移动事件 实时移动->实时调用
 				document.onmousemove = function(e) {
 					// value, left, width
@@ -186,30 +189,32 @@ export default {
 		// trunk left = slider进度width + trunk宽度/2
 		scale() {
 			// 算百分比
-			return ((this.per - this.min) / (this.max - this.min)).toFixed(1);
+			return (this.per - this.min) / (this.max - this.min);
 		},
 		scale_actual() {
 			// 算百分比
-			let a = ((this.per_actual - this.min) / (this.max - this.min)).toFixed(1);
+			let a = (this.per_actual - this.min) / (this.max - this.min);
+
 			return a;
 		},
 		width() {
 			// 待加载出来再调用
 			if (this.slider) {
 				// 动态 以总长度 * 比例 得出 宽度
-				return this.scale*100 + '%';
+				return this.scale * 100 + '%';
 			} else {
-				return 0 + '%';
+				return `0%`;
 			}
 		},
 		width_actual() {
 			// 待加载出来再调用
 			if (this.slider) {
 				// 动态 以总长度 * 比例 得出 宽度
-				let a = this.slider.offsetWidth * this.scale_actual + 'px';
+				let a = this.scale_actual * 100 + '%';
+				// console.log(a);/
 				return a;
 			} else {
-				return 0 + 'px';
+				return `0%`;
 			}
 		},
 		left() {
@@ -217,24 +222,20 @@ export default {
 				// 减去小圆球的一半 10
 				let slider = this.slider.offsetWidth * this.scale;
 				let ball = slider - this.trunk_estimate.offsetWidth / 2;
-				
-				
-				// console.log(this.scale )
-				// return ball + 'px'
 				return (ball / this.slider.offsetWidth) * 100 + '%';
-				// return this.slider.offsetWidth * this.scale - this.trunk_estimate.offsetWidth / 2 + 'px';
 			} else {
-				return 0 + 'px';
+				return `0%`;
 			}
 		},
 		left_actual() {
 			if (this.slider) {
-				// console.log(this.trunk_estimate.offsetWidth)
-				let a = this.slider.offsetWidth * this.scale_actual - this.thunk_actual.offsetWidth / 2 + 'px';
-
-				return a;
+				let slider = this.slider.offsetWidth * this.scale_actual;
+				let ball = slider - this.thunk_actual.offsetWidth / 2;
+				// console.log((ball / this.slider.offsetWidth) * 100);
+				return (ball / this.slider.offsetWidth) * 100 + '%';
+				// let a = this.slider.offsetWidth * this.scale_actual - this.thunk_actual.offsetWidth / 2 + 'px';
 			} else {
-				return 0 + 'px';
+				return `0%`;
 			}
 		}
 	}
@@ -309,11 +310,11 @@ export default {
 }
 
 .slider .block:hover {
-	transform: scale(1.21);
+	transform: scale(1.01);
 	opacity: 0.8;
 }
 .slider .block_actual:hover {
-	transform: scale(1.12);
+	transform: scale(1.08);
 	opacity: 0.6;
 }
 
@@ -344,25 +345,52 @@ export default {
 	z-index: 888;
 }
 
-/* .slider .tips {
-			position: relative;
-			left: -7px;
-			bottom: 40px;
-			min-width: 41px;
-			text-align: center;
-			padding: 4px 4px;
-			background: #000;
-			border-radius: 5px;
-			height: 24px;
-			color: #fff
-		}
-		
-		.slider .tips i {
-			position: absolute;
-			margin-left: -5px;
-			left: 50%;
-			bottom: -9px;
-			font-size: 12px;
-			color: #000
-		} */
+.tips {
+	position: absolute;
+	left: -7px;
+	bottom: 30px;
+	min-width: 15px;
+	text-align: center;
+	background: #000;
+
+	height: 24px;
+	color: #fff;
+/* 	width: 1.5rem; */
+	
+	    border-radius: 4px;
+	    padding: 10px;
+	    z-index: 2000;
+	    font-size: 12px;
+	    line-height: 14.2;
+	    min-width: 10px;
+	    word-wrap: break-word;
+	
+	
+	animation: fade-in; /*动画名称*/
+	animation-duration: 0.2s; /*动画持续时间*/
+	-webkit-animation: fade-in 0.3s; /*针对webkit内核*/
+}
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	} /*初始状态 透明度为0*/
+	40% {
+		opacity: 0;
+	} /*过渡状态 透明度为0*/
+	100% {
+		opacity: 1;
+	} /*结束状态 透明度为1*/
+}
+@-webkit-keyframes fade-in {
+	/*针对webkit内核*/
+	0% {
+		opacity: 0;
+	}
+	40% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 </style>

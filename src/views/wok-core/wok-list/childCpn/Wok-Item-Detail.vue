@@ -36,6 +36,10 @@
 				</el-table-column>
 				<el-table-column property="estimate" label="进度" min-width="15%">
 					<template slot-scope="scope">
+						<el-slider
+						      v-model="value1"
+						      :step="10">
+						    </el-slider>
 						<SliderVIX :target="scope.row.scroll_estimate" :actual="scope.row.scroll_actual" @Estimate="set_Estimate" @Actual="set_Actual"></SliderVIX>
 					</template>
 				</el-table-column>
@@ -79,7 +83,8 @@ export default {
 			currentRow: {}, //当前改变行的数据
 			table_Hight: 0, //容器高,
 			loading: false,
-			show: false
+			show: false,
+			 value1: 0,
 		};
 	},
 	mounted() {
