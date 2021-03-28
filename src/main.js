@@ -4,8 +4,7 @@ import {router} from 'router'
 import store from './store'
 import Global_ from './network/Global' //全局变量
 
-//引入字体图标 ICON svg
-import 'assets/icon/style.css'
+
 import 'assets/css/transition.css'
 
 Vue.config.productionTip = false

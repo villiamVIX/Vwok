@@ -1,7 +1,7 @@
 <template>
 	<!-- 保证切换时候不会拉大 -->
-		<div style="width: 99%;">
-	<transition name="fade-transform">
+	<div style="width: 99%;">
+		<transition name="fade-transform">
 			<el-table
 				:data="tableData"
 				class="WokItemDetail"
@@ -15,9 +15,7 @@
 			>
 				<el-table-column type="index" min-width="1%"></el-table-column>
 				<!-- <el-table-column property="start_time" label="开始时间" min-width="13%"></el-table-column> -->
-				<el-table-column property="vw_works.vwok_name" label="Vwok" 
-				:show-overflow-tooltip='true'
-				v-if="show" min-width="15"></el-table-column>
+				<el-table-column property="vw_works.vwok_name" label="Vwok" :show-overflow-tooltip="true" v-if="show" min-width="15"></el-table-column>
 				<el-table-column property="vwok_item_name" label="Vwok工项" min-width="22%">
 					<template slot-scope="scope">
 						<el-input
@@ -36,11 +34,13 @@
 				</el-table-column>
 				<el-table-column property="estimate" label="进度" min-width="15%">
 					<template slot-scope="scope">
-						<el-slider
-						      v-model="value1"
-						      :step="10">
-						    </el-slider>
-						<SliderVIX :target="scope.row.scroll_estimate" :actual="scope.row.scroll_actual" @Estimate="set_Estimate" @Actual="set_Actual"></SliderVIX>
+						<!-- <el-slider v-model="value1" :step="10"></el-slider> -->
+						<SliderVIX
+							:target="scope.row.scroll_estimate"
+							:actual="scope.row.scroll_actual"
+							@Estimate="Debounce_Request($event, 'scroll_estimate', scope.row)"
+							@Actual="Debounce_Request($event, 'scroll_actual', scope.row)"
+						></SliderVIX>
 					</template>
 				</el-table-column>
 				<el-table-column property="remarks" label="备注" min-width="25%">
@@ -49,9 +49,9 @@
 					</template>
 				</el-table-column>
 			</el-table>
-	</transition>
-			<el-button type="primary" @click="visible_Item">导出</el-button>
-		</div>
+		</transition>
+		<el-button type="primary" @click="visible_Item">导出</el-button>
+	</div>
 </template>
 
 <script>
@@ -84,7 +84,7 @@ export default {
 			table_Hight: 0, //容器高,
 			loading: false,
 			show: false,
-			 value1: 0,
+			value1: 0
 		};
 	},
 	mounted() {
@@ -99,6 +99,7 @@ export default {
 			// requset_LS:name/jira/ramark
 			let diff_data = {};
 			diff_data[item_name] = data; // 改变的数据
+			console.log(data, item_name, currentRow_data);
 			this.Net_Update_Vwok_Item(diff_data, currentRow_data);
 		}, 1000),
 		async Net_Update_Vwok_Item(diff_data, currentRow_data) {
@@ -108,9 +109,10 @@ export default {
 				{ result, msg, code } = await update_Vwok_Item(data);
 
 			if (code == 200) {
-				this.$message({
-					message: '保存成功',
-					type: 'success'
+				this.$notify({
+					title: '更新成功',
+					type: 'success',
+					position: 'bottom-right'
 				});
 				this.$store.dispatch('vwok/Rewrite_Items', result); //更新更新后的数据
 			} else {
@@ -135,6 +137,7 @@ export default {
 			});
 		},
 		set_Estimate: debounce(function(data) {
+			console.log(data);
 			this.currentRow.scroll_estimate = data;
 		}, 500),
 		set_Actual: debounce(function(data) {

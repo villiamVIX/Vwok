@@ -1,5 +1,5 @@
 <template>
-	<div id="Wok-Item ">
+	<div id="Wok-Item">
 		<el-card class="box-card">
 			<div class="board">
 				<KanBanVIX :key="1" :list="list1" :group="group" class="kanban todo" header-text="待完成" />
@@ -65,6 +65,9 @@
 </script>
 
 <style scoped="scoped">
+	#Wok-Item{
+		height: 100vh;
+	}
 	.kanban{
 		margin: 0 1.25rem;
 	}

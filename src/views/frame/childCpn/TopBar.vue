@@ -1,116 +1,93 @@
 <template>
-	<div class="header-Box">
-		<div class="header-left">
-			<div class="toggle" @click="$store.dispatch('common/toggleSideBar')"><i class="gymIcon-sideClose"></i></div>
-			<el-breadcrumb separator-class="el-icon-caret-right" style="display: inline-block">
-				<el-breadcrumb-item><a href="javascript:;">首页</a></el-breadcrumb-item>
-				<transition-group name="breadcrumb">
-					<el-breadcrumb-item v-for="item in levelList" :key="item.path" v-if="item.meta.title" :to="item.redirect || item.path">
-						{{ item.meta.title }}
-					</el-breadcrumb-item>
-				</transition-group>
-			</el-breadcrumb>
-		</div>
-
-		<div class="header-mid"><img src="../../../../public/logoFont_v2.1.png" /></div>
-
-		<div class="header-right">
-			<el-dropdown>
-				<i class="el-icon-user-solid"></i>
-				<el-dropdown-menu slot="dropdown">
-					<el-dropdown-item @click.native="Change_Password">修改密码</el-dropdown-item>
-					<el-dropdown-item @click.native="Logout">退出</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
-			<span>{{ username }}</span>
-		</div>
-	</div>
+	<header class="navbar_content">
+		<nav id="navbar">
+			<div class="navbar-left">
+				<div class="toggle_btn" @click="$store.dispatch('common/toggleSideBar')"><i class="el-icon-s-unfold"></i></div>
+				<img class="logo" src="~/assets/logoFont_v2.1.png" />
+			</div>
+			<ul class="navbar-right">
+				<li v-for="item in navlist">
+					<a :href="item.href">{{ item.title }}</a>
+				</li>
+				<el-dropdown v-if>
+					<i class="el-icon-user-solid"></i>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item @click.native="Change_Password">修改密码</el-dropdown-item>
+						<el-dropdown-item @click.native="Logout">退出</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
+			</ul>
+		</nav>
+	</header>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import AvatarVIX from '../../../common/Components/AvatarVIX/AvatarVIX.vue';
 export default {
-	computed: {
-		...mapGetters(['username'])
-	},
-	watch: {
-		$route(to, from) {
-			this.getBreadcrumb();
-		}
-	},
-	components: {
-		AvatarVIX
-	},
-	mounted() {
-		this.getBreadcrumb();
-	},
 	data() {
 		return {
-			levelList: undefined
+			navlist: [
+				{
+					href: '',
+					title: '项目首页'
+				},
+				{
+					href: '/apidoc',
+					title: '接口文档'
+				},
+				{
+					href: ' http://wp.coderv.cn:83/index.php/blog/',
+					title: 'LOGV博客'
+				}
+			]
 		};
-	},
-	methods: {
-		handleOpen(key, keyPath) {
-			console.log(key, keyPath);
-		},
-		handleClose(key, keyPath) {
-			console.log(key, keyPath);
-		},
-		getBreadcrumb() {
-			let matched = this.$route.matched.filter(item => item.meta.title);
-			// console.log(this.$route.matched)
-			this.levelList = matched;
-		},
-		Logout() {
-			console.log(123);
-			this.$store.dispatch('log_Out');
-			window.location.reload(true);
-		},
-		Change_Password() {}
 	}
 };
 </script>
 
-<style scoped>
-.gymIcon-sideClose {
-	font-size: 1.125rem;
-}
-
-.header-Box {
+<style scoped="scoped">
+.navbar_content {
+	min-height: auto;
+	color: #333333;
+	border-bottom: 1px solid rgba(204, 204, 204, 0.16);
+	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 15%);
+	z-index: 1;
 	display: flex;
-	align-items:center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 1.875rem;
+	height: 3.5rem;
+	-webkit-font-smoothing: antialiased;
+}
+#navbar {
+	display: flex;
 	justify-content: space-between;
-	margin-top: 5px;
+	justify-content: baseline;
 }
-
-.toggle {
-	width: 0.9375rem;
-}
-
-.header-mid {
+.navbar-left {
+	flex: 1;
 	display: flex;
-	align-self: center;
 }
-
-.header-mid img {
-	height: 32px;
-}
-
-.header-right {
+.navbar-right {
+	/* flex: 1; */
 	display: flex;
-	/* align-items: flex-start; */
-	font-size: 1rem;
+	margin: auto 0;
+	justify-content: space-between;
+	font-size: 0.875rem;
+	width: 30rem;
+	list-style-type: none;
 }
 
-.header-right i {
-	font-size: 1.4rem;
+.toggle_btn {
+	width: 1rem;
+	margin-right: 15px;
 }
 
-/* .header-right i:hover {
- background-color: #00c58e1f;
- border-radius: 15px;
- 
-} */
+.toggle_btn:hover {
+	transform: scale(1.04);
+	opacity: 0.8;
+}
 
+.logo {
+	width: 11rem;
+}
 </style>

@@ -7,15 +7,15 @@ axios.defaults.withCredentials = true; //开启携带session
 
 import Vue from 'vue';
 import ElementUI from 'element-ui';
+import {baseURL} from '../../public/static/js/config.js'
 
-const url1 = 'http://192.168.1.105:3009'
 const url2 = 'http://v.coderv.cn:3009'
 const url3 = 'http://localhost:3009'
 
 
 export function VIX(config) {
 	const Axios_Vix = axios.create({
-		baseURL: url3
+		baseURL
 	})
 
 	// 请求拦截器 发请求 -> [请求拦截] -> 服务器

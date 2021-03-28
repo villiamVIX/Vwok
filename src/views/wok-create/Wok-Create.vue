@@ -23,5 +23,8 @@
 	}
 </script>
 
-<style>
+<style scoped='scoped'>
+	#Wok-Item{
+		height: 100vh;
+	}
 </style>

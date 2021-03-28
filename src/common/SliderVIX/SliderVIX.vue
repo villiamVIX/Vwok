@@ -12,6 +12,7 @@
  set_Scale_Actual(val){
  	this.per_actual = val 
  }
+ :class="isShowTip ? 'tips' : ''"
  -->
 
 <template>
@@ -21,9 +22,7 @@
 
 			<div class="trunk_estimate" v-show="!isComplete" ref="trunk" :style="{ left }">
 				<div class="block" @mouseenter="show_tip" @mouseleave="hide_tip">
-					<div :class="isShowTip ? 'tips' : ''">
-						<span>{{ scale * 100 }}</span>
-					</div>
+					<div class="tips">{{ scale * 100 }}</div>
 				</div>
 			</div>
 			<div class="trunk_estimate" @click="un_Complete" v-show="isComplete" style="left: 92%;"><div class="complete"></div></div>
@@ -55,10 +54,10 @@ export default {
 		},
 		per_actual(newV, oldV) {
 			if (newV >= 99) {
-				this.isComplete = true;
-				document.onmousemove = document.onmouseup = null;
+				// this.isComplete = true;
+				// document.onmousemove = document.onmouseup = null;
 			}
-			console.log(newV, oldV);
+			// console.log(newV, oldV); 
 		}
 	},
 	props: {
@@ -346,26 +345,35 @@ export default {
 }
 
 .tips {
-	position: absolute;
+	/* 	position: absolute;
 	left: -7px;
-	bottom: 30px;
-	min-width: 15px;
 	text-align: center;
 	background: #000;
-
-	height: 24px;
 	color: #fff;
-/* 	width: 1.5rem; */
-	
-	    border-radius: 4px;
-	    padding: 10px;
-	    z-index: 2000;
-	    font-size: 12px;
-	    line-height: 14.2;
-	    min-width: 10px;
-	    word-wrap: break-word;
-	
-	
+
+	border-radius: 4px;
+	padding: 10px;
+	z-index: 2000;
+	font-size: 12px;
+	line-height: 14.2;
+	min-width: 10px;
+	word-wrap: break-word;
+height: 35px; */
+	text-align: center;
+	position: absolute;
+	line-height: 11;
+	/* background: #000; */
+	color: #0339ff;
+	border-radius: 4px;
+	min-width: 10px;
+	z-index: 2000;
+	padding: 10px;
+	font-size: 25px;
+	bottom: 15px;
+	left: -7px;
+	word-wrap: break-word;
+height: 15px;
+
 	animation: fade-in; /*动画名称*/
 	animation-duration: 0.2s; /*动画持续时间*/
 	-webkit-animation: fade-in 0.3s; /*针对webkit内核*/

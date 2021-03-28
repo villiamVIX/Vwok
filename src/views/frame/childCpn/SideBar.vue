@@ -1,8 +1,10 @@
 <template>
 	<el-menu 
 	:default-active="this.$route.path" 
-	:collapse-transition='false'
-	router class="sidebar el-menu-vertical-demo" :collapse='sidebar'>
+	:collapse-transition='true'
+	router class="sidebar el-menu-vertical-demo" 
+	:collapse='true'
+	>
 		<el-menu-item :index="item.path" v-for="(item, index) in navList" :key="index">
 			<i :class="item.icon"></i>
 			<span slot="title">{{ item.title }}</span>
