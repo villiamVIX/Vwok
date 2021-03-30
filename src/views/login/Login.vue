@@ -1,6 +1,6 @@
 <template>
 	<div class="login-register">
-		<el-header style="height:2.25rem;"><LoginTopbar></LoginTopbar></el-header>
+		<el-header style="height:2.25rem;padding: 0px;"><TopBar></TopBar></el-header>
 		<div class="contain">
 			<div class="big-box" :class="{ active: isLogin }">
 				<div class="big-contain" v-if="isLogin">
@@ -52,7 +52,7 @@
 				<div class="small-contain" v-else>
 					<div class="stitle">你好，朋友!</div>
 					<p class="scontent">上号</p>
-					<img src="~/assets/login-aside.svg" width="326px" height="auto" />
+					<img src="~/assets/login-aside.svg" width="150px" height="auto" />
 					<button class="sbutton" @click="changeType">登录</button>
 				</div>
 			</div>
@@ -64,7 +64,7 @@
 <script>
 import { net_Register, net_Send_Register_Email, net_Login, net_Send_Forgot_Email, net_Reset_Password, net_TokenLogin } from 'network/Net_User.js';
 import { log } from 'util';
-import LoginTopbar from '../frame/childCpn/TopBar';
+import TopBar from '../frame/childCpn/TopBar';
 
 export default {
 	name: 'login-register',
@@ -89,7 +89,7 @@ export default {
 		// this.auto_Login()
 	},
 	components: {
-		LoginTopbar
+		TopBar
 	},
 	methods: {
 		async reset_Password() {

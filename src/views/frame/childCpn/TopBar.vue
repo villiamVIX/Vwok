@@ -2,14 +2,16 @@
 	<header class="navbar_content">
 		<nav id="navbar">
 			<div class="navbar-left">
-				<div class="toggle_btn" @click="$store.dispatch('common/toggleSideBar')"><i class="el-icon-s-unfold"></i></div>
+				<div class="toggle_btn"
+				 v-show="isShowIcon"
+				 @click="$store.dispatch('common/toggleSideBar')"><i class="el-icon-s-unfold"></i></div>
 				<img class="logo" src="~/assets/logoFont_v2.1.png" />
 			</div>
 			<ul class="navbar-right">
 				<li v-for="item in navlist">
 					<a :href="item.href">{{ item.title }}</a>
 				</li>
-				<el-dropdown v-if>
+				<el-dropdown v-show="isShowIcon">
 					<i class="el-icon-user-solid"></i>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item @click.native="Change_Password">修改密码</el-dropdown-item>
@@ -25,6 +27,7 @@
 export default {
 	data() {
 		return {
+			isShowIcon:true,
 			navlist: [
 				{
 					href: '',
@@ -40,6 +43,18 @@ export default {
 				}
 			]
 		};
+	},
+	mounted() {
+		console.log(this.$route.path=='/login')
+		if(this.$route.path=='/login'){
+			this.isShowIcon = false
+		}
+	},
+	methods:{
+		Logout() {
+			this.$store.dispatch('log_Out');
+			window.location.reload(true);
+		},
 	}
 };
 </script>

@@ -15,7 +15,6 @@ export default {
 		state.Token = token 
 		localStorage.Token = token
 	},
-	
 	[CLEAR_TOKEN](state){
 		state.Token=''
 		state.UserInfo={}
