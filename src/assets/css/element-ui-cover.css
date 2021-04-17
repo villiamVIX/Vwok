@@ -6,23 +6,23 @@
 
 /* 按钮 */	
 .el-button--primary {
-	color: #FFF;
-	background-color: var(--button-color-green);
-	border-color: var(--button-color-green);
+	color: #FFF !important;
+	background-color: var(--button-color-green) !important;
+	border-color: var(--button-color-green) !important;
 }
 /* 按钮-hover */	
 .el-button--primary:focus, .el-button--primary:hover {
-    background: #00e0a1;
-    border-color: #00e0a1;
-    color: #FFF;
+    background: #00e0a1 !important;
+    border-color: #00e0a1 !important;
+    color: #FFF !important;
 }
 
 /* 进度条 */
 .el-progress-bar__inner { 	
-	background-color: var(--button-color-green);
+	background-color: var(--button-color-green) !important;
 }
 
 /* 图标 */
 .el-menu--collapse>.el-menu-item.is-active i {
-	color: var(--button-color-green);
+	color: var(--button-color-green) !important;
 }

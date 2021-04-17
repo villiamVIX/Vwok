@@ -8,7 +8,7 @@
 				stripe
 				:height="table_Hight"
 				fit
-				style="width: 100%;"
+				style="width: 100%;overflow:auto"
 				highlight-current-row
 				v-loading="loading"
 				v-infinite-scroll="loadmore"
@@ -50,7 +50,6 @@
 				</el-table-column>
 			</el-table>
 		</transition>
-		<el-button type="primary" @click="visible_Item">导出</el-button>
 	</div>
 </template>
 
@@ -93,13 +92,14 @@ export default {
 	},
 	methods: {
 		loadmore() {
-			// console.log('订到了');
+			console.log('订到了');
 		},
 		Debounce_Request: debounce(function(data, item_name, currentRow_data) {
 			// requset_LS:name/jira/ramark
 			let diff_data = {};
 			diff_data[item_name] = data; // 改变的数据
-			console.log(data, item_name, currentRow_data);
+			// console.log(data, item_name, currentRow_data);
+			console.log(data, item_name, currentRow_data)
 			this.Net_Update_Vwok_Item(diff_data, currentRow_data);
 		}, 1000),
 		async Net_Update_Vwok_Item(diff_data, currentRow_data) {
@@ -119,11 +119,7 @@ export default {
 				this.$message.error('保存失败，请重试');
 			}
 		},
-		async visible_Item() {
-			let { result, code } = await get_Today_Vwok(this.uid);
-			this.$store.dispatch('vwok_item/Rewrite_export_Text', result);
-			this.$store.dispatch('vwok_item/Visible_Export', true);
-		},
+		
 		onResize() {
 			window.onresize = () => {
 				// 自适应高度

@@ -11,8 +11,8 @@
 				<li v-for="item in navlist">
 					<a :href="item.href">{{ item.title }}</a>
 				</li>
-				<el-dropdown v-show="isShowIcon">
-					<i class="el-icon-user-solid"></i>
+				<el-dropdown v-show="isShowIcon" >
+					<i class="el-icon-user-solid "></i>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item @click.native="Change_Password">修改密码</el-dropdown-item>
 						<el-dropdown-item @click.native="Logout">退出</el-dropdown-item>
@@ -94,7 +94,7 @@ export default {
 
 .toggle_btn {
 	width: 1rem;
-	margin-right: 15px;
+	margin-right: 30px;
 }
 
 .toggle_btn:hover {

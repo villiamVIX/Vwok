@@ -3,9 +3,8 @@
 		<div class="drawer-bg" @click="$store.dispatch('app/closeSideBar')" />
 		<el-header style="padding: 0;height: 2.3rem;"><TopBar></TopBar></el-header>
 		<el-container>
-			<el-aside class='side' width="80px" v-if="sidebar">
-				<SideBar></SideBar>
-			</el-aside>
+				<SideBar  class='side' v-if="sidebar"></SideBar>
+		
 			<transition name="fade-transform" mode="in-out">
 				<el-main :xs="4" :sm="6" :md="8" :lg="9"><router-view></router-view></el-main>
 			</transition>

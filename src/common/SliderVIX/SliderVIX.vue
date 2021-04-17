@@ -20,16 +20,15 @@
 		<div class="slider" ref="slider">
 			<div class="process" :style="{ width: width }"></div>
 
-			<div class="trunk_estimate" v-show="!isComplete" ref="trunk" :style="{ left }">
+			<div class="trunk_estimate" ref="trunk" :style="{ left }">
 				<div class="block" @mouseenter="show_tip" @mouseleave="hide_tip">
 					<div class="tips">{{ scale * 100 }}</div>
 				</div>
 			</div>
-			<div class="trunk_estimate" @click="un_Complete" v-show="isComplete" style="left: 92%;"><div class="complete"></div></div>
 
 			<div class="process_actual" :style="{ width: width_actual }"></div>
 
-			<div class="thunk_actual" ref="thunk_actual" v-show="!isComplete" :style="{ left: left_actual }">
+			<div class="thunk_actual" ref="thunk_actual" :style="{ left: left_actual }">
 				<div class="block_actual"></div>
 				<!-- <div class="tips">
 					<span>{{ scale_actual * 100 }}</span>
@@ -52,13 +51,6 @@ export default {
 		actual() {
 			this.per_actual = this.actual;
 		},
-		per_actual(newV, oldV) {
-			if (newV >= 99) {
-				// this.isComplete = true;
-				// document.onmousemove = document.onmouseup = null;
-			}
-			// console.log(newV, oldV); 
-		}
 	},
 	props: {
 		min: {
@@ -80,6 +72,10 @@ export default {
 			type: Number
 		}
 	},
+	mounted() {
+		this.calculate_Height(); // 自适应容器高度
+		this.onResize();
+	},
 	data() {
 		return {
 			slider: null, //整个    滚动条DOM元素
@@ -87,7 +83,7 @@ export default {
 			thunk_actual: null,
 			per: this.target, //接收一个当前值
 			per_actual: this.actual,
-			isComplete: false,
+			
 			isShowTip: false
 		};
 	},
@@ -96,15 +92,18 @@ export default {
 		this.init();
 	},
 	methods: {
+		onResize() {
+			window.onresize = () => {
+				// 自适应高度
+				// this.calculate_Height();
+				console.log(123123)
+			};
+		},
 		show_tip() {
 			this.isShowTip = true;
 		},
 		hide_tip() {
 			this.isShowTip = false;
-		},
-		un_Complete() {
-			this.isComplete = false;
-			// this.per_actual = 99;
 		},
 		init() {
 			// 初始化

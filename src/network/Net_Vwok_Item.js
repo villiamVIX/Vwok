@@ -49,12 +49,22 @@ export async function update_Vwok_Item_Today(data) { //更新个人任务-金日
 	})
 }
 
-export async function get_Today_Vwok(uid) { //获取今日预计
+export async function get_Today_Vwok(uid,startDay) { //获取今日预计
 	return await VIX({
 		url: '/vwok/item/todayvwok',
 		params:{
-			uid
+			uid,
+			startDay
 		}
+	})
+}
+
+export async function delete_Vwok_Item(data) { //删除工项
+console.log(data)
+	return await VIX({
+		url: '/vwok/item/delete',
+		method:'delete',
+		data:{data}
 	})
 }
 

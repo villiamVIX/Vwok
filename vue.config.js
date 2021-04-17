@@ -26,7 +26,7 @@ module.exports = {
 		externals: {
 			//cdn
 			vue: 'Vue',
-			'element-ui': 'ELEMENT',
+			// 'element-ui': 'ELEMENT',
 			'axios': 'axios',
 			'vuex': 'Vuex',
 			'vue-router': 'VueRouter'
