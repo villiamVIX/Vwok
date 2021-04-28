@@ -1,8 +1,5 @@
-var baseURL;
 
-// baseURL = 'http://v.coderv.cn:3009'
-baseURL = 'http://localhost:3009'
-
-export {
-	baseURL
+let host = window.location.protocol+"//"+window.location.hostname
+window.apiUrl={
+	baseURL :`${host}:3009`
 }

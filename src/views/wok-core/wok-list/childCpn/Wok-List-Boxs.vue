@@ -32,7 +32,7 @@
 
 <script>
 import { get_My_VWOK, Update_Vwok_Name, End_Vwok } from 'network/Net_Vwok.js';
-import { get_My_Vwok_Item, get_Today_Vwok } from 'network/Net_Vwok_Item.js';
+import { Net_Get_My_Vwok_Item, Net_Get_Today_Vwok } from 'network/Net_Vwok_Item.js';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -113,10 +113,10 @@ export default {
 
 			if (index == 'today_Vwok') {
 				// 分流接口
-				res = await get_Today_Vwok(this.uid);
+				res = await Net_Get_Today_Vwok(this.uid);
 				res = res.result.wokList;
 			} else {
-				res = await get_My_Vwok_Item(index);
+				res = await Net_Get_My_Vwok_Item(index);
 				res = res.result;
 			}
 			// console.log(res)
@@ -146,7 +146,7 @@ export default {
 				// 新增是否变input字段
 				value['isShow_vwok_name'] = true;
 			});
-			console.log(data);
+			// console.log(data);
 			this.tableData = data;
 			this.total = total;
 			this.isLoading = false; //关闭加载圈圈

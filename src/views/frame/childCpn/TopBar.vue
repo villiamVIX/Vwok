@@ -45,7 +45,7 @@ export default {
 		};
 	},
 	mounted() {
-		console.log(this.$route.path=='/login')
+		// console.log(this.$route.path=='/login')
 		if(this.$route.path=='/login'){
 			this.isShowIcon = false
 		}

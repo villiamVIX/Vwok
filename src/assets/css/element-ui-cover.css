@@ -26,3 +26,28 @@
 .el-menu--collapse>.el-menu-item.is-active i {
 	color: var(--button-color-green) !important;
 }
+
+
+/* +slider-button样式 */
+
+.vslider-estimate {
+	margin: 5px 0 !important;
+	height: 0px;
+}	
+.vslider-actual{
+	margin: 5px 0 !important;
+}
+/* 
+
+
+.vslider-actual .el-slider__button{
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 20px solid var(--custom-green);
+	margin-top: 17px;
+	border: 2px solid #409EFF;
+	    background-color: transparent;
+	    border-radius: 0;
+}
+ */
+	

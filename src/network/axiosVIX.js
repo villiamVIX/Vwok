@@ -1,5 +1,6 @@
 import axios from 'axios'
-
+// 初始化后端接口
+require('../../public/static/js/config.js')
 // 改写post请求的参数, { indices: false }
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.timeout = 8000;
@@ -7,11 +8,12 @@ axios.defaults.withCredentials = true; //开启携带session
 
 import Vue from 'vue';
 import ElementUI from 'element-ui';
-import {baseURL} from '../../public/static/js/config.js'
+// import {baseURL} from '../../public/static/js/config.js'
 
-const url2 = 'http://v.coderv.cn:3009'
-const url3 = 'http://localhost:3009'
+// const url2 = 'http://v.coderv.cn:3009'
+// const url3 = 'http://localhost:3009'
 
+const {baseURL} = window.apiUrl
 
 export function VIX(config) {
 	const Axios_Vix = axios.create({

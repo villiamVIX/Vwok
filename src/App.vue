@@ -20,7 +20,7 @@ export default {
 		async auto_Login() {
 			const Token = this.Token;
 			const UserInfo = this.UserInfo;
-			console.log(Token && !UserInfo.uid);
+			// console.log(Token && !UserInfo.uid);
 			if (Token && !UserInfo.uid) {
 				let { code, User_Info, msg } = await net_TokenLogin();
 				if (code == 200) {

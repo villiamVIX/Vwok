@@ -26,11 +26,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { create_New_Vwok_Item ,get_Today_Vwok} from 'network/Net_Vwok_Item.js';
+import { create_New_Vwok_Item ,Net_Get_Today_Vwok} from 'network/Net_Vwok_Item.js';
 
 export default {
 	data() {
 		return {
+			isFirstGetIn:true,
 			dialogVisible: false,
 			estimate_Text: '',
 			actual_Text: '',
@@ -68,7 +69,8 @@ export default {
 			}
 		};
 	},
-	mounted() {
+	created() {
+		// this.isFirstGetIn? this.get_TodayVwok() : null
 		this.get_TodayVwok()
 	},
 	computed: {
@@ -80,7 +82,7 @@ export default {
 			this.dialogVisible = this.isShow_Export;
 		},
 		export_Text() {
-			console.log(this.export_Text);
+			// console.log(this.export_Text);
 			let { startDay, wokList } = this.export_Text;
 			this.export_Data = wokList;
 			this.startDay = startDay;
@@ -89,7 +91,7 @@ export default {
 	},
 	methods: {
 		async get_TodayVwok(startDay){
-			let { result, code } = await get_Today_Vwok(this.uid,startDay);
+			let { result, code } = await Net_Get_Today_Vwok(this.uid,startDay);
 			this.$store.dispatch('vwok_item/Rewrite_export_Text', result);
 		},
 		Click_PickDate(time) {
@@ -122,7 +124,7 @@ export default {
 		},
 		format_Export_Text() {
 			let text = this.export_Data;
-			console.log(text);
+			// console.log(text);
 			let { startDay } = this;
 			let Text_Concat_Estimate = '',
 				Text_Concat_Actual = '',

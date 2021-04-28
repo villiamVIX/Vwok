@@ -19,37 +19,26 @@
 			<vxe-table-column type="seq" width="35"></vxe-table-column>
 			<vxe-table-column field="vwok_item_name" title="工项" :edit-render="{ name: 'input', attrs: { type: 'text', placeholder: '请输入工作内容' } }"></vxe-table-column>
 			<vxe-table-column field="jira" title="JIRA" :edit-render="{ name: 'input', attrs: { type: 'text', placeholder: '请输入JIRA单' } }"></vxe-table-column>
-			<vxe-table-column  title="进度" width="150" >
+			<vxe-table-column title="进度" width="150">
 				<template #default="{ row }">
-					  <!-- <vxe-input type="text" v-model="row.scroll"></vxe-input> -->
-					<el-slider  range v-model="row.scroll" @input='changeee(row,row.scroll)'></el-slider>
-					<!-- <SliderVIX
-						:target="row.scroll_estimate"
-						:actual="row.scroll_actual"
-						@Estimate="Debounce_Request($event, 'scroll_estimate', row)"
-						@Actual="Debounce_Request($event, 'scroll_actual', row)"
-					></SliderVIX> -->
-					<!-- 由于只有row里的scroll被改了 tabledata里的没被修改 导致拖不动 -->
-					<!-- <slider range v-model="row.scroll" :max="100" @change='changeee'></slider> -->
+					<slider class="vslider-estimate" @change="Debounce_Request('scroll_estimate', row)" :target="true" v-model="row.scroll_estimate"></slider>
+					<slider class="vslider-actual"  @change="Debounce_Request('scroll_actual', row)" :actual="true" v-model="row.scroll_actual"></slider>
 				</template>
 			</vxe-table-column>
-			<vxe-table-column field="remarks" title="备注" :edit-render="{ name: 'input', attrs: { type: 'textarea', placeholder: '备注...' } }"></vxe-table-column>
+			<vxe-table-column field="remark" title="备注" :edit-render="{ name: 'input', attrs: { type: 'input', placeholder: '备注...' } }"></vxe-table-column>
 		</vxe-table>
 	</div>
 </template>
 
 <script>
-import SliderVIX from 'common/SliderVIX/SliderVIX.vue';
-
 import { mapGetters } from 'vuex';
 import { update_Vwok_Item, update_Vwok_Item_Today, get_Today_Vwok, delete_Vwok_Item } from 'network/Net_Vwok_Item.js';
 
-// import slider from '../../../../common/slider/index.js';
+import slider from '../../../../common/slider/index.js';
 import { debounce } from 'common/Utils/util.js';
 export default {
 	components: {
-		// SliderVIX,
-		// slider
+		slider
 	},
 	data() {
 		return {
@@ -57,8 +46,8 @@ export default {
 			currentRow: {}, //当前改变行的数据
 			table_Hight: 0, //容器高,
 			loading: false,
-			show: false,
-			value1: [1,8],
+			isTodayPage: false,
+			value1: [1, 8],
 			selectedPapers: new Set()
 		};
 	},
@@ -67,17 +56,14 @@ export default {
 		this.onResize();
 	},
 	methods: {
-		changeee(a,b){
-			a.scroll = b
-			console.log(a,b)
-		},
+		changeee(a, b) {},
 		toggleSelect({ rowid, checked }) {
 			if (checked) {
 				this.selectedPapers.add(rowid);
 			} else {
 				this.selectedPapers.delete(rowid);
 			}
-			console.log(this.selectedPapers);
+			// console.log(this.selectedPapers);
 		},
 		toggleAllPaperSelect({ records, checked }) {
 			if (checked) {
@@ -94,21 +80,32 @@ export default {
 			// 判断单元格值是否被修改 dom中要加keep-source属性
 			// console.log(this.$refs.xTable._removeCheckboxRow);
 			if (xTable.isUpdateByRow(row, field)) {
-				this.Debounce_Request(cellValue, field, row);
+				this.Debounce_Request(field, row);
 			}
 		},
-		Debounce_Request: debounce(function(data, item_name, currentRow_data) {
+		Debounce_Request_old: debounce(function(data, item_name, currentRow_data) {
 			// requset_LS:name/jira/ramark
-			// console.log(data, item_name, currentRow_data);
+			console.log(data, item_name, currentRow_data);
+			// let diff_data = {};
+			// diff_data[item_name] = data; // 改变的数据
+			// this.Net_Update_Vwok_Item(diff_data, currentRow_data);
+		}, 1000),
+		Debounce_Request: debounce(function(item_name, currentRow_data) {
 			let diff_data = {};
-			diff_data[item_name] = data; // 改变的数据
+			diff_data[item_name] = currentRow_data[item_name]; // 改变的数据
+			console.log(item_name, currentRow_data);
 			this.Net_Update_Vwok_Item(diff_data, currentRow_data);
 		}, 1000),
 		async Net_Update_Vwok_Item(diff_data, currentRow_data) {
+			
+			// 动态选择接口
+			let netFun = '';
+			this.isTodayPage ? (netFun = update_Vwok_Item_Today) : (netFun = update_Vwok_Item);
+
 			// @param:{1.工项ID，变更内容}
 			let { vwok_item_id, vwok_id } = currentRow_data,
 				data = { diff_data, vwok_item_id, vwok_id },
-				{ result, msg, code } = await update_Vwok_Item(data);
+				{ result, msg, code } = await netFun(data);
 
 			if (code == 200) {
 				this.$notify({
@@ -141,9 +138,11 @@ export default {
 			this.currentRow.scroll_actual = data;
 		}, 500),
 		refresh_Items(data) {
+			if(this.isTodayPage) data = data.wokList
+			console.log(data);
 			data.forEach(item => {
-				item['scroll'] = [item.scroll_actual,item.scroll_estimate];
-				console.log(item['scroll'])
+				item['scroll'] = [item.scroll_actual, item.scroll_estimate];
+				// console.log(item['scroll'])
 			});
 			this.tableData = data;
 			this.loading = false; // 未生效
@@ -195,24 +194,17 @@ export default {
 			this.refresh_Items(items);
 		},
 		current_wok_id: function(id) {
-			id == 'today_Vwok' ? (this.show = true) : (this.show = false);
+			id == 'today_Vwok' ? (this.isTodayPage = true) : (this.isTodayPage = false);
 		},
 		'$store.state.vwok_item.checked.isShow_DelConfirm': function(items) {
 			items ? this.DelConfirm() : null;
-		},
-		tableData: {
-			
-			handler(newName, oldName) {
-				console.log('obj.a changed',newName, oldName);
-			},
-			immediate: true,
-			deep: true
 		}
 	}
 };
 </script>
 
 <style scoped="scoped">
+/* 右侧滑动条样式 */
 /*滚动条整体部分*/
 .mytable-scrollbar ::-webkit-scrollbar {
 	width: 5px;
