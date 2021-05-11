@@ -22,7 +22,7 @@
 			<vxe-table-column title="进度" width="150">
 				<template #default="{ row }">
 					<slider class="vslider-estimate" @change="Debounce_Request('scroll_estimate', row)" :target="true" v-model="row.scroll_estimate"></slider>
-					<slider class="vslider-actual"  @change="Debounce_Request('scroll_actual', row)" :actual="true" v-model="row.scroll_actual"></slider>
+					<slider class="vslider-actual" @change="Debounce_Request('scroll_actual', row)" :actual="true" v-model="row.scroll_actual"></slider>
 				</template>
 			</vxe-table-column>
 			<vxe-table-column field="remark" title="备注" :edit-render="{ name: 'input', attrs: { type: 'input', placeholder: '备注...' } }"></vxe-table-column>
@@ -48,15 +48,38 @@ export default {
 			loading: false,
 			isTodayPage: false,
 			value1: [1, 8],
-			selectedPapers: new Set()
+			selectedPapers: new Set(),
+			loading: false,
+			loadingMore: false, //loading 加载更多
+			isScroll: true, //是否可以滚动
+			pageIndex: 1,
+			pageSize: 10,
+			list: []
 		};
 	},
 	mounted() {
 		this.calculate_Height(); // 自适应容器高度
 		this.onResize();
+		this.load();
+
+		this.$nextTick(() => {
+			window.addEventListener(
+				'scroll',
+				() => {
+					console.log(123);
+				},
+				false
+			);
+		});
 	},
 	methods: {
-		changeee(a, b) {},
+		load() {
+			let el = document.getElementsByClassName('mytable-scrollbar')[0];
+			// let domRect = el.getBoundingClientRect();
+		},
+		scrollMoreData() {
+			console.log(213);
+		},
 		toggleSelect({ rowid, checked }) {
 			if (checked) {
 				this.selectedPapers.add(rowid);
@@ -97,7 +120,6 @@ export default {
 			this.Net_Update_Vwok_Item(diff_data, currentRow_data);
 		}, 1000),
 		async Net_Update_Vwok_Item(diff_data, currentRow_data) {
-			
 			// 动态选择接口
 			let netFun = '';
 			this.isTodayPage ? (netFun = update_Vwok_Item_Today) : (netFun = update_Vwok_Item);
@@ -138,7 +160,7 @@ export default {
 			this.currentRow.scroll_actual = data;
 		}, 500),
 		refresh_Items(data) {
-			if(this.isTodayPage) data = data.wokList
+			if (this.isTodayPage) data = data.wokList;
 			console.log(data);
 			data.forEach(item => {
 				item['scroll'] = [item.scroll_actual, item.scroll_estimate];
@@ -147,7 +169,7 @@ export default {
 			this.tableData = data;
 			this.loading = false; // 未生效
 		},
-		DelConfirm() {
+		async DelConfirm() {
 			let selectRecords = this.$refs.xTable.getCheckboxRecords(),
 				selectRecords_Len = selectRecords.length,
 				data = [];
@@ -170,14 +192,22 @@ export default {
 				cancelButtonText: '取消',
 				type: 'warning'
 			})
-				.then(() => {
-					delete_Vwok_Item(data);
-					this.$message({
-						type: 'success',
-						message: '删除成功!'
-					});
+				.then(async () => {
+					let { code } = await delete_Vwok_Item(data);
+					if (code == 200) {
+						this.$message({
+							type: 'success',
+							message: '删除成功!'
+						});
+						this.$refs.xTable.removeCheckboxRow();
+					}
 				})
-				.catch(() => {});
+				.catch(() => {
+					this.$message({
+						type: 'warning',
+						message: '删除失败，请重试!'
+					});
+				});
 			this.Close_DelConfirm();
 		},
 		Close_DelConfirm() {

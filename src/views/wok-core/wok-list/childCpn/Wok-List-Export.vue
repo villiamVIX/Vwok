@@ -1,5 +1,8 @@
 <template>
-	<el-dialog title="计划导出" width="95%" :visible.sync="dialogVisible" :destroy-on-close="true" :before-close="modal_Close">
+	<el-dialog title="计划导出" width="95%" 
+	@open="get_TodayVwok"
+	
+	:visible.sync="dialogVisible" :destroy-on-close="true" :before-close="modal_Close">
 		<div class="block pickDate">
 			<el-date-picker v-model="pickDate" align="center" 
 			value-format="yyyy-MM-dd"
@@ -71,7 +74,7 @@ export default {
 	},
 	created() {
 		// this.isFirstGetIn? this.get_TodayVwok() : null
-		this.get_TodayVwok()
+		// this.get_TodayVwok()
 	},
 	computed: {
 		...mapGetters(['uid']),

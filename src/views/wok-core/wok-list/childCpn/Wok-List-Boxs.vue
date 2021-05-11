@@ -108,7 +108,7 @@ export default {
 		async click_Box(index) {
 			var res;
 			// 若相同索引 ，不请求数据
-			if (this.current_Index == index) return false;
+			if (this.current_Index == index) return ;
 			this.current_Index = index;
 
 			if (index == 'today_Vwok') {
@@ -123,6 +123,7 @@ export default {
 			this.$store.dispatch('vwok/Rewrite_Items', res);
 			this.$store.dispatch('vwok/Rewrite_Current_Wok_Id', index);
 		},
+		
 		load() {
 			this.page_info.limit += 3;
 			if (!this.isLimit) {

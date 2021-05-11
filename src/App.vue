@@ -53,16 +53,16 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
-	height: 99vh;
+	/* height: 99vh; */
 	font-family: 'PingFang-SC-Regular,Microsoft YaHei,SimSun';
 }
 
 .page-component__scroll {
-	height: 100%;
+	/* height: 100%; */
 }
 
 .page-component__scroll .el-scrollbar__wrap {
-	overflow-x: auto;
+	/* overflow-x: auto; */
 }
 
 </style>

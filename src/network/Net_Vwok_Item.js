@@ -59,12 +59,16 @@ export async function Net_Get_Today_Vwok(uid,startDay) { //获取今日预计
 	})
 }
 
-export async function delete_Vwok_Item(data) { //删除工项
-console.log(data)
-	return await VIX({
-		url: '/vwok/item/delete',
-		method:'delete',
-		data:{data}
-	})
+export function delete_Vwok_Item(data) { //删除工项
+// console.log(data)
+	return new Promise(resolve => {
+		VIX({
+			url: '/vwok/item/delete',
+			method:'delete',
+			data:{data}
+		}).then(res => {
+			resolve(res);
+		})
+	}) 
 }
 
