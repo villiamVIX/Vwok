@@ -6,6 +6,7 @@
 			<!-- <WokItemDetail class='WokItemDetail'></WokItemDetail> -->
 			<WokItemTable class='WokItemTable' ></WokItemTable>
 			<WokListExport ></WokListExport>
+			<WokItemCreate></WokItemCreate>
 		</div>
 	</CardVIX>
 </template>
@@ -13,6 +14,7 @@
 <script>
 	import WokListBoxs from './childCpn/Wok-List-Boxs'
 	import WokListExport from './childCpn/Wok-List-Export'
+	import WokItemCreate from './childCpn/Wok-Item-Create'
 	import WokItemDetail from './childCpn/Wok-Item-Detail'
 	import WokItemTable from './childCpn/Wok-Item-Table'
 	import WokItemTop from './childCpn/Wok-Item-Top'
@@ -24,7 +26,8 @@
 			WokItemDetail,
 			WokItemTable,
 			WokListBoxs,
-			CardVIX
+			CardVIX,
+			WokItemCreate
 		},
 		data() {
 			return {

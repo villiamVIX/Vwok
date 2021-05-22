@@ -4,7 +4,8 @@ const state = {
 	checked: {
 		isShow_DelConfirm: false,
 		checked_items: []
-	}
+	},
+	isShow_Create: false
 }
 
 const mutations = {
@@ -17,6 +18,9 @@ const mutations = {
 	VISIBLE_DELETE_CONFIRM: (state, data) => {
 		state.checked.isShow_DelConfirm = data
 	},
+	VISIBLE_CREATE: (state, data) => {
+		state.isShow_Create = data
+	},
 
 }
 
@@ -27,6 +31,9 @@ const actions = {
 	Visible_Export({commit}, data) {
 		commit('VISIBLE_EXPORT', data)
 	},
+	Visible_Create({commit}, data) {
+		commit('VISIBLE_CREATE', data)
+	},
 	Visible_Delete_Confirm({commit}, data) {
 		commit('VISIBLE_DELETE_CONFIRM', data)
 	},
@@ -34,6 +41,7 @@ const actions = {
 const getters = {
 	export_Text: (state) => state.export_Text,
 	isShow_Export: (state) => state.isShow_Export,
+	isShow_Create: (state) => state.isShow_Create,
 	isShow_DelConfirm: (state) => state.checked.isShow_DelConfirm
 }
 

@@ -1,5 +1,8 @@
 <template>
 	<div id="WokListBoxs" v-infinite-scroll="load" v-loading="isLoading">
+		<!-- create a new Vwok -->
+		<div class="wok_boxs create_box" @click="visible_Create"><i class="el-icon-circle-plus-outline" /></div>
+
 		<div class="wok_boxs" @click="click_Box(todayData.vwok_id)" :class="{ active: current_Index == todayData.vwok_id }">
 			<div class="vwok_font_info">
 				<div class="vwok_title">{{ todayData.vwok_name }}</div>
@@ -64,6 +67,9 @@ export default {
 		};
 	},
 	methods: {
+		visible_Create(){
+			this.$store.dispatch('vwok_item/Visible_Create', true);
+		},
 		async end_Vwok(index) {
 			// 终结项目
 			let { vwok_id } = this.tableData[index];
@@ -75,7 +81,7 @@ export default {
 					message: '终结成功',
 					type: 'success'
 				});
-			}else{
+			} else {
 				this.$message.error('终结失败，请重试');
 			}
 		},
@@ -100,7 +106,7 @@ export default {
 					type: 'success'
 				});
 				this.tableData[index].isShow_vwok_name = true;
-			}else{
+			} else {
 				this.$message.error('更新失败，请重试');
 			}
 		},
@@ -108,7 +114,7 @@ export default {
 		async click_Box(index) {
 			var res;
 			// 若相同索引 ，不请求数据
-			if (this.current_Index == index) return ;
+			if (this.current_Index == index) return;
 			this.current_Index = index;
 
 			if (index == 'today_Vwok') {
@@ -123,7 +129,7 @@ export default {
 			this.$store.dispatch('vwok/Rewrite_Items', res);
 			this.$store.dispatch('vwok/Rewrite_Current_Wok_Id', index);
 		},
-		
+
 		load() {
 			this.page_info.limit += 3;
 			if (!this.isLimit) {
@@ -185,6 +191,7 @@ export default {
 	overflow-x: hidden;
 	width: 12.2rem;
 	padding-right: 0.9375rem;
+	padding-left: 0.2875rem;
 	min-width: 11.2rem;
 }
 
@@ -193,6 +200,12 @@ export default {
 	margin: 0.25rem 0;
 	border-radius: 0.5375rem;
 	border: 1px #e4e5e7 solid;
+}
+
+.create_box {
+	font-size: 1.2rem;
+	line-height: 1px;
+	height: 42px;
 }
 
 .wok_boxs:hover {
