@@ -43,8 +43,16 @@ export default {
 		this.init_data();
 	},
 	computed: {
-		...mapGetters(['uid'])
+		...mapGetters(['uid']),
+		...mapGetters('vwok',['isReload'])
 	},
+	watch: {
+		'$store.state.vwok.isReload'(isReload) {
+			console.log(isReload)
+			isReload ? this.load() : null
+		}
+	},
+
 	data() {
 		return {
 			isLoading: true,

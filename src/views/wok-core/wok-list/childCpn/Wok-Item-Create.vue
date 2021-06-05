@@ -1,5 +1,5 @@
 <template>
-	<el-dialog title="收货地址" :visible.sync="dialogVisible">
+	<el-dialog title="创建工项" :visible.sync="dialogVisible" :before-close="handleClose">
 		<div id="Wok-Item-Create">
 			<el-form ref="form" :model="form" :rules="rules" label-width="180px" label-position="left">
 				<el-form-item label="任务名称" prop="vwok_name"><el-input v-model="form.vwok_name"></el-input></el-form-item>
@@ -8,7 +8,7 @@
 						<el-checkbox v-for="item in form.teammate" :label="item" :key="item.uid">{{ item.username }}</el-checkbox>
 					</el-checkbox-group>
 				</el-form-item>
-				<el-form-item><el-button type="primary" @click="check_Rule('form')">新增任务</el-button></el-form-item>
+				<el-form-item><el-button type="primary" @click="check_Rule_n_Submit('form')">新增任务</el-button></el-form-item>
 			</el-form>
 		</div>
 	</el-dialog>
@@ -25,14 +25,12 @@ export default {
 	},
 	watch: {
 		isShow_Create(val) {
-			console.log(val)
 			this.dialogVisible = this.isShow_Create;
-		},
-		
+		}
 	},
 	data() {
 		return {
-			dialogVisible:false,
+			dialogVisible: false,
 			form: {
 				vwok_name: '',
 				start_time: '',
@@ -70,22 +68,31 @@ export default {
 			}
 		};
 	},
-	mounted() {
+	created() {
 		this.init_Data();
 	},
 	methods: {
+		handleClose() {
+			this.$store.dispatch('vwok_item/Visible_Create', false);
+		},
 		async init_Data() {
-			let res = await get_Teammmate();
+			let res = (await get_Teammmate()).result;
 			// 初始化队友
-			this.form.teammate = res.result;
+			this.form.teammate = res;
+			// console.log( res)
+			// 默认选中本人
+			const { uid } = this.UserInfo;
+			for (let i = 0, j = res.length; i < j; i++) {
+				if (res[i].uid == uid) {
+					this.checked_Teammate.push(res[i]);
+				}
+			}
 			// 设置当天
 			this.form.start_time = new Date();
-			// 默认选中本人
-			// this.checked_Teammate.push(this.UserInfo)
 		},
-		async check_Rule(formName) {
+		async check_Rule_n_Submit(formName) {
 			// 校验数据
-			console.log(this.checked_Teammate);
+			// console.log(this.checked_Teammate);
 			this.$refs[formName].validate(valid => {
 				if (valid) {
 					this.submit_Data();
@@ -103,9 +110,19 @@ export default {
 				// 剔除name保留ID
 				return item.uid;
 			});
-			console.log(data);
+			
 			let { msg, code } = await create_New_VWOK(data);
-			console.log(msg, code);
+			if (code == 200) {
+				this.$message({
+					message: '创建成功',
+					type: 'success'
+				});
+				this.handleClose()
+				this.$store.dispatch('vwok/Req_Reload', true); //更新更新后的数据
+				
+			} else {
+				this.$message.error('创建失败，请重试');
+			}
 		},
 		handleCheckedChange(val) {
 			console.log(this.checked_Teammate);
