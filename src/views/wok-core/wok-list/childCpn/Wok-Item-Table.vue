@@ -16,13 +16,18 @@
 			@checkbox-all="toggleAllPaperSelect"
 		>
 			<vxe-table-column type="checkbox" width="40"></vxe-table-column>
-			<vxe-table-column type="seq" width="35"></vxe-table-column>
+			<vxe-table-column type="seq" width="39"></vxe-table-column>
 			<vxe-table-column field="vwok_item_name" title="工项" :edit-render="{ name: 'input', attrs: { type: 'text', placeholder: '请输入工作内容' } }"></vxe-table-column>
-			<vxe-table-column field="jira" title="JIRA" :edit-render="{ name: 'input', attrs: { type: 'text', placeholder: '请输入JIRA单' } }"></vxe-table-column>
+			<vxe-table-column field="jira"  width="150" title="JIRA" :edit-render="{ name: 'input', attrs: { type: 'text', placeholder: '请输入JIRA单' } }"></vxe-table-column>
 			<vxe-table-column title="进度" width="150">
 				<template #default="{ row }">
-					<slider class="vslider-estimate" @change="Debounce_Request('scroll_estimate', row)" :target="true" v-model="row.scroll_estimate"></slider>
-					<slider class="vslider-actual" @change="Debounce_Request('scroll_actual', row)" :actual="true" v-model="row.scroll_actual"></slider>
+					<slider class="vslider-estimate" @change="Debounce_Request('scroll_estimate', row)" 
+					:step="10"
+					:target="true" v-model="row.scroll_estimate"></slider>
+					<slider class="vslider-actual" @change="Debounce_Request('scroll_actual', row)" 
+					:step="10"
+					      show-stops
+					:actual="true" v-model="row.scroll_actual"></slider>
 				</template>
 			</vxe-table-column>
 			<vxe-table-column field="remark" title="备注" :edit-render="{ name: 'input', attrs: { type: 'input', placeholder: '备注...' } }"></vxe-table-column>

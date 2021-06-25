@@ -8,6 +8,11 @@
 						<el-checkbox v-for="item in form.teammate" :label="item" :key="item.uid">{{ item.username }}</el-checkbox>
 					</el-checkbox-group>
 				</el-form-item>
+				<el-form-item label="始止时间" prop="date">
+					<el-date-picker v-model="interval" type="daterange" 
+					@change="handleChangeDate"
+					range-separator="~" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+				</el-form-item>
 				<el-form-item><el-button type="primary" @click="check_Rule_n_Submit('form')">新增任务</el-button></el-form-item>
 			</el-form>
 		</div>
@@ -31,6 +36,7 @@ export default {
 	data() {
 		return {
 			dialogVisible: false,
+			interval: '',
 			form: {
 				vwok_name: '',
 				start_time: '',
@@ -72,6 +78,10 @@ export default {
 		this.init_Data();
 	},
 	methods: {
+		handleChangeDate(){
+			this.form.start_time=this.interval[0]
+			this.form.estimate_time=this.interval[1]	
+		},
 		handleClose() {
 			this.$store.dispatch('vwok_item/Visible_Create', false);
 		},
@@ -111,15 +121,17 @@ export default {
 				return item.uid;
 			});
 			
+			console.log(data)
 			let { msg, code } = await create_New_VWOK(data);
 			if (code == 200) {
 				this.$message({
 					message: '创建成功',
 					type: 'success'
 				});
-				this.handleClose()
+				this.handleClose();
+				// 2021/06/23待优化
 				this.$store.dispatch('vwok/Req_Reload', true); //更新更新后的数据
-				
+				location.reload()
 			} else {
 				this.$message.error('创建失败，请重试');
 			}

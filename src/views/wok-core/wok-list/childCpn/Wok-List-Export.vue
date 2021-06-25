@@ -1,14 +1,17 @@
 <template>
-	<el-dialog title="计划导出" width="95%" 
-	@open="get_TodayVwok"
-	
-	:visible.sync="dialogVisible" :destroy-on-close="true" :before-close="modal_Close">
+	<el-dialog title="计划导出" width="95%" @open="get_TodayVwok" :visible.sync="dialogVisible" :destroy-on-close="true" :before-close="modal_Close">
 		<div class="block pickDate">
-			<el-date-picker v-model="pickDate" align="center" 
-			value-format="yyyy-MM-dd"
-			type="date" placeholder="选择日期" 
-			@change="Click_PickDate"
-			:picker-options="pickerOptions"></el-date-picker>
+			<el-date-picker
+				v-model="pickDate"
+				align="center"
+				value-format="yyyy-MM-dd"
+				type="date"
+				placeholder="选择日期"
+				@change="Click_PickDate"
+				:picker-options="pickerOptions"
+			></el-date-picker>
+		
+		<el-button type="success" @click='toMis'>前往MIS</el-button>
 		</div>
 		<el-row :gutter="5">
 			<el-col :span="12">
@@ -29,12 +32,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { create_New_Vwok_Item ,Net_Get_Today_Vwok} from 'network/Net_Vwok_Item.js';
+import { create_New_Vwok_Item, Net_Get_Today_Vwok } from 'network/Net_Vwok_Item.js';
 
 export default {
 	data() {
 		return {
-			isFirstGetIn:true,
+			isFirstGetIn: true,
 			dialogVisible: false,
 			estimate_Text: '',
 			actual_Text: '',
@@ -93,12 +96,15 @@ export default {
 		}
 	},
 	methods: {
-		async get_TodayVwok(startDay){
-			let { result, code } = await Net_Get_Today_Vwok(this.uid,startDay);
+		toMis(){
+			window.open('http://59.61.83.130:32222/syncmis/jsp/layout/welcome.jsp');
+		},
+		async get_TodayVwok(startDay) {
+			let { result, code } = await Net_Get_Today_Vwok(this.uid, startDay);
 			this.$store.dispatch('vwok_item/Rewrite_export_Text', result);
 		},
 		Click_PickDate(time) {
-			this.get_TodayVwok(time)
+			this.get_TodayVwok(time);
 		},
 		copy_Actual() {
 			this.copy_Mod(this.actual_Text);
@@ -127,12 +133,15 @@ export default {
 		},
 		format_Export_Text() {
 			let text = this.export_Data;
-			// console.log(text);
-			let { startDay } = this;
-			let Text_Concat_Estimate = '',
+			let { startDay } = this,
+			    week_List = ['日','一','二','三','四','五','六'],
+			    week = week_List[new Date(startDay).getDay()],
+				Text_Concat_Estimate = '',
 				Text_Concat_Actual = '',
 				title_Estimate = `${startDay}工作计划：\n`,
 				title_Actual = `${startDay}工作计划完成情况：\n`;
+			
+			console.log(week);
 
 			for (let i = 0, j = text.length; i < j; i++) {
 				let { vwok_item_name, scroll_estimate, scroll_actual, remark, jira } = text[i];
@@ -154,7 +163,9 @@ export default {
 	display: flex;
 	flex-direction: column;
 }
-.pickDate{
+.pickDate {
 	margin-bottom: 8px;
+	display: flex;
+	justify-content: space-between;
 }
 </style>

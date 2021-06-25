@@ -28,13 +28,14 @@ export default {
 	data() {
 		return {
 			isShowIcon:true,
+			
 			navlist: [
 				{
 					href: '',
 					title: '项目首页'
 				},
 				{
-					href: '/apidoc',
+					href: `${window.apiUrl.baseURL}/apidoc/`,
 					title: '接口文档'
 				},
 				{

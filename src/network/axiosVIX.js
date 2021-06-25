@@ -8,7 +8,7 @@ import Vue from 'vue';
 import ElementUI from 'element-ui';
 
 // 初始化后端接口
-console.log(window.apiUrl);
+// console.log(window.apiUrl);
 const baseURL = window.apiUrl.baseURL
 
 export function VIX(config) {
