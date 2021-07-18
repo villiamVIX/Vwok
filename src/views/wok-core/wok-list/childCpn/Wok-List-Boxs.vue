@@ -147,6 +147,7 @@ export default {
 		},
 		async net_Get_Vwok() {
 			let res = await get_My_VWOK(this.page_info);
+			console.log(this.page_info)
 			this.sync_Table_Data(res);
 			if (res.result.data.length == res.result.total) {
 				this.isLimit = true; // 是否全加载完
@@ -161,7 +162,7 @@ export default {
 				// 新增是否变input字段
 				value['isShow_vwok_name'] = true;
 			});
-			// console.log(data);
+			// console.log(res);
 			this.tableData = data;
 			this.total = total;
 			this.isLoading = false; //关闭加载圈圈

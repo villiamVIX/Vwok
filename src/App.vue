@@ -1,8 +1,8 @@
 <template>
 	<div id="app">
-		<el-scrollbar class="page-component__scroll">
 			<keep-alive exclude=""><router-view class="router-view "></router-view></keep-alive>
-		</el-scrollbar>
+	<!-- 	<el-scrollbar class="page-component__scroll">
+		</el-scrollbar> -->
 	</div>
 </template>
 
